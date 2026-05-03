@@ -115,6 +115,24 @@
     .editor-details summary::-webkit-details-marker { display: none; }
     .editor-details summary::before { content: '▸ '; display: inline-block; transition: transform 0.15s; }
     .editor-details[open] summary::before { transform: rotate(90deg); }
+    .demo-meta-bar { font-size: 0.7rem; background: linear-gradient(90deg, #1c1917 0%, #292524 100%); color: #e7e5e4; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+    @media (min-width: 640px) {
+      .demo-meta-bar { font-size: 0.75rem; }
+    }
+    .demo-meta-bar a { color: #fff; text-decoration: none; font-weight: 600; }
+    .demo-meta-bar a:hover { text-decoration: underline; text-underline-offset: 2px; }
+    #demo-site.demo-stil-modern .demo-topbar { box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04); }
+    .demo-hero-kicker { letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.65rem; font-weight: 700; opacity: 0.92; }
+    @media (min-width: 640px) {
+      .demo-hero-kicker { font-size: 0.7rem; }
+    }
+    #demo-site[data-hero-h="lg"] .demo-hero-inner h1.demo-hero-title { font-size: clamp(1.35rem, 4vw, 1.85rem); line-height: 1.15; }
+    #demo-site[data-hero-h="md"] .demo-hero-inner h1.demo-hero-title { font-size: clamp(1.2rem, 3.5vw, 1.55rem); }
+    #demo-site[data-hero-h="sm"] .demo-hero-inner h1.demo-hero-title { font-size: 1.15rem; }
+    .demo-prod-card { overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    #demo-site.demo-stil-modern .demo-prod-card:hover { transform: translateY(-2px); box-shadow: 0 16px 40px -18px rgba(0, 0, 0, 0.2); }
+    .demo-prod-card .demo-prod-img { aspect-ratio: 4/3; object-fit: cover; width: 100%; background: #e7e5e4; }
+    .demo-prod-price { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
   </style>
 </head>
 <body class="min-h-screen bg-stone-100 font-sans text-stone-800 antialiased">
@@ -123,7 +141,7 @@
       <div class="flex min-w-0 flex-1 flex-wrap items-center gap-3">
         <a href="index.html" class="font-display shrink-0 text-base font-semibold text-steirer sm:text-lg">← Dahoam-Digital</a>
         <span class="hidden h-4 w-px bg-stone-300 sm:block" aria-hidden="true"></span>
-        <p class="hidden min-w-0 truncate text-sm text-stone-600 lg:block"><span class="font-semibold text-stone-800">Website Editor</span> · Vorlage &amp; Bauplan</p>
+        <p class="hidden min-w-0 truncate text-sm text-stone-600 lg:block"><span class="font-semibold text-stone-800">Website Editor</span> · Hofladen-Vorlage (Beispiel)</p>
       </div>
       <div class="flex shrink-0 items-center gap-2 sm:gap-3">
         <div id="header-auth-guest" class="flex items-center gap-2">
@@ -419,8 +437,10 @@
       <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
         <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Sichtbare Bereiche</summary>
         <div class="space-y-2 border-t border-stone-100 px-4 pb-4 pt-3 text-xs text-stone-700">
+          <label class="flex items-center gap-2"><input type="checkbox" id="sec-meta" class="rounded border-stone-300 text-steirer" checked /> Obere Infoliste (Tel. / E-Mail / Shop)</label>
           <label class="flex items-center gap-2"><input type="checkbox" id="sec-nav" class="rounded border-stone-300 text-steirer" checked /> Menü-Reiter in der Kopfzeile</label>
           <label class="flex items-center gap-2"><input type="checkbox" id="sec-intro" class="rounded border-stone-300 text-steirer" checked /> Einleitung unter Hero</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="sec-prod" class="rounded border-stone-300 text-steirer" checked /> Produkt-Teaser (3 Karten)</label>
           <label class="flex items-center gap-2"><input type="checkbox" id="sec-usp" class="rounded border-stone-300 text-steirer" checked /> Drei Stärken (USP)</label>
           <label class="flex items-center gap-2"><input type="checkbox" id="sec-hi" class="rounded border-stone-300 text-steirer" checked /> Zwei Highlight-Kacheln</label>
           <label class="flex items-center gap-2"><input type="checkbox" id="sec-quote" class="rounded border-stone-300 text-steirer" checked /> Zitat / Vertrauen</label>
@@ -432,10 +452,10 @@
       <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
         <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Menü &amp; Verlinkungen (Reiter)</summary>
         <div class="space-y-2 border-t border-stone-100 px-4 pb-4 pt-3 text-xs text-stone-600">
-          <p class="leading-snug">Bis zu acht Einträge. Ziel oft ein Anker auf dieser Seite, z. B. <code class="rounded bg-stone-100 px-1">#demo-start</code>, <code class="rounded bg-stone-100 px-1">#demo-section-intro</code>, <code class="rounded bg-stone-100 px-1">#demo-leistungen</code>, <code class="rounded bg-stone-100 px-1">#kontakt</code> oder externe URLs.</p>
+          <p class="leading-snug">Struktur wie bei einem modernen Hofladen (z. B. <a href="https://hofladen-muhr.at/" class="text-steirer underline hover:no-underline" target="_blank" rel="noopener noreferrer">Referenz</a>). Ziele: <code class="rounded bg-stone-100 px-1">#demo-start</code>, <code class="rounded bg-stone-100 px-1">#demo-produkte</code>, <code class="rounded bg-stone-100 px-1">#demo-section-intro</code>, <code class="rounded bg-stone-100 px-1">#kontakt</code> …</p>
           <div class="editor-nav-rows mt-2 max-h-52 space-y-1.5 overflow-y-auto pr-0.5">
             <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1 font-semibold text-stone-500"><span>Text</span><span>Ziel (URL / #)</span></div>
-            <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-0-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" placeholder="z. B. Start" /><input id="nav-0-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" placeholder="#demo-start" /></div>
+            <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-0-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" placeholder="z. B. Shop" /><input id="nav-0-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" placeholder="#demo-produkte" /></div>
             <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-1-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" /><input id="nav-1-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" /></div>
             <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-2-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" /><input id="nav-2-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" /></div>
             <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-3-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" /><input id="nav-3-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" /></div>
@@ -448,18 +468,78 @@
       </details>
 
       <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
+        <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Infoleiste (oben)</summary>
+        <div class="space-y-2 border-t border-stone-100 px-4 pb-4 pt-3 text-xs">
+          <label class="text-stone-500">Telefon (Anzeige, eine Zeile)</label>
+          <input id="demo-meta-phone" type="text" class="w-full rounded border border-stone-300 px-2 py-1" placeholder="+43 …" />
+          <label class="text-stone-500">E-Mail (Anzeige)</label>
+          <input id="demo-meta-email" type="text" class="w-full rounded border border-stone-300 px-2 py-1" placeholder="info@…" />
+          <label class="text-stone-500">Shop-Link Text</label>
+          <input id="demo-meta-shop-t" type="text" class="w-full rounded border border-stone-300 px-2 py-1" placeholder="z. B. Sortiment" />
+          <label class="text-stone-500">Shop-Link Ziel</label>
+          <input id="demo-meta-shop-u" type="text" class="w-full rounded border border-stone-300 px-2 py-1 font-mono text-[10px]" placeholder="#demo-produkte" />
+        </div>
+      </details>
+
+      <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
         <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Kopfzeile &amp; Hero</summary>
         <div class="space-y-2 border-t border-stone-100 px-4 pb-4 pt-3 text-sm">
           <label class="text-xs text-stone-500">Name in der Leiste (leer = Kontoname)</label>
-          <input id="demo-nav-manual" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="z. B. Biohof Huber" />
-          <label class="text-xs text-stone-500">Badge über der Hero-Überschrift</label>
+          <input id="demo-nav-manual" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="z. B. Musterhofladen" />
+          <label class="text-xs text-stone-500">Kleine Zeile über der großen Überschrift (z. B. „Willkommen“)</label>
+          <input id="demo-hero-kicker" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="Willkommen" />
+          <label class="text-xs text-stone-500">Zusätzliches Badge (optional, Ecke)</label>
           <input id="demo-hero-badge" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="Regional · Saisonal" />
           <label class="text-xs text-stone-500">Hero-Bild (URL, optional)</label>
           <input id="demo-hero-img-url" type="url" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="https://…jpg (sonst Platzhalter)" />
-          <label class="text-xs text-stone-500">Hero-Überschrift</label>
-          <input id="demo-title" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="Willkommen" />
-          <label class="text-xs text-stone-500">Hero-Untertitel</label>
+          <label class="text-xs text-stone-500">Große Hero-Überschrift</label>
+          <input id="demo-title" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="im Musterhofladen" />
+          <label class="text-xs text-stone-500">Tagline unter der Überschrift</label>
           <input id="demo-sub" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" />
+          <label class="text-xs text-stone-500">Button im Hero (Text)</label>
+          <input id="demo-hero-cta-t" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="z. B. Sortiment ansehen" />
+          <label class="text-xs text-stone-500">Button im Hero (Ziel)</label>
+          <input id="demo-hero-cta-u" type="text" class="w-full rounded border border-stone-300 px-2 py-1 font-mono text-[10px]" placeholder="#demo-produkte" />
+        </div>
+      </details>
+
+      <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
+        <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Produkt-Teaser</summary>
+        <div class="space-y-3 border-t border-stone-100 px-4 pb-4 pt-3 text-xs">
+          <input id="demo-prod-sec-t" type="text" class="w-full rounded border border-stone-200 px-2 py-1 font-medium" placeholder="Abschnittsüberschrift" />
+          <input id="demo-prod-sec-sub" type="text" class="w-full rounded border border-stone-200 px-2 py-1" placeholder="Unterzeile" />
+          <div class="grid grid-cols-2 gap-1">
+            <input id="demo-prod-all-t" type="text" class="rounded border px-1 py-0.5" placeholder="Link „alle“" />
+            <input id="demo-prod-all-u" type="text" class="rounded border px-1 py-0.5 font-mono text-[10px]" placeholder="# oder Shop-URL" />
+          </div>
+          <p class="font-semibold text-stone-700">Karte 1–3 (Titel, Kurztext, Preiszeile, Link-Text, URL)</p>
+          <div class="space-y-2 rounded border border-stone-100 p-2">
+            <input id="demo-p1-t" type="text" class="w-full rounded border px-1 py-0.5" placeholder="Produktname" />
+            <textarea id="demo-p1-d" rows="2" class="w-full rounded border px-1 py-0.5"></textarea>
+            <input id="demo-p1-pr" type="text" class="w-full rounded border px-1 py-0.5" placeholder="ab € …" />
+            <div class="grid grid-cols-2 gap-1">
+              <input id="demo-p1-lt" type="text" class="rounded border px-1 py-0.5" placeholder="Details" />
+              <input id="demo-p1-lu" type="text" class="rounded border px-1 py-0.5 font-mono text-[10px]" placeholder="#" />
+            </div>
+          </div>
+          <div class="space-y-2 rounded border border-stone-100 p-2">
+            <input id="demo-p2-t" type="text" class="w-full rounded border px-1 py-0.5" />
+            <textarea id="demo-p2-d" rows="2" class="w-full rounded border px-1 py-0.5"></textarea>
+            <input id="demo-p2-pr" type="text" class="w-full rounded border px-1 py-0.5" />
+            <div class="grid grid-cols-2 gap-1">
+              <input id="demo-p2-lt" type="text" class="rounded border px-1 py-0.5" />
+              <input id="demo-p2-lu" type="text" class="rounded border px-1 py-0.5 font-mono text-[10px]" />
+            </div>
+          </div>
+          <div class="space-y-2 rounded border border-stone-100 p-2">
+            <input id="demo-p3-t" type="text" class="w-full rounded border px-1 py-0.5" />
+            <textarea id="demo-p3-d" rows="2" class="w-full rounded border px-1 py-0.5"></textarea>
+            <input id="demo-p3-pr" type="text" class="w-full rounded border px-1 py-0.5" />
+            <div class="grid grid-cols-2 gap-1">
+              <input id="demo-p3-lt" type="text" class="rounded border px-1 py-0.5" />
+              <input id="demo-p3-lu" type="text" class="rounded border px-1 py-0.5 font-mono text-[10px]" />
+            </div>
+          </div>
         </div>
       </details>
 
@@ -569,21 +649,68 @@
     <div class="min-w-0 flex-1">
       <p class="mb-2 text-center text-xs text-stone-500 xl:text-left">Live-Vorschau – alle Änderungen wirken sofort.</p>
       <div class="rounded-xl border border-stone-400 bg-white p-2 shadow-inner">
-        <div id="demo-site" class="demo-scale demo-stil-rustikal overflow-hidden rounded-lg border border-stone-200 bg-stone-100" data-accent="wald" data-fs="md" data-hero="neutral" data-hero-h="md" data-pagebg="stein" data-density="normal" data-header-tone="accent" data-nav-style="pills">
+        <div id="demo-site" class="demo-scale demo-stil-modern overflow-hidden rounded-lg border border-stone-200 bg-stone-100" data-accent="wald" data-fs="md" data-hero="warm" data-hero-h="lg" data-pagebg="creme" data-density="normal" data-header-tone="light" data-nav-style="underline">
+          <div id="demo-meta-bar" class="demo-meta-bar demo-ph flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 py-2">
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+              <span id="demo-meta-phone-wrap" class="inline-flex items-center gap-1"><span class="opacity-60" aria-hidden="true">☎</span><span id="demo-meta-phone-out"></span></span>
+              <span id="demo-meta-email-wrap" class="inline-flex items-center gap-1"><span class="opacity-60" aria-hidden="true">✉</span><span id="demo-meta-email-out"></span></span>
+            </div>
+            <a id="demo-meta-shop" href="#" class="hidden shrink-0 rounded-md bg-white/10 px-2 py-0.5 text-[11px] font-semibold hover:bg-white/18"></a>
+          </div>
           <div class="demo-topbar demo-ph flex flex-wrap items-center justify-between gap-2 px-4 py-2.5 sm:py-3">
             <span id="demo-nav-brand" class="max-w-[42%] truncate text-sm font-semibold sm:max-w-none">Ihr Betrieb</span>
             <nav id="demo-nav-menu" class="demo-nav-links text-[11px] sm:text-xs" aria-label="Hauptmenü"></nav>
           </div>
           <div id="demo-start" class="relative scroll-mt-4 bg-stone-300 demo-hero-h">
             <span id="demo-badge-wrap" class="absolute left-3 top-3 hidden rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-stone-800 shadow"></span>
-            <img id="demo-hero-img" alt="" class="h-full w-full object-cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400'%3E%3Crect fill='%23d6d3d1' width='1200' height='400'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23575252' font-family='sans-serif' font-size='28'%3EPlatzhalter Hero%3C/text%3E%3C/svg%3E" />
-            <div class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/55 to-transparent p-4 text-white">
-              <h1 id="demo-h1" class="demo-heading text-2xl">Willkommen</h1>
-              <p id="demo-p" class="mt-1 text-sm opacity-90">Ihre Geschichte – regional erzählt.</p>
+            <img id="demo-hero-img" alt="" class="h-full w-full object-cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 480'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23c4d4b8'/%3E%3Cstop offset='55%25' stop-color='%238a9a7e'/%3E%3Cstop offset='100%25' stop-color='%235a6b52'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='1200' height='480'/%3E%3Ctext x='50%25' y='46%25' dominant-baseline='middle' text-anchor='middle' fill='%23f5f5f4' font-family='Georgia,serif' font-size='32' opacity='0.95'%3EHof %26 Region%3C/text%3E%3Ctext x='50%25' y='58%25' dominant-baseline='middle' text-anchor='middle' fill='%23e7e5e4' font-family='sans-serif' font-size='15'%3EPlatzhalter – Ihr Foto hier%3C/text%3E%3C/svg%3E" />
+            <div class="demo-hero-inner absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/65 via-black/25 to-transparent p-4 pb-5 text-white sm:p-6">
+              <p id="demo-hero-kicker-out" class="demo-hero-kicker mb-1 hidden text-white"></p>
+              <h1 id="demo-h1" class="demo-heading demo-hero-title font-bold tracking-tight text-white">Willkommen</h1>
+              <p id="demo-p" class="mt-2 max-w-xl text-sm leading-relaxed text-white/90">Ihre Geschichte – regional erzählt.</p>
+              <a id="demo-hero-cta" href="#" class="demo-btn mt-4 hidden w-fit px-5 py-2.5 text-sm font-semibold shadow-lg"></a>
             </div>
           </div>
-          <div id="demo-section-intro" class="demo-ph scroll-mt-4 border-b border-stone-200/80 bg-white/60 px-4 py-3">
+          <div id="demo-section-intro" class="demo-ph scroll-mt-4 border-b border-stone-200/80 bg-white/70 px-4 py-4">
             <p id="demo-intro-out" class="text-sm leading-relaxed text-stone-700"></p>
+          </div>
+          <div id="demo-produkte" class="demo-ph scroll-mt-4 border-b border-stone-200/60 bg-white/40 px-4 py-4">
+            <div class="flex flex-wrap items-end justify-between gap-3 border-b border-stone-200/70 pb-3">
+              <div>
+                <h2 id="demo-prod-h" class="demo-heading text-lg text-stone-900 sm:text-xl"></h2>
+                <p id="demo-prod-sub" class="mt-1 max-w-xl text-xs text-stone-600 sm:text-sm"></p>
+              </div>
+              <a id="demo-prod-all" href="#" class="hidden shrink-0 text-sm font-semibold demo-text-accent hover:underline"></a>
+            </div>
+            <div class="mt-4 grid gap-4 sm:grid-cols-3">
+              <article id="demo-prod-card-1" class="demo-prod-card demo-card border border-stone-200/80">
+                <img class="demo-prod-img" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23e7e5e4' width='400' height='300'/%3E%3Ccircle cx='200' cy='150' r='48' fill='%23d6d3d1'/%3E%3C/svg%3E" />
+                <div class="p-3 pt-2">
+                  <h3 id="demo-p1-out-t" class="demo-heading text-base text-stone-900"></h3>
+                  <p id="demo-p1-out-d" class="mt-1 text-xs leading-snug text-stone-600"></p>
+                  <p id="demo-p1-out-pr" class="demo-prod-price mt-2 text-sm"></p>
+                  <a id="demo-p1-out-a" href="#" class="mt-2 inline-block text-xs font-semibold demo-text-accent hover:underline"></a>
+                </div>
+              </article>
+              <article id="demo-prod-card-2" class="demo-prod-card demo-card border border-stone-200/80">
+                <img class="demo-prod-img" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23efeae4' width='400' height='300'/%3E%3Crect x='140' y='110' width='120' height='80' rx='8' fill='%23d6d3d1'/%3E%3C/svg%3E" />
+                <div class="p-3 pt-2">
+                  <h3 id="demo-p2-out-t" class="demo-heading text-base text-stone-900"></h3>
+                  <p id="demo-p2-out-d" class="mt-1 text-xs leading-snug text-stone-600"></p>
+                  <p id="demo-p2-out-pr" class="demo-prod-price mt-2 text-sm"></p>
+                  <a id="demo-p2-out-a" href="#" class="mt-2 inline-block text-xs font-semibold demo-text-accent hover:underline"></a>
+                </div>
+              </article>
+              <article id="demo-prod-card-3" class="demo-prod-card demo-card border border-stone-200/80">
+                <img class="demo-prod-img" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23e8ece8' width='400' height='300'/%3E%3Cpath d='M200 90 L260 210 H140 Z' fill='%23c4c4c0'/%3E%3C/svg%3E" />
+                <div class="p-3 pt-2">
+                  <h3 id="demo-p3-out-t" class="demo-heading text-base text-stone-900"></h3>
+                  <p id="demo-p3-out-d" class="mt-1 text-xs leading-snug text-stone-600"></p>
+                  <p id="demo-p3-out-pr" class="demo-prod-price mt-2 text-sm"></p>
+                  <a id="demo-p3-out-a" href="#" class="mt-2 inline-block text-xs font-semibold demo-text-accent hover:underline"></a>
+                </div>
+              </article>
+            </div>
           </div>
           <div id="demo-section-usp" class="demo-ph scroll-mt-4 grid gap-3 sm:grid-cols-3">
             <div class="demo-card p-3"><h3 id="demo-usp1-h" class="demo-heading demo-text-accent text-base"></h3><p id="demo-usp1-p" class="mt-2 text-xs text-stone-600"></p></div>
@@ -669,7 +796,7 @@
       var supaClient = getClient();
 
       var PLACEHOLDER_HERO =
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400'%3E%3Crect fill='%23d6d3d1' width='1200' height='400'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23575252' font-family='sans-serif' font-size='28'%3EPlatzhalter Hero%3C/text%3E%3C/svg%3E";
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 480'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23c4d4b8'/%3E%3Cstop offset='55%25' stop-color='%238a9a7e'/%3E%3Cstop offset='100%25' stop-color='%235a6b52'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='1200' height='480'/%3E%3Ctext x='50%25' y='46%25' dominant-baseline='middle' text-anchor='middle' fill='%23f5f5f4' font-family='Georgia,serif' font-size='32' opacity='0.95'%3EHof %26 Region%3C/text%3E%3Ctext x='50%25' y='58%25' dominant-baseline='middle' text-anchor='middle' fill='%23e7e5e4' font-family='sans-serif' font-size='15'%3EPlatzhalter – Ihr Foto hier%3C/text%3E%3C/svg%3E";
 
       function normalizeHex(s) {
         s = String(s || '').trim();
@@ -708,10 +835,10 @@
 
       function defaultNavItems() {
         return [
-          { t: 'Start', u: '#demo-start' },
+          { t: 'Shop', u: '#demo-produkte' },
           { t: 'Über uns', u: '#demo-section-intro' },
-          { t: 'Angebot', u: '#demo-section-usp' },
-          { t: 'Leistungen', u: '#demo-leistungen' },
+          { t: 'Sortiment', u: '#demo-section-usp' },
+          { t: 'Gastronomie', u: '#demo-section-hi' },
           { t: 'Kontakt', u: '#kontakt' },
           { t: '', u: '' },
           { t: '', u: '' },
@@ -724,59 +851,87 @@
           colorMode: 'preset',
           accent: 'wald',
           accentHex: '#2d5a27',
-          headerTone: 'accent',
-          navStyle: 'pills',
-          stil: 'rustikal',
+          headerTone: 'light',
+          navStyle: 'underline',
+          stil: 'modern',
           fs: 'md',
-          hero: 'neutral',
-          radius: 1,
-          heroH: 'md',
-          pagebg: 'stein',
+          hero: 'warm',
+          radius: 0.85,
+          heroH: 'lg',
+          pagebg: 'creme',
           density: 'normal',
           btnStyle: 'solid',
+          secMeta: true,
           secNav: true,
           secIntro: true,
+          secProd: true,
           secUsp: true,
           secHi: true,
           secQuote: true,
           secLeist: true,
           secFoot: true,
-          navManual: '',
+          navManual: 'Musterhofladen',
           navItems: defaultNavItems(),
-          heroBadge: 'Regional · Frisch',
+          metaPhone: '+43 664 000 00 00',
+          metaEmail: 'info@musterhofladen.at',
+          metaShopT: 'Shop',
+          metaShopU: '#demo-produkte',
+          heroKicker: 'Willkommen',
+          heroBadge: '',
           heroImgUrl: '',
-          title: '',
-          sub: '',
+          heroCtaT: 'Zum Sortiment',
+          heroCtaU: '#demo-produkte',
+          title: 'im Musterhofladen',
+          sub: 'Tradition, Qualität und Regionalität – Säfte, Marmeladen und mehr aus eigener Erzeugung.',
           intro:
-            'Als regionaler Betrieb verbinden wir Handwerk, Gastfreundschaft und Qualität. Hier entsteht Ihre Vorschau – Bilder und Texte passen wir gemeinsam an.',
-          quote: '„Endlich eine Website, die zu uns passt.“',
-          quoteAuthor: '— Gästin, Murau',
-          usp1t: 'Aus der Region',
-          usp1x: 'Produkte und Dienstleistungen mit kurzen Wegen und klarem Ursprung.',
-          usp2t: 'Persönlich',
-          usp2x: 'Sie sprechen mit Menschen, die Ihre Sprache sprechen – ohne Callcenter.',
-          usp3t: 'Langlebig',
-          usp3x: 'Sauberer Auftritt, der auf allen Geräten funktioniert und mitwächst.',
-          hi1t: 'Saison & Angebote',
-          hi1x: 'Hier stehen Aktionen, Events oder Menü-Highlights – ganz wie bei Ihnen.',
-          hi2t: 'Bildergalerie',
-          hi2x: 'Platz für Impressionen: Hof, Team, Produktion – wir gestalten das passende Kapitel.',
-          l1t: 'Beratung',
-          l1x: 'Wir hören zu und übersetzen Ihre Ziele in eine klare Struktur.',
-          l2t: 'Umsetzung',
-          l2x: 'Design, Texte und Technik aus einer Hand – regional verwurzelt.',
-          l3t: 'Betreuung',
-          l3x: 'Auch nach dem Launch sind wir für Sie da.',
+            'Auf Streuobstwiesen und mit kurzen Wegen vom Baum bis ins Glas setzen viele Höfe auf naturbelassenen Genuss. Diese Vorschau zeigt den Aufbau einer modernen Hofladen-Startseite (angelehnt an bewährte Shop-Strukturen) – Texte und Bilder passen Sie hier an und übernehmen die Konfiguration später in Ihre echte Website.',
+          quote: '„Qualität, die man schmeckt – und die Gäste wiederkommen lässt.“',
+          quoteAuthor: '— Beispiel aus der Gastronomie',
+          usp1t: 'Aus eigener Erzeugung',
+          usp1x: 'Fruchtsäfte, Marmeladen und Spezialitäten – klar deklariert und frisch.',
+          usp2t: 'Für Gastronomie & Handel',
+          usp2x: 'Maßgeschneiderte Gebinde, zuverlässige Lieferung und persönliche Ansprechpartner.',
+          usp3t: 'Ab Hof & Online',
+          usp3x: 'Persönliche Beratung vor Ort oder bequem bestellen – Sie entscheiden.',
+          hi1t: 'Qualität für Ihren Betrieb',
+          hi1x: 'Ob Schankanlage oder Einzelverkauf: klare Sortimente und Lieferrhythmen, die zu Ihrem Alltag passen.',
+          hi2t: 'Wiederverkauf & Hofbesuch',
+          hi2x: 'Präsentation im Regal, Hofladen-Tage oder Führungen – wir strukturieren Ihre Angebote verständlich für Kundinnen und Kunden.',
+          prodSecT: 'Unsere Produkte',
+          prodSecSub: 'Naturbelassener Genuss – Beispielkarten für Ihr Sortiment.',
+          prodAllT: 'Alle Produkte',
+          prodAllU: '#demo-produkte',
+          p1t: 'Fruchtsaft Klassik',
+          p1d: 'Direktsaft aus regionalen Äpfeln, pasteurisiert.',
+          p1pr: 'ab € 2,40',
+          p1lt: 'Details',
+          p1lu: '#demo-produkte',
+          p2t: 'Marmelade Waldbeere',
+          p2d: 'Hoher Fruchtanteil, ohne künstliche Aromen.',
+          p2pr: 'ab € 4,90',
+          p2lt: 'Details',
+          p2lu: '#demo-produkte',
+          p3t: 'Edelbrand Obst',
+          p3d: 'Ausgewählte Obstsorten, mild destilliert.',
+          p3pr: 'ab € 18,00',
+          p3lt: 'Details',
+          p3lu: '#demo-produkte',
+          l1t: 'Ab-Hof & Führungen',
+          l1x: 'Öffnungszeiten, Hofbesuche und Verkostungen – übersichtlich gebündelt.',
+          l2t: 'Onlineshop',
+          l2x: 'Bestellablauf, Versandregionen und Zahlungsarten für Ihre Kundschaft.',
+          l3t: 'Gastronomie-Pakete',
+          l3x: 'Gebindegrößen und Konditionen für Betriebe – transparent dargestellt.',
           hoursT: 'Öffnungszeiten',
-          hoursX: 'Mo–Fr 8–18 Uhr\nSa nach Vereinbarung',
-          contactT: 'Kontakt',
+          hoursX: 'Mi–Sa 9–17 Uhr\nSo & Feiertage geschlossen',
+          contactT: 'Kontakt & Adresse',
           contactX: 'Wir freuen uns auf Ihre Nachricht.',
-          phone: '+43 …',
-          email: 'info@beispiel.at',
-          cta: 'Anfragen',
+          phone: '+43 664 000 00 00',
+          email: 'info@musterhofladen.at',
+          cta: 'Anfrage senden',
           cta2: 'Route',
           cta2Url: '#kontakt',
-          foot: '© Ihr Betrieb · Alle Rechte vorbehalten.',
+          foot: '© Musterhofladen · Alle Rechte vorbehalten.',
           footA1: 'Impressum',
           footA2: 'Datenschutz',
           footU1: '#',
@@ -870,9 +1025,34 @@
         var url = (st.heroImgUrl || '').trim();
         heroImg.src = url || PLACEHOLDER_HERO;
 
-        document.getElementById('demo-h1').textContent = st.title || 'Willkommen';
-        document.getElementById('demo-p').textContent = st.sub || 'Ihre Geschichte – regional erzählt.';
+        document.getElementById('demo-h1').textContent = st.title || 'im Musterhofladen';
+        document.getElementById('demo-p').textContent = st.sub || 'Tradition, Qualität und Regionalität.';
         document.getElementById('demo-nav-brand').textContent = navDisplayName(st);
+
+        var kickEl = document.getElementById('demo-hero-kicker-out');
+        var ktxt = (st.heroKicker || '').trim();
+        if (kickEl) {
+          if (ktxt) {
+            kickEl.textContent = ktxt;
+            kickEl.classList.remove('hidden');
+          } else {
+            kickEl.textContent = '';
+            kickEl.classList.add('hidden');
+          }
+        }
+        var hcta = document.getElementById('demo-hero-cta');
+        if (hcta) {
+          var hct = (st.heroCtaT || '').trim();
+          if (hct) {
+            hcta.textContent = hct;
+            hcta.href = safeNavHref(st.heroCtaU);
+            hcta.classList.remove('hidden');
+          } else {
+            hcta.textContent = '';
+            hcta.href = '#';
+            hcta.classList.add('hidden');
+          }
+        }
 
         var navMenu = document.getElementById('demo-nav-menu');
         navMenu.innerHTML = '';
@@ -888,6 +1068,33 @@
         }
         navMenu.classList.toggle('hidden', !st.secNav || navMenu.children.length === 0);
 
+        var metaBar = document.getElementById('demo-meta-bar');
+        var mPhone = (st.metaPhone || '').trim();
+        var mEmail = (st.metaEmail || '').trim();
+        var mShopT = (st.metaShopT || '').trim();
+        var showMeta = !!st.secMeta && !!(mPhone || mEmail || mShopT);
+        if (metaBar) metaBar.classList.toggle('hidden', !showMeta);
+        var mpo = document.getElementById('demo-meta-phone-out');
+        var meo = document.getElementById('demo-meta-email-out');
+        if (mpo) mpo.textContent = mPhone;
+        if (meo) meo.textContent = mEmail;
+        var mpw = document.getElementById('demo-meta-phone-wrap');
+        var mew = document.getElementById('demo-meta-email-wrap');
+        if (mpw) mpw.classList.toggle('hidden', !mPhone);
+        if (mew) mew.classList.toggle('hidden', !mEmail);
+        var mshop = document.getElementById('demo-meta-shop');
+        if (mshop) {
+          if (mShopT) {
+            mshop.textContent = mShopT;
+            mshop.href = safeNavHref(st.metaShopU);
+            mshop.classList.remove('hidden');
+          } else {
+            mshop.textContent = '';
+            mshop.href = '#';
+            mshop.classList.add('hidden');
+          }
+        }
+
         var bw = document.getElementById('demo-badge-wrap');
         var bd = (st.heroBadge || '').trim();
         if (bd) {
@@ -899,6 +1106,46 @@
         }
 
         document.getElementById('demo-intro-out').textContent = st.intro || '';
+        document.getElementById('demo-prod-h').textContent = st.prodSecT || '';
+        document.getElementById('demo-prod-sub').textContent = st.prodSecSub || '';
+        var pall = document.getElementById('demo-prod-all');
+        if (pall) {
+          var pat = (st.prodAllT || '').trim();
+          if (pat) {
+            pall.textContent = pat;
+            pall.href = safeNavHref(st.prodAllU);
+            pall.classList.remove('hidden');
+          } else {
+            pall.classList.add('hidden');
+          }
+        }
+        for (var px = 1; px <= 3; px++) {
+          var card = document.getElementById('demo-prod-card-' + px);
+          if (!card) continue;
+          var pt = (st['p' + px + 't'] || '').trim();
+          if (!pt) {
+            card.classList.add('hidden');
+            continue;
+          }
+          card.classList.remove('hidden');
+          document.getElementById('demo-p' + px + '-out-t').textContent = st['p' + px + 't'] || '';
+          document.getElementById('demo-p' + px + '-out-d').textContent = st['p' + px + 'd'] || '';
+          document.getElementById('demo-p' + px + '-out-pr').textContent = st['p' + px + 'pr'] || '';
+          var al = document.getElementById('demo-p' + px + '-out-a');
+          var alt = (st['p' + px + 'lt'] || '').trim();
+          if (al) {
+            if (alt) {
+              al.textContent = alt;
+              al.href = safeNavHref(st['p' + px + 'lu']);
+              al.classList.remove('hidden');
+            } else {
+              al.textContent = '';
+              al.href = '#';
+              al.classList.add('hidden');
+            }
+          }
+        }
+
         document.getElementById('demo-quote-out').textContent = st.quote || '';
         document.getElementById('demo-quote-by').textContent = st.quoteAuthor || '';
 
@@ -936,7 +1183,7 @@
         var c2t = (st.cta2 || '').trim();
         if (c2t) {
           c2.textContent = c2t;
-          c2.href = (st.cta2Url || '').trim() || '#';
+          c2.href = safeNavHref(st.cta2Url);
           c2.classList.remove('hidden');
         } else {
           c2.textContent = '';
@@ -960,6 +1207,7 @@
           el.classList.toggle('hidden', !on);
         }
         secVis('demo-section-intro', st.secIntro);
+        secVis('demo-produkte', st.secProd);
         secVis('demo-section-usp', st.secUsp);
         secVis('demo-section-hi', st.secHi);
         secVis('demo-section-quote', st.secQuote);
@@ -1005,8 +1253,10 @@
         document.getElementById('ctrl-density').value = st.density;
         document.getElementById('ctrl-btn-style').value = st.btnStyle;
 
+        document.getElementById('sec-meta').checked = st.secMeta !== false;
         document.getElementById('sec-nav').checked = !!st.secNav;
         document.getElementById('sec-intro').checked = !!st.secIntro;
+        document.getElementById('sec-prod').checked = st.secProd !== false;
         document.getElementById('sec-usp').checked = !!st.secUsp;
         document.getElementById('sec-hi').checked = !!st.secHi;
         document.getElementById('sec-quote').checked = !!st.secQuote;
@@ -1024,10 +1274,36 @@
           v('nav-' + i + '-u', row.u);
         }
         v('demo-nav-manual', st.navManual);
+        v('demo-meta-phone', st.metaPhone);
+        v('demo-meta-email', st.metaEmail);
+        v('demo-meta-shop-t', st.metaShopT);
+        v('demo-meta-shop-u', st.metaShopU);
+        v('demo-hero-kicker', st.heroKicker);
         v('demo-hero-badge', st.heroBadge);
+        v('demo-hero-cta-t', st.heroCtaT);
+        v('demo-hero-cta-u', st.heroCtaU);
         v('demo-hero-img-url', st.heroImgUrl);
         v('demo-title', st.title);
         v('demo-sub', st.sub);
+        v('demo-prod-sec-t', st.prodSecT);
+        v('demo-prod-sec-sub', st.prodSecSub);
+        v('demo-prod-all-t', st.prodAllT);
+        v('demo-prod-all-u', st.prodAllU);
+        v('demo-p1-t', st.p1t);
+        v('demo-p1-d', st.p1d);
+        v('demo-p1-pr', st.p1pr);
+        v('demo-p1-lt', st.p1lt);
+        v('demo-p1-lu', st.p1lu);
+        v('demo-p2-t', st.p2t);
+        v('demo-p2-d', st.p2d);
+        v('demo-p2-pr', st.p2pr);
+        v('demo-p2-lt', st.p2lt);
+        v('demo-p2-lu', st.p2lu);
+        v('demo-p3-t', st.p3t);
+        v('demo-p3-d', st.p3d);
+        v('demo-p3-pr', st.p3pr);
+        v('demo-p3-lt', st.p3lt);
+        v('demo-p3-lu', st.p3lu);
         v('demo-intro', st.intro);
         v('demo-quote', st.quote);
         v('demo-quote-author', st.quoteAuthor);
@@ -1109,8 +1385,10 @@
           pagebg: document.getElementById('ctrl-pagebg').value,
           density: document.getElementById('ctrl-density').value,
           btnStyle: document.getElementById('ctrl-btn-style').value,
+          secMeta: chk('sec-meta'),
           secNav: chk('sec-nav'),
           secIntro: chk('sec-intro'),
+          secProd: chk('sec-prod'),
           secUsp: chk('sec-usp'),
           secHi: chk('sec-hi'),
           secQuote: chk('sec-quote'),
@@ -1118,7 +1396,33 @@
           secFoot: chk('sec-foot'),
           navManual: valRaw('demo-nav-manual'),
           navItems: navItems,
+          metaPhone: valRaw('demo-meta-phone'),
+          metaEmail: valRaw('demo-meta-email'),
+          metaShopT: valRaw('demo-meta-shop-t'),
+          metaShopU: valRaw('demo-meta-shop-u'),
+          heroKicker: valRaw('demo-hero-kicker'),
           heroBadge: valRaw('demo-hero-badge'),
+          heroCtaT: valRaw('demo-hero-cta-t'),
+          heroCtaU: valRaw('demo-hero-cta-u'),
+          prodSecT: valRaw('demo-prod-sec-t'),
+          prodSecSub: valRaw('demo-prod-sec-sub'),
+          prodAllT: valRaw('demo-prod-all-t'),
+          prodAllU: valRaw('demo-prod-all-u'),
+          p1t: valRaw('demo-p1-t'),
+          p1d: valRaw('demo-p1-d'),
+          p1pr: valRaw('demo-p1-pr'),
+          p1lt: valRaw('demo-p1-lt'),
+          p1lu: valRaw('demo-p1-lu'),
+          p2t: valRaw('demo-p2-t'),
+          p2d: valRaw('demo-p2-d'),
+          p2pr: valRaw('demo-p2-pr'),
+          p2lt: valRaw('demo-p2-lt'),
+          p2lu: valRaw('demo-p2-lu'),
+          p3t: valRaw('demo-p3-t'),
+          p3d: valRaw('demo-p3-d'),
+          p3pr: valRaw('demo-p3-pr'),
+          p3lt: valRaw('demo-p3-lt'),
+          p3lu: valRaw('demo-p3-lu'),
           heroImgUrl: valRaw('demo-hero-img-url'),
           title: val('demo-title'),
           sub: val('demo-sub'),
@@ -1186,10 +1490,36 @@
       });
       [
         'demo-nav-manual',
+        'demo-meta-phone',
+        'demo-meta-email',
+        'demo-meta-shop-t',
+        'demo-meta-shop-u',
+        'demo-hero-kicker',
         'demo-hero-badge',
         'demo-hero-img-url',
+        'demo-hero-cta-t',
+        'demo-hero-cta-u',
         'demo-title',
         'demo-sub',
+        'demo-prod-sec-t',
+        'demo-prod-sec-sub',
+        'demo-prod-all-t',
+        'demo-prod-all-u',
+        'demo-p1-t',
+        'demo-p1-d',
+        'demo-p1-pr',
+        'demo-p1-lt',
+        'demo-p1-lu',
+        'demo-p2-t',
+        'demo-p2-d',
+        'demo-p2-pr',
+        'demo-p2-lt',
+        'demo-p2-lu',
+        'demo-p3-t',
+        'demo-p3-d',
+        'demo-p3-pr',
+        'demo-p3-lt',
+        'demo-p3-lu',
         'demo-intro',
         'demo-quote',
         'demo-quote-author',
@@ -1237,7 +1567,7 @@
           el.addEventListener('change', syncPreviewFromControls);
         });
       }
-      ['sec-nav', 'sec-intro', 'sec-usp', 'sec-hi', 'sec-quote', 'sec-leist', 'sec-foot'].forEach(function (id) {
+      ['sec-meta', 'sec-nav', 'sec-intro', 'sec-prod', 'sec-usp', 'sec-hi', 'sec-quote', 'sec-leist', 'sec-foot'].forEach(function (id) {
         var el = document.getElementById(id);
         if (!el) return;
         el.addEventListener('change', syncPreviewFromControls);
