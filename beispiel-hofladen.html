@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Beispiel-Demo: Hofladen – statische Vorschau." />
+  <title>Musterhofladen | Beispiel</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { colors: { steirer: { DEFAULT: '#2D5A27', dark: '#1f3f1b', soft: '#e8f0e6' } }, fontFamily: { display: ['Fraunces', 'Georgia', 'serif'], sans: ['DM Sans', 'system-ui', 'sans-serif'] } } } };</script>
+</head>
+<body class="bg-[#faf7f2] font-sans text-stone-800">
+  <div class="bg-stone-900 px-4 py-2 text-center text-xs text-stone-300">Demo-Website · nicht kommerziell · <a href="beispiele.html" class="text-white underline hover:no-underline">Übersicht aller Beispiele</a></div>
+  <header class="border-b border-stone-200 bg-white/95 backdrop-blur">
+    <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-4">
+      <a href="beispiel-hofladen.html" class="font-display text-lg font-bold text-stone-900">Musterhofladen</a>
+      <nav class="flex flex-wrap items-center gap-5 text-sm font-semibold" aria-label="Demo-Navigation">
+        <a href="beispiel-hofladen.html" class="text-steirer" aria-current="page">Start</a>
+        <a href="beispiel-hofladen-sortiment.html" class="text-stone-600 hover:text-steirer">Sortiment</a>
+        <a href="beispiel-hofladen-besuch.html" class="text-stone-600 hover:text-steirer">Ab Hof</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="relative">
+    <img src="https://picsum.photos/seed/dahoam-hof-hero/1600/720" width="1600" height="720" alt="" class="max-h-[min(70vh,520px)] w-full object-cover" fetchpriority="high" decoding="async" />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+    <div class="absolute bottom-0 left-0 right-0 px-4 pb-10 pt-20 sm:px-8">
+      <div class="mx-auto max-w-3xl text-white">
+        <p class="text-xs font-bold uppercase tracking-widest text-white/80">Regional · Saisonal</p>
+        <h1 class="font-display mt-2 text-3xl font-bold tracking-tight sm:text-4xl">Willkommen im Musterhofladen</h1>
+        <p class="mt-3 max-w-xl text-sm leading-relaxed text-white/90 sm:text-base">Säfte, Aufstriche und mehr aus eigener Erzeugung – hier nur als Layout- und Strukturbeispiel.</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="beispiel-hofladen-sortiment.html" class="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-stone-900 shadow-lg hover:bg-stone-100">Zum Sortiment</a>
+          <a href="beispiel-hofladen-besuch.html" class="rounded-full border-2 border-white/80 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/10">Öffnungszeiten</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-5xl px-4 py-14 sm:px-6">
+    <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+      <div>
+        <h2 class="font-display text-2xl font-semibold text-stone-900">Aus der Region, für den Tisch</h2>
+        <p class="mt-4 text-sm leading-relaxed text-stone-600">
+          Dieser Text ist bewusst generisch. In einer echten Website würden Sie hier Ihre Geschichte erzählen: Obstgarten, Familienbetrieb, Qualitätsversprechen – alles in Ihren Worten und mit Ihren Fotos.
+        </p>
+        <a href="beispiel-hofladen-sortiment.html" class="mt-6 inline-flex text-sm font-semibold text-steirer hover:underline">Produkte ansehen →</a>
+      </div>
+      <img src="https://picsum.photos/seed/dahoam-hof-side/900/600" width="900" height="600" alt="" class="rounded-2xl border border-stone-200/80 shadow-lg" loading="lazy" decoding="async" />
+    </div>
+  </section>
+
+  <section class="border-y border-stone-200/80 bg-white/60 py-14">
+    <div class="mx-auto grid max-w-5xl gap-8 px-4 sm:grid-cols-3 sm:px-6">
+      <div class="text-center">
+        <p class="font-display text-3xl font-bold text-steirer">3</p>
+        <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-stone-500">Beispiel-Kacheln</p>
+        <p class="mt-2 text-sm text-stone-600">Für Kennzahlen, Auszeichnungen oder Sortimentsgruppen.</p>
+      </div>
+      <div class="text-center">
+        <p class="font-display text-3xl font-bold text-steirer">100%</p>
+        <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-stone-500">Platzhalter</p>
+        <p class="mt-2 text-sm text-stone-600">So könnte ein Vertrauensblock aussehen.</p>
+      </div>
+      <div class="text-center">
+        <p class="font-display text-3xl font-bold text-steirer">∞</p>
+        <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-stone-500">Ideen</p>
+        <p class="mt-2 text-sm text-stone-600">Wir passen Inhalte und Struktur an Ihren Betrieb an.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-stone-200 bg-stone-900 px-4 py-8 text-center text-sm text-stone-400">
+    <p>Beispiel Musterhofladen · <a href="beispiele.html" class="text-white hover:underline">Alle Demos</a> · <a href="index.html" class="text-white hover:underline">Dahoam-Digital</a></p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Musterwerkstätte | Beispiel</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { colors: { brand: { DEFAULT: '#1e3a5f', light: '#e8eef5' } }, fontFamily: { display: ['Fraunces', 'Georgia', 'serif'], sans: ['DM Sans', 'system-ui', 'sans-serif'] } } } };</script>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800">
+  <div class="bg-slate-900 px-4 py-2 text-center text-xs text-slate-300">Demo · <a href="beispiele.html" class="text-white underline hover:no-underline">Alle Beispiele</a></div>
+  <header class="border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-4">
+      <a href="beispiel-handwerk.html" class="font-display text-lg font-bold text-slate-900">Musterwerkstätte</a>
+      <nav class="flex flex-wrap gap-5 text-sm font-semibold">
+        <a href="beispiel-handwerk.html" class="text-brand" aria-current="page">Start</a>
+        <a href="beispiel-handwerk-arbeiten.html" class="text-slate-600 hover:text-brand">Arbeiten</a>
+        <a href="beispiel-handwerk-kontakt.html" class="text-slate-600 hover:text-brand">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="relative bg-brand text-white">
+    <div class="absolute inset-0 opacity-40">
+      <img src="https://picsum.photos/seed/dahoam-hand-hero/1600/600" width="1600" height="600" alt="" class="h-full w-full object-cover mix-blend-overlay" decoding="async" />
+    </div>
+    <div class="relative mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-24">
+      <p class="text-xs font-bold uppercase tracking-widest text-white/70">Tischlerei · Sanitär · Heizung</p>
+      <h1 class="font-display mt-3 max-w-xl text-3xl font-bold sm:text-4xl">Qualität, die bleibt</h1>
+      <p class="mt-4 max-w-lg text-sm text-white/90">Beispiel-Startseite für Handwerksbetriebe: Vertrauen, Erfahrung, klarer nächster Schritt für Kundinnen und Kunden.</p>
+      <a href="beispiel-handwerk-arbeiten.html" class="mt-8 inline-flex rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-brand hover:bg-slate-100">Referenzen ansehen</a>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-5xl px-4 py-14 sm:px-6">
+    <div class="grid gap-10 md:grid-cols-2 md:items-center">
+      <img src="https://picsum.photos/seed/dahoam-hand-in/900/650" width="900" height="650" alt="" class="rounded-xl border border-slate-200 shadow-lg" loading="lazy" decoding="async" />
+      <div>
+        <h2 class="font-display text-2xl font-semibold text-slate-900">Ihr Ansprechpartner vor Ort</h2>
+        <p class="mt-4 text-sm leading-relaxed text-slate-600">
+          Kurzer Einleitungstext, Leistungsversprechen, Zertifikate oder Mitgliedschaften – alles austauschbar. Diese Demo nutzt ein anderes Farbschema (Nachtblau), um Varianten zu zeigen.
+        </p>
+        <ul class="mt-6 space-y-2 text-sm text-slate-700">
+          <li class="flex gap-2"><span class="text-brand">✓</span> Beratung &amp; Aufmaß</li>
+          <li class="flex gap-2"><span class="text-brand">✓</span> Ausführung aus einer Hand</li>
+          <li class="flex gap-2"><span class="text-brand">✓</span> Garantie &amp; Service</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-slate-200 bg-white py-8 text-center text-sm text-slate-500">
+    <a href="beispiele.html" class="font-medium text-brand hover:underline">Alle Demos</a> · <a href="index.html" class="hover:underline">Dahoam-Digital</a>
+  </footer>
+</body>
+</html>

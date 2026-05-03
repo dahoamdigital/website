@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ab Hof | Musterhofladen (Beispiel)</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { colors: { steirer: { DEFAULT: '#2D5A27' } }, fontFamily: { display: ['Fraunces', 'Georgia', 'serif'], sans: ['DM Sans', 'system-ui', 'sans-serif'] } } } };</script>
+</head>
+<body class="bg-[#faf7f2] font-sans text-stone-800">
+  <div class="bg-stone-900 px-4 py-2 text-center text-xs text-stone-300">Demo · <a href="beispiele.html" class="text-white underline hover:no-underline">Alle Beispiele</a></div>
+  <header class="border-b border-stone-200 bg-white">
+    <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-4">
+      <a href="beispiel-hofladen.html" class="font-display text-lg font-bold text-stone-900">Musterhofladen</a>
+      <nav class="flex flex-wrap gap-5 text-sm font-semibold">
+        <a href="beispiel-hofladen.html" class="text-stone-600 hover:text-steirer">Start</a>
+        <a href="beispiel-hofladen-sortiment.html" class="text-stone-600 hover:text-steirer">Sortiment</a>
+        <a href="beispiel-hofladen-besuch.html" class="text-steirer" aria-current="page">Ab Hof</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-5xl px-4 py-12 sm:px-6">
+    <div class="grid gap-10 lg:grid-cols-2 lg:items-start">
+      <div>
+        <h1 class="font-display text-3xl font-bold text-stone-900">Ab Hof &amp; Führungen</h1>
+        <p class="mt-4 text-sm leading-relaxed text-stone-600">
+          So kann eine Seite aussehen, die Öffnungszeiten, Parken, Hofrundgänge und Verkostungen erklärt – mit klaren Absätzen und einem Bild vom Hof.
+        </p>
+        <dl class="mt-8 space-y-4 text-sm">
+          <div>
+            <dt class="font-semibold text-stone-900">Verkauf</dt>
+            <dd class="text-stone-600">Mi–Sa 9–17 Uhr <span class="text-stone-400">(Beispiel)</span></dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-stone-900">Adresse</dt>
+            <dd class="text-stone-600">Musterweg 1, 0000 Musterort</dd>
+          </div>
+        </dl>
+        <p class="mt-8">
+          <a href="beispiel-hofladen-sortiment.html" class="text-sm font-semibold text-steirer hover:underline">Zum Sortiment →</a>
+        </p>
+      </div>
+      <img src="https://picsum.photos/seed/dahoam-hof-besuch/900/700" width="900" height="700" alt="" class="rounded-2xl border border-stone-200 shadow-md" loading="lazy" decoding="async" />
+    </div>
+  </main>
+
+  <footer class="border-t border-stone-200 bg-white py-6 text-center text-xs text-stone-500">
+    <a href="beispiel-hofladen.html" class="text-steirer hover:underline">Demo-Start</a> · <a href="beispiele.html" class="text-steirer hover:underline">Alle Demos</a>
+  </footer>
+</body>
+</html>

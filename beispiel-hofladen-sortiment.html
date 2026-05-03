@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sortiment | Musterhofladen (Beispiel)</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { colors: { steirer: { DEFAULT: '#2D5A27', dark: '#1f3f1b' } }, fontFamily: { display: ['Fraunces', 'Georgia', 'serif'], sans: ['DM Sans', 'system-ui', 'sans-serif'] } } } };</script>
+</head>
+<body class="bg-[#faf7f2] font-sans text-stone-800">
+  <div class="bg-stone-900 px-4 py-2 text-center text-xs text-stone-300">Demo · <a href="beispiele.html" class="text-white underline hover:no-underline">Alle Beispiele</a></div>
+  <header class="border-b border-stone-200 bg-white">
+    <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-4">
+      <a href="beispiel-hofladen.html" class="font-display text-lg font-bold text-stone-900">Musterhofladen</a>
+      <nav class="flex flex-wrap gap-5 text-sm font-semibold">
+        <a href="beispiel-hofladen.html" class="text-stone-600 hover:text-steirer">Start</a>
+        <a href="beispiel-hofladen-sortiment.html" class="text-steirer" aria-current="page">Sortiment</a>
+        <a href="beispiel-hofladen-besuch.html" class="text-stone-600 hover:text-steirer">Ab Hof</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-5xl px-4 py-12 sm:px-6">
+    <h1 class="font-display text-3xl font-bold text-stone-900">Unser Sortiment</h1>
+    <p class="mt-2 max-w-2xl text-sm text-stone-600">Drei Produktkarten mit Bild – typisch für eine Übersichtsseite vor dem eigentlichen Shop.</p>
+
+    <ul class="mt-10 grid gap-8 sm:grid-cols-3">
+      <li class="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+        <img src="https://picsum.photos/seed/dahoam-hof-p1/600/400" width="600" height="400" alt="" class="aspect-[3/2] w-full object-cover" loading="lazy" decoding="async" />
+        <div class="p-4">
+          <h2 class="font-display font-semibold text-stone-900">Direktsaft</h2>
+          <p class="mt-1 text-xs text-stone-600">Beispielbeschreibung, Geschmacksnoten …</p>
+          <p class="mt-2 font-semibold text-steirer">ab € 2,40</p>
+        </div>
+      </li>
+      <li class="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+        <img src="https://picsum.photos/seed/dahoam-hof-p2/600/400" width="600" height="400" alt="" class="aspect-[3/2] w-full object-cover" loading="lazy" decoding="async" />
+        <div class="p-4">
+          <h2 class="font-display font-semibold text-stone-900">Marmelade</h2>
+          <p class="mt-1 text-xs text-stone-600">Hoher Fruchtanteil – nur Demo-Text.</p>
+          <p class="mt-2 font-semibold text-steirer">ab € 4,90</p>
+        </div>
+      </li>
+      <li class="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+        <img src="https://picsum.photos/seed/dahoam-hof-p3/600/400" width="600" height="400" alt="" class="aspect-[3/2] w-full object-cover" loading="lazy" decoding="async" />
+        <div class="p-4">
+          <h2 class="font-display font-semibold text-stone-900">Spezialität</h2>
+          <p class="mt-1 text-xs text-stone-600">Saisonale Highlights in eigener Kategorie.</p>
+          <p class="mt-2 font-semibold text-steirer">auf Anfrage</p>
+        </div>
+      </li>
+    </ul>
+
+    <p class="mt-12 text-center">
+      <a href="beispiel-hofladen.html" class="text-sm font-semibold text-steirer hover:underline">← Zurück zur Startseite der Demo</a>
+    </p>
+  </main>
+
+  <footer class="border-t border-stone-200 bg-white py-6 text-center text-xs text-stone-500">
+    <a href="beispiele.html" class="text-steirer hover:underline">Alle Demos</a>
+  </footer>
+</body>
+</html>

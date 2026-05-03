@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kulinarik | Gasthof Musterberg (Beispiel)</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { colors: { wine: { DEFAULT: '#722f37' } }, fontFamily: { display: ['Fraunces', 'Georgia', 'serif'], sans: ['DM Sans', 'system-ui', 'sans-serif'] } } } };</script>
+</head>
+<body class="bg-stone-100 font-sans text-stone-800">
+  <div class="bg-wine px-4 py-2 text-center text-xs text-white/90">Demo · <a href="beispiele.html" class="text-white underline hover:no-underline">Alle Beispiele</a></div>
+  <header class="border-b border-stone-200 bg-[#fdfcfa]">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
+      <a href="beispiel-gasthof.html" class="font-display text-xl font-bold text-wine">Gasthof Musterberg</a>
+      <nav class="flex flex-wrap gap-5 text-sm font-semibold text-stone-700">
+        <a href="beispiel-gasthof.html" class="hover:text-wine">Willkommen</a>
+        <a href="beispiel-gasthof-zimmer.html" class="hover:text-wine">Zimmer</a>
+        <a href="beispiel-gasthof-kulinarik.html" class="text-wine" aria-current="page">Kulinarik</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="relative h-64 sm:h-80">
+      <img src="https://picsum.photos/seed/dahoam-gast-kul/1600/700" width="1600" height="700" alt="" class="h-full w-full object-cover" loading="lazy" decoding="async" />
+      <div class="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent">
+        <div class="w-full px-4 pb-8 sm:px-8">
+          <h1 class="font-display text-3xl font-bold text-white">Kulinarik</h1>
+          <p class="mt-1 text-sm text-white/90">Regionale Küche – Demo-Layout mit breitem Titelbild</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+      <section class="rounded-2xl border border-stone-200 bg-white p-8 shadow-sm">
+        <h2 class="font-display text-lg font-semibold text-wine">À la carte</h2>
+        <p class="mt-3 text-sm leading-relaxed text-stone-600">
+          Hier könnten Menü-PDF, Tageskarte oder Speisenliste stehen. Für die Demo reicht ein Absatz: saisonale Gerichte, steirische Klassiker, vegetarische Optionen – alles wird später mit Ihnen besprochen.
+        </p>
+      </section>
+      <div class="mt-8 grid gap-6 sm:grid-cols-2">
+        <img src="https://picsum.photos/seed/dahoam-gast-food1/700/450" width="700" height="450" alt="" class="rounded-xl border border-stone-200 object-cover" loading="lazy" decoding="async" />
+        <img src="https://picsum.photos/seed/dahoam-gast-food2/700/450" width="700" height="450" alt="" class="rounded-xl border border-stone-200 object-cover" loading="lazy" decoding="async" />
+      </div>
+      <p class="mt-10 text-center text-sm">
+        <a href="beispiel-gasthof.html" class="font-semibold text-wine hover:underline">← Zurück zur Willkommensseite</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="border-t border-stone-200 bg-[#fdfcfa] py-6 text-center text-xs text-stone-500">
+    <a href="beispiele.html" class="text-wine hover:underline">Alle Demos</a>
+  </footer>
+</body>
+</html>

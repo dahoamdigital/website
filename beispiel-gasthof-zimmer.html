@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zimmer | Gasthof Musterberg (Beispiel)</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { colors: { wine: { DEFAULT: '#722f37' } }, fontFamily: { display: ['Fraunces', 'Georgia', 'serif'], sans: ['DM Sans', 'system-ui', 'sans-serif'] } } } };</script>
+</head>
+<body class="bg-stone-100 font-sans text-stone-800">
+  <div class="bg-wine px-4 py-2 text-center text-xs text-white/90">Demo · <a href="beispiele.html" class="text-white underline hover:no-underline">Alle Beispiele</a></div>
+  <header class="border-b border-stone-200 bg-[#fdfcfa]">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
+      <a href="beispiel-gasthof.html" class="font-display text-xl font-bold text-wine">Gasthof Musterberg</a>
+      <nav class="flex flex-wrap gap-5 text-sm font-semibold text-stone-700">
+        <a href="beispiel-gasthof.html" class="hover:text-wine">Willkommen</a>
+        <a href="beispiel-gasthof-zimmer.html" class="text-wine" aria-current="page">Zimmer</a>
+        <a href="beispiel-gasthof-kulinarik.html" class="hover:text-wine">Kulinarik</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <h1 class="font-display text-3xl font-bold text-stone-900">Unsere Zimmer</h1>
+    <p class="mt-2 text-sm text-stone-600">Zwei Zimmerkategorien mit Bild und Kurzbeschreibung – typisch für eine Unterkunfts-Website.</p>
+
+    <div class="mt-10 grid gap-10 lg:grid-cols-2">
+      <article class="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+        <img src="https://picsum.photos/seed/dahoam-gast-z1/900/520" width="900" height="520" alt="" class="aspect-[16/10] w-full object-cover" loading="lazy" decoding="async" />
+        <div class="p-6">
+          <h2 class="font-display text-xl font-semibold text-stone-900">Doppelzimmer „Südhang“</h2>
+          <p class="mt-2 text-sm text-stone-600">Balkon, Dusche/WC, Flachbild-TV – Beispieltext.</p>
+          <p class="mt-4 font-semibold text-wine">ab € 98 / Nacht</p>
+        </div>
+      </article>
+      <article class="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+        <img src="https://picsum.photos/seed/dahoam-gast-z2/900/520" width="900" height="520" alt="" class="aspect-[16/10] w-full object-cover" loading="lazy" decoding="async" />
+        <div class="p-6">
+          <h2 class="font-display text-xl font-semibold text-stone-900">Familienzimmer</h2>
+          <p class="mt-2 text-sm text-stone-600">Zusatzbett, großer Wohnbereich – rein illustrativ.</p>
+          <p class="mt-4 font-semibold text-wine">ab € 142 / Nacht</p>
+        </div>
+      </article>
+    </div>
+
+    <p class="mt-12 text-center text-sm">
+      <a href="beispiel-gasthof.html" class="font-semibold text-wine hover:underline">← Zurück zur Willkommensseite</a>
+    </p>
+  </main>
+
+  <footer class="border-t border-stone-200 bg-[#fdfcfa] py-6 text-center text-xs text-stone-500">
+    <a href="beispiele.html" class="text-wine hover:underline">Alle Demos</a>
+  </footer>
+</body>
+</html>
