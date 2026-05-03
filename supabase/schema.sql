@@ -39,3 +39,35 @@ create policy "admin_lesen"
   on public.bauplan_auftraege for select
   to authenticated
   using (true);
+
+-- Kunden-Abo (mein-abo.html): eine Zeile pro Auth-User.
+-- Zeilen legen Sie in Supabase SQL (als postgres) oder mit service_role an – nicht öffentlich per insert.
+create table if not exists public.kunden_pakete (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  paket_code text not null,
+  paket_name text not null,
+  monatspreis numeric(10, 2) not null,
+  status text not null default 'aktiv' check (status in ('aktiv', 'gekuendigt', 'pausiert')),
+  vertragsbeginn date,
+  gekuendigt_zum date,
+  constraint kunden_pakete_user_id_key unique (user_id)
+);
+
+create index if not exists kunden_pakete_user_id_idx on public.kunden_pakete (user_id);
+
+alter table public.kunden_pakete enable row level security;
+
+drop policy if exists "kunde_liest_eigenes_paket" on public.kunden_pakete;
+create policy "kunde_liest_eigenes_paket"
+  on public.kunden_pakete for select
+  to authenticated
+  using (auth.uid() = user_id);
+
+drop policy if exists "kunde_updated_eigenes_paket" on public.kunden_pakete;
+create policy "kunde_updated_eigenes_paket"
+  on public.kunden_pakete for update
+  to authenticated
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Ihr Website-Abo bei Dahoam-Digital einsehen und verwalten." />
+  <title>Mein Abo | Dahoam-Digital</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#2D5A27" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { steirer: { DEFAULT: '#2D5A27', dark: '#1f3f1b', soft: '#e8f0e6' } },
+          fontFamily: { display: ['Fraunces', 'Georgia', 'serif'], sans: ['DM Sans', 'system-ui', 'sans-serif'] },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-stone-100 to-stone-200/80 font-sans text-stone-800">
+  <header class="border-b border-stone-200/90 bg-white/95 shadow-sm backdrop-blur-md">
+    <div class="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
+      <a href="index.html" class="font-display text-lg font-semibold text-steirer">← Dahoam-Digital</a>
+      <div class="flex items-center gap-3">
+        <a href="preise.html" class="text-sm font-medium text-stone-600 hover:text-steirer">Preise</a>
+        <button type="button" id="abo-btn-logout" class="hidden rounded-lg border border-stone-300 px-3 py-1.5 text-sm font-medium hover:bg-stone-50">Abmelden</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
+    <section id="abo-login-section" class="rounded-2xl border border-stone-200/90 bg-white p-8 shadow-lg shadow-stone-900/5 ring-1 ring-stone-900/[0.04]">
+      <h1 class="font-display text-xl font-semibold text-stone-900">Mein Abo</h1>
+      <p class="mt-2 text-sm text-stone-600">Melden Sie sich mit den <strong>Zugangsdaten für Ihr Kundenkonto</strong> an (nicht dasselbe wie der interne Team-Zugang auf der Startseite, falls Sie getrennte Konten haben).</p>
+      <form id="abo-login-form" class="mt-6 space-y-4">
+        <div>
+          <label for="abo-email" class="block text-sm font-medium text-stone-700">E-Mail</label>
+          <input id="abo-email" type="email" autocomplete="email" required class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-steirer focus:outline-none focus:ring-1 focus:ring-steirer" />
+        </div>
+        <div>
+          <label for="abo-pass" class="block text-sm font-medium text-stone-700">Passwort</label>
+          <input id="abo-pass" type="password" autocomplete="current-password" required class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-steirer focus:outline-none focus:ring-1 focus:ring-steirer" />
+        </div>
+        <p id="abo-login-error" class="hidden text-sm text-red-600" role="alert"></p>
+        <button type="submit" class="w-full rounded-full bg-steirer py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-steirer-dark">Anmelden</button>
+      </form>
+      <p class="mt-6 text-center text-sm text-stone-500">Noch kein Zugang? <a href="index.html#kontakt" class="font-medium text-steirer underline-offset-2 hover:underline">Kontakt</a> · <a href="preise.html" class="font-medium text-steirer underline-offset-2 hover:underline">Preise</a></p>
+    </section>
+
+    <section id="abo-dashboard" class="hidden space-y-6">
+      <h1 class="font-display text-2xl font-semibold text-stone-900">Ihr Paket</h1>
+      <div id="abo-no-row" class="hidden rounded-2xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-950">
+        <p class="font-medium">Es ist noch kein Abo mit diesem Konto verknüpft.</p>
+        <p class="mt-2 text-amber-900/90">Sobald Ihr Vertrag aktiv ist, trägt Dahoam-Digital Ihr Paket in der Datenbank ein. Bei Fragen schreiben Sie an <a class="font-semibold underline" href="mailto:info@dahoam-digital.at">info@dahoam-digital.at</a>.</p>
+      </div>
+      <div id="abo-card" class="hidden rounded-2xl border border-stone-200/90 bg-white p-6 shadow-lg ring-1 ring-stone-900/[0.04] sm:p-8">
+        <dl class="grid gap-4 text-sm sm:grid-cols-2">
+          <div>
+            <dt class="text-stone-500">Paket</dt>
+            <dd id="abo-paket-name" class="mt-1 font-display text-lg font-semibold text-stone-900">–</dd>
+          </div>
+          <div>
+            <dt class="text-stone-500">Monatspreis</dt>
+            <dd id="abo-preis" class="mt-1 font-semibold text-steirer">–</dd>
+          </div>
+          <div>
+            <dt class="text-stone-500">Status</dt>
+            <dd id="abo-status" class="mt-1 font-medium text-stone-900">–</dd>
+          </div>
+          <div>
+            <dt class="text-stone-500">Vertragsbeginn</dt>
+            <dd id="abo-beginn" class="mt-1 text-stone-800">–</dd>
+          </div>
+          <div class="sm:col-span-2">
+            <dt class="text-stone-500">Kündigung / Ende</dt>
+            <dd id="abo-ende" class="mt-1 text-stone-800">–</dd>
+          </div>
+        </dl>
+        <div id="abo-actions" class="mt-8 flex flex-wrap gap-3">
+          <button type="button" id="abo-btn-kuendigen" class="rounded-full border border-red-200 bg-red-50 px-5 py-2 text-sm font-semibold text-red-800 transition hover:bg-red-100">Abo kündigen</button>
+        </div>
+        <p id="abo-kuendigen-hinweis" class="mt-4 hidden text-sm text-stone-600"></p>
+      </div>
+      <p id="abo-load-error" class="hidden rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"></p>
+    </section>
+  </main>
+
+  <div id="abo-modal-kuendigen" class="fixed inset-0 z-50 hidden items-center justify-center bg-stone-900/50 p-4" role="dialog" aria-modal="true" aria-labelledby="abo-modal-title">
+    <div class="w-full max-w-md rounded-2xl border border-stone-200 bg-white p-6 shadow-xl">
+      <h2 id="abo-modal-title" class="font-display text-lg font-semibold text-stone-900">Abo wirklich kündigen?</h2>
+      <p class="mt-2 text-sm text-stone-600">Ihr Zugang bleibt bis zum vereinbarten Ende bestehen. Danach endet das monatliche Website-Abo; Zusatzleistungen sind davon getrennt.</p>
+      <p id="abo-modal-datum" class="mt-3 text-sm font-medium text-steirer"></p>
+      <div class="mt-6 flex justify-end gap-2">
+        <button type="button" id="abo-modal-cancel" class="rounded-full border border-stone-300 px-4 py-2 text-sm font-medium hover:bg-stone-50">Abbrechen</button>
+        <button type="button" id="abo-modal-confirm" class="rounded-full bg-red-700 px-4 py-2 text-sm font-semibold text-white hover:bg-red-800">Kündigung speichern</button>
+      </div>
+      <p id="abo-modal-error" class="mt-3 hidden text-sm text-red-600"></p>
+    </div>
+  </div>
+
+  <script src="js/config.defaults.js"></script>
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script>
+    (function () {
+      function getClient() {
+        var url = (window.DAHOAM_SUPABASE_URL || '').trim();
+        var key = (window.DAHOAM_SUPABASE_ANON_KEY || '').trim();
+        if (!url || !key) return null;
+        var lib = typeof window.supabase !== 'undefined' ? window.supabase : typeof supabase !== 'undefined' ? supabase : null;
+        if (!lib || typeof lib.createClient !== 'function') return null;
+        return lib.createClient(url, key, {
+          auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage },
+        });
+      }
+      function endeNaechsterKalendermonat() {
+        var d = new Date();
+        var last = new Date(d.getFullYear(), d.getMonth() + 2, 0);
+        return last.toISOString().slice(0, 10);
+      }
+      function formatDate(iso) {
+        if (!iso) return '–';
+        var d = new Date(iso + 'T12:00:00');
+        if (isNaN(d.getTime())) return iso;
+        return d.toLocaleDateString('de-AT', { day: 'numeric', month: 'long', year: 'numeric' });
+      }
+      function formatMoney(n) {
+        if (n == null || n === '') return '–';
+        var x = Number(n);
+        if (isNaN(x)) return String(n);
+        return x.toLocaleString('de-AT', { style: 'currency', currency: 'EUR' }) + ' / Monat';
+      }
+      function statusLabel(s) {
+        if (s === 'aktiv') return 'Aktiv';
+        if (s === 'gekuendigt') return 'Gekündigt';
+        if (s === 'pausiert') return 'Pausiert';
+        return s || '–';
+      }
+
+      var client = getClient();
+      var loginSection = document.getElementById('abo-login-section');
+      var dashboard = document.getElementById('abo-dashboard');
+      var btnLogout = document.getElementById('abo-btn-logout');
+      var errLogin = document.getElementById('abo-login-error');
+      var errLoad = document.getElementById('abo-load-error');
+      var noRow = document.getElementById('abo-no-row');
+      var card = document.getElementById('abo-card');
+      var actions = document.getElementById('abo-actions');
+      var kuendigenHinweis = document.getElementById('abo-kuendigen-hinweis');
+      var rowState = null;
+
+      function showLoginErr(msg) {
+        errLogin.textContent = msg || '';
+        errLogin.classList.toggle('hidden', !msg);
+      }
+      function showLoadErr(msg) {
+        errLoad.textContent = msg || '';
+        errLoad.classList.toggle('hidden', !msg);
+      }
+
+      function setView(session) {
+        var ok = !!(session && session.user);
+        loginSection.classList.toggle('hidden', ok);
+        dashboard.classList.toggle('hidden', !ok);
+        btnLogout.classList.toggle('hidden', !ok);
+        if (!ok) showLoginErr('');
+      }
+
+      async function loadPaket() {
+        showLoadErr('');
+        noRow.classList.add('hidden');
+        card.classList.add('hidden');
+        rowState = null;
+        if (!client) {
+          showLoadErr('Supabase ist nicht konfiguriert (js/config.js bzw. Umgebungsvariablen beim Deploy).');
+          return;
+        }
+        var res = await client.from('kunden_pakete').select('*').maybeSingle();
+        if (res.error) {
+          var msg = res.error.message || 'Daten konnten nicht geladen werden.';
+          if (msg.indexOf('relation') !== -1 || msg.indexOf('schema cache') !== -1) {
+            msg = 'Tabelle „kunden_pakete“ fehlt oder RLS blockiert. Bitte SQL aus supabase/schema.sql ausführen.';
+          }
+          showLoadErr(msg);
+          return;
+        }
+        if (!res.data) {
+          noRow.classList.remove('hidden');
+          return;
+        }
+        rowState = res.data;
+        card.classList.remove('hidden');
+        document.getElementById('abo-paket-name').textContent = res.data.paket_name || res.data.paket_code || '–';
+        document.getElementById('abo-preis').textContent = formatMoney(res.data.monatspreis);
+        document.getElementById('abo-status').textContent = statusLabel(res.data.status);
+        document.getElementById('abo-beginn').textContent = formatDate(res.data.vertragsbeginn);
+        var endeText = '–';
+        if (res.data.status === 'gekuendigt' && res.data.gekuendigt_zum) {
+          endeText = 'Lauf endet voraussichtlich am ' + formatDate(res.data.gekuendigt_zum);
+        } else if (res.data.status === 'aktiv') {
+          endeText = 'Keine Kündigung hinterlegt.';
+        }
+        document.getElementById('abo-ende').textContent = endeText;
+        kuendigenHinweis.classList.add('hidden');
+        var btnK = document.getElementById('abo-btn-kuendigen');
+        if (res.data.status === 'aktiv') {
+          actions.classList.remove('hidden');
+          btnK.disabled = false;
+        } else {
+          actions.classList.add('hidden');
+          kuendigenHinweis.textContent = 'Dieses Abo ist nicht mehr aktiv oder bereits gekündigt. Bei Rückfragen erreichen Sie uns per E-Mail.';
+          kuendigenHinweis.classList.remove('hidden');
+        }
+      }
+
+      if (!client) {
+        showLoginErr('Bitte legen Sie js/config.js an (siehe js/config.example.js) oder setzen Sie die Deploy-Umgebungsvariablen.');
+      }
+
+      document.getElementById('abo-login-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        showLoginErr('');
+        if (!client) return;
+        var email = document.getElementById('abo-email').value.trim();
+        var pass = document.getElementById('abo-pass').value;
+        var r = await client.auth.signInWithPassword({ email: email, password: pass });
+        if (r.error) {
+          showLoginErr(r.error.message || 'Anmeldung fehlgeschlagen.');
+          return;
+        }
+      });
+
+      btnLogout.addEventListener('click', async function () {
+        if (client) await client.auth.signOut();
+      });
+
+      var modal = document.getElementById('abo-modal-kuendigen');
+      var modalDatum = document.getElementById('abo-modal-datum');
+      var modalErr = document.getElementById('abo-modal-error');
+
+      document.getElementById('abo-btn-kuendigen').addEventListener('click', function () {
+        if (!rowState || rowState.status !== 'aktiv') return;
+        var iso = endeNaechsterKalendermonat();
+        modalDatum.textContent = 'Vorgeschlagenes Ende: ' + formatDate(iso) + ' (Kalenderende des Folgemonats; endgültiges Datum steht im Vertrag / in der Bestätigung).';
+        modalErr.classList.add('hidden');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      });
+      document.getElementById('abo-modal-cancel').addEventListener('click', function () {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      });
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        }
+      });
+      document.getElementById('abo-modal-confirm').addEventListener('click', async function () {
+        modalErr.classList.add('hidden');
+        if (!client || !rowState) return;
+        var iso = endeNaechsterKalendermonat();
+        var upd = await client
+          .from('kunden_pakete')
+          .update({ status: 'gekuendigt', gekuendigt_zum: iso })
+          .eq('id', rowState.id)
+          .select()
+          .maybeSingle();
+        if (upd.error) {
+          modalErr.textContent = upd.error.message || 'Speichern fehlgeschlagen.';
+          modalErr.classList.remove('hidden');
+          return;
+        }
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        await loadPaket();
+      });
+
+      if (client) {
+        client.auth.onAuthStateChange(function (_event, session) {
+          setView(session);
+          if (session && session.user) loadPaket();
+        });
+        client.auth.getSession().then(function (res) {
+          var s = res.data && res.data.session ? res.data.session : null;
+          setView(s);
+          if (s && s.user) loadPaket();
+        });
+      } else {
+        setView(null);
+      }
+    })();
+  </script>
+</body>
+</html>

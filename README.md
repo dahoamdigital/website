@@ -58,3 +58,12 @@ Ohne diese Variablen erzeugt der Build eine leere `js/config.js` – die Seite l
 | `vercel.json` | Header für Vercel |
 | `netlify.toml` | Netlify Publish-Root |
 | `.htaccess` | nur Apache (z. B. InfinityFree) |
+
+## Kundenportal „Mein Abo“
+
+Die Seite **mein-abo.html** liest das aktuelle Paket aus der Supabase-Tabelle **`kunden_pakete`** (siehe `supabase/schema.sql`). Nach dem SQL-Deploy:
+
+1. Legen Sie in **Authentication** einen Benutzer für die Kundin / den Kunden an (oder lassen Sie sich selbst registrieren, falls Sie Sign-up nutzen).
+2. Fügen Sie **eine Zeile** in `kunden_pakete` ein (`user_id` = UUID des Auth-Nutzers, `paket_code`, `paket_name`, `monatspreis`, optional `vertragsbeginn`). Das geht in der SQL-Konsole als postgres oder mit dem **service_role**-Key – nicht mit dem anon-Key aus dem Browser.
+
+Kundinnen und Kunden können eingeloggt nur **lesen** und den Status per **Kündigen** auf `gekuendigt` setzen (kein öffentliches `INSERT` für diese Tabelle).

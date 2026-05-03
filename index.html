@@ -91,11 +91,14 @@
         <a href="#vorteile" class="rounded-lg px-1 py-0.5 transition hover:bg-steirer-soft hover:text-steirer">Vorteile</a>
         <a href="#leistungen" class="rounded-lg px-1 py-0.5 transition hover:bg-steirer-soft hover:text-steirer">Leistungen</a>
         <a href="beispiele.html" class="rounded-lg px-1 py-0.5 transition hover:bg-steirer-soft hover:text-steirer">Beispielwebsiten</a>
+        <a href="preise.html" class="rounded-lg px-1 py-0.5 transition hover:bg-steirer-soft hover:text-steirer">Preise</a>
+        <a href="mein-abo.html" class="rounded-lg px-1 py-0.5 transition hover:bg-steirer-soft hover:text-steirer">Mein Abo</a>
         <a href="#kontakt" class="rounded-lg px-1 py-0.5 transition hover:bg-steirer-soft hover:text-steirer">Kontakt</a>
       </nav>
       <div class="flex shrink-0 items-center gap-1.5 sm:gap-3">
         <button type="button" id="index-open-login" class="rounded-full border border-stone-200 bg-white px-3 py-2 text-sm font-medium text-stone-700 shadow-sm transition hover:border-steirer/40 hover:bg-steirer-soft/50 hover:text-steirer sm:px-4">Anmelden</button>
         <div id="index-auth-session" class="hidden items-center gap-2">
+          <a href="mein-abo.html" class="inline-flex items-center rounded-full border border-stone-200 bg-white px-3 py-2 text-sm font-medium text-stone-700 shadow-sm transition hover:border-steirer/40 hover:text-steirer" title="Kundenportal">Mein Abo</a>
           <a href="admin.html" class="inline-flex items-center rounded-full border border-steirer/40 bg-steirer-soft px-3 py-2 text-sm font-semibold text-steirer shadow-sm transition hover:bg-white sm:px-4" title="Bauplan-Aufträge">Aufträge</a>
           <button type="button" id="index-btn-logout" class="rounded-full px-2 py-2 text-sm font-medium text-stone-600 hover:text-steirer sm:px-3">Abmelden</button>
         </div>
@@ -111,6 +114,8 @@
         <a href="#vorteile" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Vorteile</a>
         <a href="#leistungen" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Leistungen</a>
         <a href="beispiele.html" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Beispielwebsiten</a>
+        <a href="preise.html" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Preise</a>
+        <a href="mein-abo.html" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Mein Abo</a>
         <a href="#kontakt" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Kontakt</a>
       </nav>
     </div>
@@ -364,6 +369,16 @@
               </label>
             </div>
             <div>
+              <label for="kf-paket-wunsch" class="block text-sm font-medium text-stone-700">Gewünschtes Website-Abo <span class="text-xs font-normal text-stone-500">(optional)</span></label>
+              <select id="kf-paket-wunsch" name="paket" class="select-field mt-1 max-w-md">
+                <option value="">Noch unentschieden / nur Beratung</option>
+                <option value="starter">Starter (49&nbsp;€ / Monat)</option>
+                <option value="standard">Standard (89&nbsp;€ / Monat)</option>
+                <option value="premium">Premium (149&nbsp;€ / Monat)</option>
+                <option value="zusatz">Nur Zusatzleistung (ohne neues Abo)</option>
+              </select>
+            </div>
+            <div>
               <label for="kf-oeffnung" class="block text-sm font-medium text-stone-700">Verkaufs- oder Öffnungszeiten (optional)</label>
               <input id="kf-oeffnung" type="text" class="input-field mt-1" placeholder="z. B. Fr–So 9–17, nach Vereinbarung …" />
             </div>
@@ -398,6 +413,8 @@
       </div>
       <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm sm:justify-end">
         <a href="beispiele.html" class="text-stone-300 transition hover:text-white">Beispielwebsiten</a>
+        <a href="preise.html" class="text-stone-300 transition hover:text-white">Preise</a>
+        <a href="mein-abo.html" class="text-stone-300 transition hover:text-white">Mein Abo</a>
         <a href="admin.html" class="text-stone-300 transition hover:text-white">Admin</a>
         <a href="#kontakt" class="text-stone-300 transition hover:text-white">Kontakt</a>
       </div>
@@ -499,6 +516,21 @@
   </script>
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var p = (params.get('paket') || '').toLowerCase();
+      var allowed = { starter: 1, standard: 1, premium: 1, zusatz: 1 };
+      if (allowed[p]) {
+        var sel = document.getElementById('kf-paket-wunsch');
+        if (sel) sel.value = p;
+      }
+      if (window.location.hash === '#kontakt') {
+        requestAnimationFrame(function () {
+          var el = document.getElementById('kontakt');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      }
+    })();
     document.getElementById('kontakt-form').addEventListener('submit', function (e) {
       e.preventDefault();
       var name = document.getElementById('kf-name').value.trim();
@@ -538,6 +570,11 @@
       lines.push('');
       lines.push('--- Leistungswunsch ---');
       lines.push(leistungen.length ? leistungen.join(', ') : 'nicht angegeben');
+      var paketSel = document.getElementById('kf-paket-wunsch');
+      if (paketSel && paketSel.value) {
+        var paketOpt = paketSel.options[paketSel.selectedIndex];
+        lines.push('Gewünschtes Abo: ' + (paketOpt ? paketOpt.text.replace(/\u00a0/g, ' ') : paketSel.value) + ' (Code: ' + paketSel.value + ')');
+      }
       if (oeffnung) lines.push('Öffnungs-/Verkaufszeiten: ' + oeffnung);
       lines.push('');
       lines.push('--- Nachricht ---');
