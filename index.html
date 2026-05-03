@@ -67,6 +67,17 @@
       font-size: 0.875rem; color: #2D5A27;
     }
     .file-input::file-selector-button:hover { background-color: rgba(45, 90, 39, 0.18); }
+    .kf-section-title {
+      font-family: Fraunces, Georgia, serif;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: #1c1917;
+      letter-spacing: -0.02em;
+    }
+    .kf-product-grid label:has(input:checked) {
+      border-color: rgba(45, 90, 39, 0.45);
+      background-color: rgba(232, 240, 230, 0.65);
+    }
   </style>
 </head>
 <body class="font-sans text-stone-800 antialiased bg-stone-50">
@@ -224,40 +235,155 @@
     <section id="kontakt" class="scroll-mt-24 border-t border-stone-200/80 bg-gradient-to-b from-stone-100/90 to-stone-50 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
       <div class="mx-auto grid max-w-5xl gap-10 lg:grid-cols-5 lg:gap-12">
         <div class="text-center lg:col-span-2 lg:text-left">
-          <p class="text-xs font-semibold uppercase tracking-widest text-steirer">Kontakt</p>
-          <h2 class="font-display mt-2 text-2xl font-semibold text-stone-900 sm:text-3xl">Lass uns reden</h2>
-          <p class="mt-3 text-stone-600">Schreib uns – wir melden uns bei dir.</p>
-          <div class="mt-8 hidden rounded-2xl border border-stone-200/80 bg-white/80 p-5 text-left text-sm text-stone-600 shadow-sm backdrop-blur-sm lg:block">
+          <p class="text-xs font-semibold uppercase tracking-widest text-steirer">Anfrage</p>
+          <h2 class="font-display mt-2 text-2xl font-semibold text-stone-900 sm:text-3xl">Website für deinen Hofladen</h2>
+          <p class="mt-3 text-sm leading-relaxed text-stone-600">
+            Ob Hofkäserei, Obsthof oder gemischter Dorfladen – wir richten die Anfrage so ein, dass wir dein Sortiment und deinen Betrieb gleich verstehen. Anschließend melden wir uns persönlich bei dir.
+          </p>
+          <div class="mt-8 hidden rounded-2xl border border-stone-200/80 bg-white/90 p-5 text-left text-sm text-stone-600 shadow-sm backdrop-blur-sm lg:block">
             <p class="font-semibold text-stone-800">Dahoam-Digital</p>
-            <p class="mt-2">Regional für Betriebe in Weiz &amp; Umgebung.</p>
-            <p class="mt-4 text-xs text-stone-500">Nach dem Absenden öffnet sich dein E-Mail-Programm mit einer vorgefüllten Nachricht.</p>
+            <p class="mt-2 text-stone-600">Spezialisiert auf <strong class="font-medium text-stone-800">regionale Betriebe</strong> und Hofläden in der Südoststeiermark.</p>
+            <ul class="mt-4 list-inside list-disc space-y-1 text-xs text-stone-500">
+              <li>Fotos vom Hof &amp; der Theke helfen uns beim ersten Eindruck.</li>
+              <li>Nach dem Klick öffnet sich dein E-Mail-Programm – Bilder bitte dort <strong class="text-stone-700">manuell anhängen</strong> (technische Grenze von Browser &amp; E-Mail).</li>
+            </ul>
           </div>
         </div>
-        <form id="kontakt-form" class="lg:col-span-3 space-y-5 rounded-2xl border border-stone-200/90 bg-white p-6 shadow-lg shadow-stone-900/5 ring-1 ring-stone-900/[0.04] sm:p-8" action="#" method="get">
-          <div class="grid gap-4 sm:grid-cols-2">
-            <div class="sm:col-span-2">
-              <label for="kf-name" class="block text-sm font-medium text-stone-700">Name / Betrieb</label>
-              <input id="kf-name" name="name" type="text" class="input-field mt-1" required autocomplete="organization" />
-            </div>
-            <div>
-              <label for="kf-email" class="block text-sm font-medium text-stone-700">E-Mail</label>
-              <input id="kf-email" name="email" type="email" class="input-field mt-1" required autocomplete="email" />
-            </div>
-            <div>
-              <label for="kf-tel" class="block text-sm font-medium text-stone-700">Telefon (optional)</label>
-              <input id="kf-tel" name="tel" type="tel" class="input-field mt-1" autocomplete="tel" />
-            </div>
-            <div class="sm:col-span-2">
-              <label for="kf-msg" class="block text-sm font-medium text-stone-700">Deine Nachricht</label>
-              <textarea id="kf-msg" name="message" class="textarea-field mt-1" rows="5" required placeholder="Worum geht’s? Brauchst du eine neue Seite oder nur ein Update?"></textarea>
-            </div>
-            <div class="sm:col-span-2">
-              <label for="kf-files" class="block text-sm font-medium text-stone-700">Dateien (optional)</label>
-              <input id="kf-files" type="file" multiple class="file-input mt-1" data-file-hint="kf-file-hint" />
-              <p id="kf-file-hint" class="mt-2 text-xs text-stone-500">Noch keine Datei ausgewählt.</p>
-              <p class="mt-1 text-xs text-stone-500">Hinweis: Dieses Formular sendet im Browser per E-Mail-Programm (mailto) – für echtes Formular-Backend bitte separat anbinden.</p>
-            </div>
+        <form id="kontakt-form" class="lg:col-span-3 space-y-8 rounded-2xl border border-stone-200/90 bg-white p-6 shadow-lg shadow-stone-900/5 ring-1 ring-stone-900/[0.04] sm:p-8" action="#" method="get">
+          <div class="rounded-xl border border-steirer/15 bg-steirer-soft/40 px-4 py-3 text-sm text-stone-700">
+            <strong class="text-steirer">Hinweis:</strong> Pflichtfelder sind mit <span class="text-red-600">*</span> markiert. Bilder wählst du unten aus – beim Versand per E-Mail musst du sie im Anhang noch einmal bestätigen bzw. anhängen.
           </div>
+
+          <fieldset class="space-y-4 border-0 p-0">
+            <legend class="kf-section-title w-full border-b border-stone-200 pb-2">Betrieb &amp; Erreichbarkeit</legend>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div class="sm:col-span-2">
+                <label for="kf-name" class="block text-sm font-medium text-stone-700">Hofname / Ladenname <span class="text-red-600">*</span></label>
+                <input id="kf-name" name="name" type="text" class="input-field mt-1" required autocomplete="organization" placeholder="z. B. Biohof Müller, Dorfladen …" />
+              </div>
+              <div>
+                <label for="kf-email" class="block text-sm font-medium text-stone-700">E-Mail <span class="text-red-600">*</span></label>
+                <input id="kf-email" name="email" type="email" class="input-field mt-1" required autocomplete="email" />
+              </div>
+              <div>
+                <label for="kf-tel" class="block text-sm font-medium text-stone-700">Telefon</label>
+                <input id="kf-tel" name="tel" type="tel" class="input-field mt-1" autocomplete="tel" placeholder="Für Rückfragen" />
+              </div>
+              <div class="sm:col-span-2">
+                <label for="kf-ort" class="block text-sm font-medium text-stone-700">Standort (Gemeinde / PLZ)</label>
+                <input id="kf-ort" name="ort" type="text" class="input-field mt-1" autocomplete="address-level2" placeholder="z. B. 8160 Weiz" />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="space-y-3 border-0 p-0">
+            <legend class="kf-section-title w-full border-b border-stone-200 pb-2">Art des Betriebs</legend>
+            <label for="kf-betriebstyp" class="sr-only">Betriebsart</label>
+            <select id="kf-betriebstyp" name="betriebstyp" class="select-field mt-1">
+              <option value="">Bitte auswählen …</option>
+              <option value="hofladen">Hofladen / Hofverkauf</option>
+              <option value="bauernhof">Bauernhof mit Selbstvermarktung</option>
+              <option value="milch">Milchhof / Käserei</option>
+              <option value="obst">Obst- &amp; Gartenbau</option>
+              <option value="metzgerei">Metzgerei / Fleischerei</option>
+              <option value="baeckerei">Bäckerei / Backwaren</option>
+              <option value="regional">Regional- oder Genussladen</option>
+              <option value="marktstand">Marktstand / Wochenmarkt</option>
+              <option value="sonstiges">Sonstiges</option>
+            </select>
+            <div>
+              <label for="kf-betriebstyp-text" class="block text-xs font-medium text-stone-500">Kurz beschreiben (besonders bei „Sonstiges“)</label>
+              <input id="kf-betriebstyp-text" type="text" class="input-field mt-1" placeholder="z. B. Hofcafé mit Verkauf, Genusskooperative …" />
+            </div>
+          </fieldset>
+
+          <fieldset class="space-y-3 border-0 p-0">
+            <legend class="kf-section-title w-full border-b border-stone-200 pb-2">Was verkauft ihr? <span class="text-xs font-normal text-stone-500">(Mehrfach möglich)</span></legend>
+            <div class="kf-product-grid grid gap-2 sm:grid-cols-2">
+              <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-stone-200 bg-stone-50/50 px-3 py-2.5 transition hover:border-steirer/30">
+                <input type="checkbox" name="kf-produkt" value="Milchprodukte & Käse" class="h-4 w-4 shrink-0 rounded border-stone-300 text-steirer focus:ring-steirer" />
+                <span class="text-sm text-stone-800">Milchprodukte &amp; Käse</span>
+              </label>
+              <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-stone-200 bg-stone-50/50 px-3 py-2.5 transition hover:border-steirer/30">
+                <input type="checkbox" name="kf-produkt" value="Fleisch, Wurst & Geflügel" class="h-4 w-4 shrink-0 rounded border-stone-300 text-steirer focus:ring-steirer" />
+                <span class="text-sm text-stone-800">Fleisch, Wurst &amp; Geflügel</span>
+              </label>
+              <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-stone-200 bg-stone-50/50 px-3 py-2.5 transition hover:border-steirer/30">
+                <input type="checkbox" name="kf-produkt" value="Eier" class="h-4 w-4 shrink-0 rounded border-stone-300 text-steirer focus:ring-steirer" />
+                <span class="text-sm text-stone-800">Eier</span>
+              </label>
+              <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-stone-200 bg-stone-50/50 px-3 py-2.5 transition hover:border-steirer/30">
+                <input type="checkbox" name="kf-produkt" value="Obst & Gemüse" class="h-4 w-4 shrink-0 rounded border-stone-300 text-steirer focus:ring-steirer" />
+                <span class="text-sm text-stone-800">Obst &amp; Gemüse</span>
+              </label>
+              <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-stone-200 bg-stone-50/50 px-3 py-2.5 transition hover:border-steirer/30">
+                <input type="checkbox" name="kf-produkt" value="Honig & Süßes" class="h-4 w-4 shrink-0 rounded border-stone-300 text-steirer focus:ring-steirer" />
+                <span class="text-sm text-stone-800">Honig &amp; Marmelade</span>
+              </label>
+              <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-stone-200 bg-stone-50/50 px-3 py-2.5 transition hover:border-steirer/30">
+                <input type="checkbox" name="kf-produkt" value="Getränke (Most, Saft, Wein)" class="h-4 w-4 shrink-0 rounded border-stone-300 text-steirer focus:ring-steirer" />
+                <span class="text-sm text-stone-800">Getränke (Most, Saft, …)</span>
+              </label>
+              <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-stone-200 bg-stone-50/50 px-3 py-2.5 transition hover:border-steirer/30">
+                <input type="checkbox" name="kf-produkt" value="Backwaren" class="h-4 w-4 shrink-0 rounded border-stone-300 text-steirer focus:ring-steirer" />
+                <span class="text-sm text-stone-800">Backwaren</span>
+              </label>
+              <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-stone-200 bg-stone-50/50 px-3 py-2.5 transition hover:border-steirer/30">
+                <input type="checkbox" name="kf-produkt" value="Regionale Spezialitäten" class="h-4 w-4 shrink-0 rounded border-stone-300 text-steirer focus:ring-steirer" />
+                <span class="text-sm text-stone-800">Regionale Spezialitäten</span>
+              </label>
+              <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-stone-200 bg-stone-50/50 px-3 py-2.5 transition hover:border-steirer/30 sm:col-span-2">
+                <input type="checkbox" name="kf-produkt" value="Eigenproduktion / Handwerk" class="h-4 w-4 shrink-0 rounded border-stone-300 text-steirer focus:ring-steirer" />
+                <span class="text-sm text-stone-800">Eigenproduktion / Handwerk (Schnitzen, Textilien, …)</span>
+              </label>
+            </div>
+            <div>
+              <label for="kf-sortiment-text" class="block text-sm font-medium text-stone-700">Weitere Waren / Sortiment in eigenen Worten</label>
+              <textarea id="kf-sortiment-text" name="sortiment" class="textarea-field mt-1" rows="3" placeholder="z. B. saisonale Kisten, Zuchttiere, Gutscheine, Hofcafé …"></textarea>
+            </div>
+          </fieldset>
+
+          <fieldset class="space-y-4 border-0 p-0">
+            <legend class="kf-section-title w-full border-b border-stone-200 pb-2">Womit können wir helfen?</legend>
+            <div class="flex flex-wrap gap-2">
+              <label class="inline-flex cursor-pointer items-center gap-2 rounded-full border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm transition hover:border-steirer/40 has-[:checked]:border-steirer has-[:checked]:bg-steirer-soft">
+                <input type="checkbox" name="kf-leistung" value="Neue Website" class="h-3.5 w-3.5 rounded border-stone-300 text-steirer" />
+                Neue Website
+              </label>
+              <label class="inline-flex cursor-pointer items-center gap-2 rounded-full border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm transition hover:border-steirer/40 has-[:checked]:border-steirer has-[:checked]:bg-steirer-soft">
+                <input type="checkbox" name="kf-leistung" value="Relaunch / Redesign" class="h-3.5 w-3.5 rounded border-stone-300 text-steirer" />
+                Relaunch
+              </label>
+              <label class="inline-flex cursor-pointer items-center gap-2 rounded-full border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm transition hover:border-steirer/40 has-[:checked]:border-steirer has-[:checked]:bg-steirer-soft">
+                <input type="checkbox" name="kf-leistung" value="Onlineshop" class="h-3.5 w-3.5 rounded border-stone-300 text-steirer" />
+                Onlineshop
+              </label>
+              <label class="inline-flex cursor-pointer items-center gap-2 rounded-full border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm transition hover:border-steirer/40 has-[:checked]:border-steirer has-[:checked]:bg-steirer-soft">
+                <input type="checkbox" name="kf-leistung" value="Beratung / unklar" class="h-3.5 w-3.5 rounded border-stone-300 text-steirer" />
+                Erstgespräch / unklar
+              </label>
+            </div>
+            <div>
+              <label for="kf-oeffnung" class="block text-sm font-medium text-stone-700">Verkaufs- oder Öffnungszeiten (optional)</label>
+              <input id="kf-oeffnung" type="text" class="input-field mt-1" placeholder="z. B. Fr–So 9–17, nach Vereinbarung …" />
+            </div>
+            <div>
+              <label for="kf-msg" class="block text-sm font-medium text-stone-700">Deine Nachricht an uns <span class="text-red-600">*</span></label>
+              <textarea id="kf-msg" name="message" class="textarea-field mt-1" rows="4" required placeholder="Was ist dir wichtig? Gibt es schon eine Website, Fotos vom Team, besondere Wünsche …"></textarea>
+            </div>
+          </fieldset>
+
+          <fieldset class="space-y-3 border-0 p-0">
+            <legend class="kf-section-title w-full border-b border-stone-200 pb-2">Bilder vom Hof &amp; Laden <span class="text-xs font-normal text-stone-500">(optional)</span></legend>
+            <p class="text-xs leading-relaxed text-stone-500">Lade hier Fotos von Außenansicht, Theke oder Produkten aus (JPG, PNG, WebP). Nach dem Klick auf „Anfrage senden“ bitte dieselben Dateien in deinem E-Mail-Programm als <strong class="text-stone-700">Anhang</strong> hinzufügen – sonst können wir sie nicht sehen.</p>
+            <label class="flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-stone-300 bg-stone-50/80 px-4 py-8 transition hover:border-steirer/40 hover:bg-steirer-soft/30">
+              <span class="text-sm font-semibold text-steirer">Fotos auswählen</span>
+              <span class="mt-1 text-xs text-stone-500">Mehrere Dateien möglich · max. sinnvoll ca. 5–10 MB pro Bild</span>
+              <input id="kf-files" type="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic" class="sr-only" data-file-hint="kf-file-hint" />
+            </label>
+            <p id="kf-file-hint" class="text-center text-xs text-stone-500">Noch keine Bilder ausgewählt.</p>
+          </fieldset>
+
           <button type="submit" class="w-full rounded-xl bg-steirer py-3.5 text-sm font-semibold text-white shadow-md shadow-steirer/25 transition hover:bg-steirer-dark hover:shadow-lg">Anfrage per E-Mail öffnen</button>
         </form>
       </div>
@@ -378,9 +504,53 @@
       var name = document.getElementById('kf-name').value.trim();
       var email = document.getElementById('kf-email').value.trim();
       var tel = document.getElementById('kf-tel').value.trim();
+      var ort = document.getElementById('kf-ort').value.trim();
+      var typSel = document.getElementById('kf-betriebstyp');
+      var typLabel = typSel.options[typSel.selectedIndex] ? typSel.options[typSel.selectedIndex].text : '';
+      var typVal = typSel.value;
+      var typText = document.getElementById('kf-betriebstyp-text').value.trim();
+      var produkte = [];
+      document.querySelectorAll('input[name="kf-produkt"]:checked').forEach(function (cb) { produkte.push(cb.value); });
+      var sortiment = document.getElementById('kf-sortiment-text').value.trim();
+      var leistungen = [];
+      document.querySelectorAll('input[name="kf-leistung"]:checked').forEach(function (cb) { leistungen.push(cb.value); });
+      var oeffnung = document.getElementById('kf-oeffnung').value.trim();
       var msg = document.getElementById('kf-msg').value.trim();
-      var body = encodeURIComponent('Name/Betrieb: ' + name + '\nE-Mail: ' + email + '\nTelefon: ' + tel + '\n\n---\n\n' + msg);
-      var subject = encodeURIComponent('Anfrage Dahoam-Digital');
+      var fileInput = document.getElementById('kf-files');
+      var fileNames = [];
+      if (fileInput && fileInput.files && fileInput.files.length) {
+        for (var i = 0; i < fileInput.files.length; i++) fileNames.push(fileInput.files[i].name);
+      }
+      var lines = [];
+      lines.push('=== Anfrage Hofladen / regionaler Betrieb (Dahoam-Digital) ===');
+      lines.push('');
+      lines.push('HOF / LADEN: ' + name);
+      lines.push('E-Mail: ' + email);
+      lines.push('Telefon: ' + (tel || '–'));
+      lines.push('Standort: ' + (ort || '–'));
+      lines.push('');
+      lines.push('--- Art des Betriebs ---');
+      lines.push(typVal ? (typLabel + (typText ? ' – ' + typText : '')) : (typText || 'nicht angegeben'));
+      lines.push('');
+      lines.push('--- Sortiment / Waren ---');
+      lines.push(produkte.length ? produkte.join(', ') : '(keine Kategorie angehakt)');
+      if (sortiment) lines.push('Ergänzung: ' + sortiment);
+      lines.push('');
+      lines.push('--- Leistungswunsch ---');
+      lines.push(leistungen.length ? leistungen.join(', ') : 'nicht angegeben');
+      if (oeffnung) lines.push('Öffnungs-/Verkaufszeiten: ' + oeffnung);
+      lines.push('');
+      lines.push('--- Nachricht ---');
+      lines.push(msg);
+      lines.push('');
+      if (fileNames.length) {
+        lines.push('--- Bilder (bitte im E-Mail-Programm manuell anhängen) ---');
+        lines.push(fileNames.join(', '));
+      } else {
+        lines.push('(Keine Bilder ausgewählt – optional später nachreichen.)');
+      }
+      var body = encodeURIComponent(lines.join('\n'));
+      var subject = encodeURIComponent('Anfrage Website – ' + name);
       window.location.href = 'mailto:info@dahoam-digital.at?subject=' + subject + '&body=' + body;
     });
     (function () {
@@ -405,10 +575,10 @@
       if (!hint) return;
       function updateHint() {
         var files = input.files;
-        if (!files || files.length === 0) { hint.textContent = 'Noch keine Datei ausgewählt.'; return; }
-        if (files.length === 1) { hint.textContent = '1 Datei: ' + files[0].name; return; }
+        if (!files || files.length === 0) { hint.textContent = 'Noch keine Bilder ausgewählt.'; return; }
+        if (files.length === 1) { hint.textContent = '1 Bild: ' + files[0].name; return; }
         var names = Array.prototype.slice.call(files, 0, 3).map(function (f) { return f.name; }).join(', ');
-        hint.textContent = files.length + ' Dateien' + (files.length > 3 ? ' (u. a. ' + names + ' …)' : ': ' + names);
+        hint.textContent = files.length + ' Bilder' + (files.length > 3 ? ' (u. a. ' + names + ' …)' : ': ' + names);
       }
       input.addEventListener('change', updateHint);
     });
