@@ -23,10 +23,37 @@
   </script>
   <style>
     #demo-site { --accent: #2D5A27; --accent-dark: #1f3f1b; --accent-soft: #e8f0e6; --radius: 1rem; --hero-filter: none; --demo-font-scale: 1; }
-    #demo-site[data-accent="wald"] { --accent: #2D5A27; --accent-dark: #1f3f1b; --accent-soft: #e8f0e6; }
-    #demo-site[data-accent="erde"] { --accent: #8B6914; --accent-dark: #5c460e; --accent-soft: #f5efd9; }
+    #demo-site[data-accent="wald"] { --accent: #2d5a27; --accent-dark: #1f3f1b; --accent-soft: #e8f0e6; }
+    #demo-site[data-accent="erde"] { --accent: #8b6914; --accent-dark: #5c460e; --accent-soft: #f5efd9; }
     #demo-site[data-accent="nacht"] { --accent: #1e3a5f; --accent-dark: #13263d; --accent-soft: #e8eef5; }
     #demo-site[data-accent="rost"] { --accent: #8b3a2a; --accent-dark: #5c2619; --accent-soft: #f5e8e5; }
+    #demo-site[data-accent="wein"] { --accent: #722f37; --accent-dark: #4a1f24; --accent-soft: #f3e8ea; }
+    #demo-site[data-accent="beeren"] { --accent: #6b2d5b; --accent-dark: #451c3b; --accent-soft: #f2e8ef; }
+    #demo-site[data-accent="ozean"] { --accent: #0c4f6e; --accent-dark: #083445; --accent-soft: #e6f1f6; }
+    #demo-site[data-accent="petrol"] { --accent: #0f766e; --accent-dark: #0b534e; --accent-soft: #e6f5f4; }
+    #demo-site[data-accent="smaragd"] { --accent: #047857; --accent-dark: #03543f; --accent-soft: #e7f4ef; }
+    #demo-site[data-accent="limette"] { --accent: #4d7c0f; --accent-dark: #365809; --accent-soft: #eef6e4; }
+    #demo-site[data-accent="safran"] { --accent: #b45309; --accent-dark: #7c3706; --accent-soft: #fdf3e6; }
+    #demo-site[data-accent="koralle"] { --accent: #c2410c; --accent-dark: #852b08; --accent-soft: #fceee8; }
+    #demo-site[data-accent="terracotta"] { --accent: #9a3412; --accent-dark: #682209; --accent-soft: #f8ebe6; }
+    #demo-site[data-accent="flieder"] { --accent: #6d28d9; --accent-dark: #4c1d95; --accent-soft: #f1ebfd; }
+    #demo-site[data-accent="lavendel"] { --accent: #5b21b6; --accent-dark: #3d1679; --accent-soft: #efe9fb; }
+    #demo-site[data-accent="schiefer"] { --accent: #475569; --accent-dark: #2f3a46; --accent-soft: #eef1f6; }
+    #demo-site[data-accent="graphit"] { --accent: #374151; --accent-dark: #252b36; --accent-soft: #eceef2; }
+    #demo-site[data-accent="messing"] { --accent: #a16207; --accent-dark: #6d4405; --accent-soft: #faf5e6; }
+    #demo-site[data-accent="kupfer"] { --accent: #ad6a2f; --accent-dark: #74471f; --accent-soft: #faf3e8; }
+    #demo-site[data-accent="pinie"] { --accent: #14532d; --accent-dark: #0c311a; --accent-soft: #e8f2ec; }
+    #demo-site[data-accent="himbeer"] { --accent: #be123c; --accent-dark: #880e2e; --accent-soft: #fce8ee; }
+    #demo-site[data-accent="taube"] { --accent: #57534e; --accent-dark: #3a3734; --accent-soft: #f1f0ef; }
+    #demo-site[data-accent="eisblau"] { --accent: #0369a1; --accent-dark: #024a73; --accent-soft: #e6f2fa; }
+    #demo-site[data-accent="moos"] { --accent: #3f6212; --accent-dark: #2a410c; --accent-soft: #eef4e4; }
+    #demo-site[data-accent="honig"] { --accent: #a16207; --accent-dark: #6b4204; --accent-soft: #fdf6e3; }
+    #demo-site[data-accent="granat"] { --accent: #881337; --accent-dark: #5c0d25; --accent-soft: #f8e8ee; }
+    #demo-site[data-accent="stahl"] { --accent: #334155; --accent-dark: #1e293b; --accent-soft: #e8ecf1; }
+    #demo-site[data-accent="curry"] { --accent: #854d0e; --accent-dark: #5a3409; --accent-soft: #fbf4e6; }
+    #demo-site[data-accent="tanne"] { --accent: #134e4a; --accent-dark: #0c322f; --accent-soft: #e5f3f2; }
+    #demo-site[data-accent="mohn"] { --accent: #7c3aed; --accent-dark: #542a9e; --accent-soft: #f1e9fe; }
+    #demo-site[data-accent="zitrus"] { --accent: #ca8a04; --accent-dark: #8b5e03; --accent-soft: #fdf8e6; }
     #demo-site[data-fs="sm"] { --demo-font-scale: 0.9; }
     #demo-site[data-fs="md"] { --demo-font-scale: 1; }
     #demo-site[data-fs="lg"] { --demo-font-scale: 1.08; }
@@ -56,6 +83,32 @@
     #demo-site[data-pagebg="weiss"] { background-color: #fff; }
     #demo-site[data-pagebg="stein"] { background-color: #f5f5f4; }
     #demo-site[data-pagebg="soft"] { background-color: #f4f7f4; }
+    #demo-site[data-pagebg="creme"] { background-color: #faf7f2; }
+    #demo-site[data-pagebg="nebel"] { background-color: #f0f4f8; }
+    #demo-site[data-pagebg="lavendel"] { background-color: #f7f5fb; }
+    #demo-site[data-pagebg="sand"] { background-color: #f6f0e8; }
+    #demo-site[data-pagebg="natur"] { background-color: #eef4ea; }
+    .demo-topbar { transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+    #demo-site[data-header-tone="accent"] .demo-topbar { background-color: var(--accent); color: #fff; border-bottom: 1px solid rgba(0, 0, 0, 0.08); }
+    #demo-site[data-header-tone="accent"] .demo-topbar .demo-nav-links a { color: #fff; }
+    #demo-site[data-header-tone="light"] .demo-topbar { background-color: rgba(255, 255, 255, 0.95); color: #1c1917; border-bottom: 1px solid rgba(28, 25, 23, 0.1); }
+    #demo-site[data-header-tone="light"] .demo-topbar .demo-nav-links a { color: var(--accent); }
+    #demo-site[data-header-tone="dark"] .demo-topbar { background-color: #1c1917; color: #fafaf9; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    #demo-site[data-header-tone="dark"] .demo-topbar .demo-nav-links a { color: #fff; opacity: 0.92; }
+    #demo-site[data-header-tone="glass"] .demo-topbar { background-color: rgba(28, 25, 23, 0.42); color: #fafaf9; border-bottom: 1px solid rgba(255, 255, 255, 0.12); backdrop-filter: blur(12px); }
+    #demo-site[data-header-tone="glass"] .demo-topbar .demo-nav-links a { color: #fff; }
+    #demo-site[data-nav-style="text"] .demo-nav-links a { text-decoration: none; font-weight: 600; opacity: 0.88; padding: 0.15rem 0.35rem; border-radius: 0.25rem; }
+    #demo-site[data-nav-style="text"] .demo-nav-links a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
+    #demo-site[data-nav-style="pills"] .demo-nav-links a { text-decoration: none; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 9999px; background: rgba(255, 255, 255, 0.2); }
+    #demo-site[data-header-tone="light"][data-nav-style="pills"] .demo-nav-links a { background: var(--accent-soft); color: var(--accent-dark); }
+    #demo-site[data-nav-style="pills"] .demo-nav-links a:hover { filter: brightness(1.08); }
+    #demo-site[data-nav-style="underline"] .demo-nav-links a { text-decoration: none; font-weight: 600; padding: 0.2rem 0.15rem; border-bottom: 2px solid transparent; border-radius: 0.15rem 0.15rem 0 0; }
+    #demo-site[data-nav-style="underline"] .demo-nav-links a:hover { border-bottom-color: currentColor; opacity: 1; }
+    #demo-site[data-header-tone="light"][data-nav-style="underline"] .demo-nav-links a:hover { border-bottom-color: var(--accent); color: var(--accent-dark); }
+    .demo-nav-links { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 0.25rem; max-width: 72%; }
+    @media (min-width: 640px) {
+      .demo-nav-links { gap: 0.35rem; max-width: none; }
+    }
     .demo-btn-outline { background: transparent !important; color: var(--accent) !important; border: 2px solid var(--accent) !important; }
     .demo-btn-outline:hover { background: var(--accent-soft) !important; }
     .editor-details summary { cursor: pointer; list-style: none; }
@@ -209,31 +262,119 @@
       </div>
 
       <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
-        <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Erscheinungsbild &amp; Layout</summary>
+        <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Farben &amp; Layout</summary>
         <div class="space-y-3 border-t border-stone-100 px-4 pb-4 pt-3 text-sm">
+          <div>
+            <label class="block text-xs font-medium text-stone-600">Farbmodus</label>
+            <select id="ctrl-color-mode" class="mt-1 w-full rounded border border-stone-300 px-2 py-1.5 text-xs">
+              <option value="preset">Farbpalette (Vorlage)</option>
+              <option value="custom">Eigene Akzentfarbe</option>
+            </select>
+          </div>
+          <div id="wrap-accent-preset">
+            <label class="block text-xs font-medium text-stone-600">Akzent / Markenfarbe</label>
+            <select id="ctrl-accent" class="mt-1 max-h-48 w-full rounded border border-stone-300 px-2 py-1.5 text-xs" size="1">
+              <optgroup label="Klassiker">
+                <option value="wald">Waldgrün</option>
+                <option value="erde">Erde / Gold</option>
+                <option value="nacht">Nachtblau</option>
+                <option value="rost">Rostrot</option>
+              </optgroup>
+              <optgroup label="Natur &amp; Wald">
+                <option value="pinie">Pinie</option>
+                <option value="smaragd">Smaragd</option>
+                <option value="moos">Moos</option>
+                <option value="limette">Limette</option>
+                <option value="tanne">Tanne</option>
+              </optgroup>
+              <optgroup label="Wasser &amp; Kühle">
+                <option value="ozean">Ozean</option>
+                <option value="petrol">Petrol</option>
+                <option value="eisblau">Eisblau</option>
+                <option value="stahl">Stahlblau</option>
+              </optgroup>
+              <optgroup label="Warm &amp; Kräftig">
+                <option value="safran">Safran</option>
+                <option value="koralle">Koralle</option>
+                <option value="terracotta">Terracotta</option>
+                <option value="honig">Honig</option>
+                <option value="zitrus">Zitrus</option>
+                <option value="curry">Curry</option>
+              </optgroup>
+              <optgroup label="Beere &amp; Wein">
+                <option value="wein">Weinrot</option>
+                <option value="beeren">Beere</option>
+                <option value="himbeer">Himbeer</option>
+                <option value="granat">Granat</option>
+                <option value="mohn">Mohn / Violett</option>
+              </optgroup>
+              <optgroup label="Lila &amp; Rötlich">
+                <option value="flieder">Flieder</option>
+                <option value="lavendel">Lavendel</option>
+              </optgroup>
+              <optgroup label="Neutral &amp; Metall">
+                <option value="schiefer">Schiefer</option>
+                <option value="graphit">Graphit</option>
+                <option value="taube">Taube</option>
+                <option value="messing">Messing</option>
+                <option value="kupfer">Kupfer</option>
+              </optgroup>
+            </select>
+          </div>
+          <div id="wrap-accent-custom" class="hidden space-y-2 rounded border border-dashed border-stone-200 bg-stone-50/80 p-2">
+            <label class="block text-xs text-stone-600">Farbe wählen (wirkt auf Buttons, Links, Kartenakzente)</label>
+            <div class="flex flex-wrap items-center gap-2">
+              <input id="ctrl-accent-hex" type="color" value="#2d5a27" class="h-9 w-14 cursor-pointer rounded border border-stone-300 bg-white p-0.5" title="Farbe" />
+              <input id="ctrl-accent-hex-text" type="text" maxlength="7" class="w-24 rounded border border-stone-300 px-2 py-1 font-mono text-xs" placeholder="#2d5a27" />
+            </div>
+            <p class="text-[10px] leading-snug text-stone-500">Tipp: Danach können Sie weiter mit Stil, Schrift und Hintergrund feinjustieren.</p>
+          </div>
           <div class="grid grid-cols-2 gap-2">
             <div>
-              <label class="block text-xs text-stone-500">Akzent</label>
-              <select id="ctrl-accent" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
-                <option value="wald">Waldgrün</option><option value="erde">Erde</option><option value="nacht">Nacht</option><option value="rost">Rost</option>
+              <label class="block text-xs text-stone-500">Kopfzeile</label>
+              <select id="ctrl-header-tone" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
+                <option value="accent">Akzentfläche</option>
+                <option value="light">Hell</option>
+                <option value="dark">Dunkel</option>
+                <option value="glass">Glas / transparent</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-stone-500">Menü-Reiter</label>
+              <select id="ctrl-nav-style" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
+                <option value="text">Text</option>
+                <option value="pills" selected>Pills</option>
+                <option value="underline">Unterstrich</option>
               </select>
             </div>
             <div>
               <label class="block text-xs text-stone-500">Stil</label>
               <select id="ctrl-stil" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
-                <option value="rustikal">Rustikal</option><option value="modern">Modern</option>
+                <option value="rustikal">Rustikal</option>
+                <option value="modern">Modern</option>
               </select>
             </div>
             <div>
-              <label class="block text-xs text-stone-500">Schrift</label>
+              <label class="block text-xs text-stone-500">Schriftgrad</label>
               <select id="ctrl-fs" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
-                <option value="sm">Klein</option><option value="md" selected>Normal</option><option value="lg">Groß</option>
+                <option value="sm">Klein</option>
+                <option value="md" selected>Normal</option>
+                <option value="lg">Groß</option>
               </select>
             </div>
             <div>
-              <label class="block text-xs text-stone-500">Hero-Farbe</label>
+              <label class="block text-xs text-stone-500">Hero-Bildstimmung</label>
               <select id="ctrl-hero" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
-                <option value="neutral">Neutral</option><option value="warm">Warm</option><option value="kuehl">Kühl</option>
+                <option value="neutral">Neutral</option>
+                <option value="warm">Warm</option>
+                <option value="kuehl">Kühl</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-stone-500">Hauptbutton</label>
+              <select id="ctrl-btn-style" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
+                <option value="solid" selected>Gefüllt</option>
+                <option value="outline">Outline</option>
               </select>
             </div>
           </div>
@@ -245,25 +386,30 @@
             <div>
               <label class="block text-xs text-stone-500">Hero-Höhe</label>
               <select id="ctrl-hero-h" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
-                <option value="sm">Niedrig</option><option value="md" selected>Mittel</option><option value="lg">Hoch</option>
+                <option value="sm">Niedrig</option>
+                <option value="md" selected>Mittel</option>
+                <option value="lg">Hoch</option>
               </select>
             </div>
             <div>
               <label class="block text-xs text-stone-500">Seitenhintergrund</label>
               <select id="ctrl-pagebg" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
-                <option value="stein">Stein</option><option value="weiss">Weiß</option><option value="soft">Grün-weiß</option>
+                <option value="stein">Stein</option>
+                <option value="weiss">Weiß</option>
+                <option value="soft">Grün-weiß</option>
+                <option value="creme">Creme</option>
+                <option value="nebel">Nebelblau</option>
+                <option value="lavendel">Flieder-weiß</option>
+                <option value="sand">Sand</option>
+                <option value="natur">Naturgrün hell</option>
               </select>
             </div>
             <div>
               <label class="block text-xs text-stone-500">Abstände</label>
               <select id="ctrl-density" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
-                <option value="kompakt">Kompakt</option><option value="normal" selected>Normal</option><option value="luftig">Luftig</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs text-stone-500">Hauptbutton</label>
-              <select id="ctrl-btn-style" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
-                <option value="solid" selected>Gefüllt</option><option value="outline">Outline</option>
+                <option value="kompakt">Kompakt</option>
+                <option value="normal" selected>Normal</option>
+                <option value="luftig">Luftig</option>
               </select>
             </div>
           </div>
@@ -273,6 +419,7 @@
       <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
         <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Sichtbare Bereiche</summary>
         <div class="space-y-2 border-t border-stone-100 px-4 pb-4 pt-3 text-xs text-stone-700">
+          <label class="flex items-center gap-2"><input type="checkbox" id="sec-nav" class="rounded border-stone-300 text-steirer" checked /> Menü-Reiter in der Kopfzeile</label>
           <label class="flex items-center gap-2"><input type="checkbox" id="sec-intro" class="rounded border-stone-300 text-steirer" checked /> Einleitung unter Hero</label>
           <label class="flex items-center gap-2"><input type="checkbox" id="sec-usp" class="rounded border-stone-300 text-steirer" checked /> Drei Stärken (USP)</label>
           <label class="flex items-center gap-2"><input type="checkbox" id="sec-hi" class="rounded border-stone-300 text-steirer" checked /> Zwei Highlight-Kacheln</label>
@@ -283,12 +430,28 @@
       </details>
 
       <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
+        <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Menü &amp; Verlinkungen (Reiter)</summary>
+        <div class="space-y-2 border-t border-stone-100 px-4 pb-4 pt-3 text-xs text-stone-600">
+          <p class="leading-snug">Bis zu acht Einträge. Ziel oft ein Anker auf dieser Seite, z. B. <code class="rounded bg-stone-100 px-1">#demo-start</code>, <code class="rounded bg-stone-100 px-1">#demo-section-intro</code>, <code class="rounded bg-stone-100 px-1">#demo-leistungen</code>, <code class="rounded bg-stone-100 px-1">#kontakt</code> oder externe URLs.</p>
+          <div class="editor-nav-rows mt-2 max-h-52 space-y-1.5 overflow-y-auto pr-0.5">
+            <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1 font-semibold text-stone-500"><span>Text</span><span>Ziel (URL / #)</span></div>
+            <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-0-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" placeholder="z. B. Start" /><input id="nav-0-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" placeholder="#demo-start" /></div>
+            <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-1-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" /><input id="nav-1-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" /></div>
+            <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-2-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" /><input id="nav-2-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" /></div>
+            <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-3-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" /><input id="nav-3-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" /></div>
+            <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-4-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" /><input id="nav-4-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" /></div>
+            <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-5-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" /><input id="nav-5-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" /></div>
+            <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-6-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" /><input id="nav-6-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" /></div>
+            <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-7-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" /><input id="nav-7-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" /></div>
+          </div>
+        </div>
+      </details>
+
+      <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
         <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Kopfzeile &amp; Hero</summary>
         <div class="space-y-2 border-t border-stone-100 px-4 pb-4 pt-3 text-sm">
           <label class="text-xs text-stone-500">Name in der Leiste (leer = Kontoname)</label>
           <input id="demo-nav-manual" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="z. B. Biohof Huber" />
-          <label class="text-xs text-stone-500">Rechter Menü-Link (Text)</label>
-          <input id="demo-nav-link-t" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="z. B. Hofladen" />
           <label class="text-xs text-stone-500">Badge über der Hero-Überschrift</label>
           <input id="demo-hero-badge" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="Regional · Saisonal" />
           <label class="text-xs text-stone-500">Hero-Bild (URL, optional)</label>
@@ -379,9 +542,12 @@
           <input id="demo-cta2-url" type="text" class="w-full rounded border px-2 py-1 text-xs" placeholder="#" />
           <label class="text-xs text-stone-500">Fußzeile Text</label>
           <input id="demo-foot" type="text" class="w-full rounded border px-2 py-1 text-xs" />
+          <p class="text-xs text-stone-500">Fußzeilen-Links (Text + Ziel)</p>
           <div class="grid grid-cols-2 gap-1">
-            <input id="demo-foot-a1" type="text" class="rounded border px-1 py-0.5 text-xs" placeholder="Link 1" />
-            <input id="demo-foot-a2" type="text" class="rounded border px-1 py-0.5 text-xs" placeholder="Link 2" />
+            <input id="demo-foot-a1" type="text" class="rounded border px-1 py-0.5 text-xs" placeholder="Text Link 1" />
+            <input id="demo-foot-u1" type="text" class="rounded border px-1 py-0.5 font-mono text-[10px]" placeholder="# oder URL" />
+            <input id="demo-foot-a2" type="text" class="rounded border px-1 py-0.5 text-xs" placeholder="Text Link 2" />
+            <input id="demo-foot-u2" type="text" class="rounded border px-1 py-0.5 font-mono text-[10px]" placeholder="# oder URL" />
           </div>
         </div>
       </details>
@@ -403,12 +569,12 @@
     <div class="min-w-0 flex-1">
       <p class="mb-2 text-center text-xs text-stone-500 xl:text-left">Live-Vorschau – alle Änderungen wirken sofort.</p>
       <div class="rounded-xl border border-stone-400 bg-white p-2 shadow-inner">
-        <div id="demo-site" class="demo-scale demo-stil-rustikal overflow-hidden rounded-lg border border-stone-200 bg-stone-100" data-accent="wald" data-fs="md" data-hero="neutral" data-hero-h="md" data-pagebg="stein" data-density="normal">
-          <div class="demo-bg-accent demo-ph flex items-center justify-between px-4 py-3 text-white">
-            <span id="demo-nav-brand" class="text-sm font-semibold">Ihr Betrieb</span>
-            <span id="demo-nav-link" class="hidden text-xs font-medium opacity-90 hover:opacity-100"></span>
+        <div id="demo-site" class="demo-scale demo-stil-rustikal overflow-hidden rounded-lg border border-stone-200 bg-stone-100" data-accent="wald" data-fs="md" data-hero="neutral" data-hero-h="md" data-pagebg="stein" data-density="normal" data-header-tone="accent" data-nav-style="pills">
+          <div class="demo-topbar demo-ph flex flex-wrap items-center justify-between gap-2 px-4 py-2.5 sm:py-3">
+            <span id="demo-nav-brand" class="max-w-[42%] truncate text-sm font-semibold sm:max-w-none">Ihr Betrieb</span>
+            <nav id="demo-nav-menu" class="demo-nav-links text-[11px] sm:text-xs" aria-label="Hauptmenü"></nav>
           </div>
-          <div class="relative bg-stone-300 demo-hero-h">
+          <div id="demo-start" class="relative scroll-mt-4 bg-stone-300 demo-hero-h">
             <span id="demo-badge-wrap" class="absolute left-3 top-3 hidden rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-stone-800 shadow"></span>
             <img id="demo-hero-img" alt="" class="h-full w-full object-cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400'%3E%3Crect fill='%23d6d3d1' width='1200' height='400'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23575252' font-family='sans-serif' font-size='28'%3EPlatzhalter Hero%3C/text%3E%3C/svg%3E" />
             <div class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/55 to-transparent p-4 text-white">
@@ -416,10 +582,10 @@
               <p id="demo-p" class="mt-1 text-sm opacity-90">Ihre Geschichte – regional erzählt.</p>
             </div>
           </div>
-          <div id="demo-section-intro" class="demo-ph border-b border-stone-200/80 bg-white/60 px-4 py-3">
+          <div id="demo-section-intro" class="demo-ph scroll-mt-4 border-b border-stone-200/80 bg-white/60 px-4 py-3">
             <p id="demo-intro-out" class="text-sm leading-relaxed text-stone-700"></p>
           </div>
-          <div id="demo-section-usp" class="demo-ph grid gap-3 sm:grid-cols-3">
+          <div id="demo-section-usp" class="demo-ph scroll-mt-4 grid gap-3 sm:grid-cols-3">
             <div class="demo-card p-3"><h3 id="demo-usp1-h" class="demo-heading demo-text-accent text-base"></h3><p id="demo-usp1-p" class="mt-2 text-xs text-stone-600"></p></div>
             <div class="demo-card p-3"><h3 id="demo-usp2-h" class="demo-heading demo-text-accent text-base"></h3><p id="demo-usp2-p" class="mt-2 text-xs text-stone-600"></p></div>
             <div class="demo-card p-3"><h3 id="demo-usp3-h" class="demo-heading demo-text-accent text-base"></h3><p id="demo-usp3-p" class="mt-2 text-xs text-stone-600"></p></div>
@@ -442,7 +608,7 @@
               <p id="demo-contact-p" class="mt-2 whitespace-pre-line text-sm text-stone-600"></p>
             </div>
           </div>
-          <div id="demo-section-leist" class="demo-ph grid gap-3 border-t border-stone-200/80 bg-white/50 sm:grid-cols-3">
+          <div id="demo-leistungen" class="demo-ph scroll-mt-4 grid gap-3 border-t border-stone-200/80 bg-white/50 sm:grid-cols-3">
             <div class="demo-card border border-stone-200/60 p-3"><p id="demo-leist1-t" class="text-sm font-semibold text-stone-900"></p><p id="demo-leist1-x" class="mt-1 text-xs text-stone-600"></p></div>
             <div class="demo-card border border-stone-200/60 p-3"><p id="demo-leist2-t" class="text-sm font-semibold text-stone-900"></p><p id="demo-leist2-x" class="mt-1 text-xs text-stone-600"></p></div>
             <div class="demo-card border border-stone-200/60 p-3"><p id="demo-leist3-t" class="text-sm font-semibold text-stone-900"></p><p id="demo-leist3-x" class="mt-1 text-xs text-stone-600"></p></div>
@@ -505,9 +671,61 @@
       var PLACEHOLDER_HERO =
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400'%3E%3Crect fill='%23d6d3d1' width='1200' height='400'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23575252' font-family='sans-serif' font-size='28'%3EPlatzhalter Hero%3C/text%3E%3C/svg%3E";
 
+      function normalizeHex(s) {
+        s = String(s || '').trim();
+        if (!s) return '';
+        if (s[0] !== '#') s = '#' + s;
+        if (!/^#[0-9A-Fa-f]{6}$/.test(s)) return '';
+        return s.toLowerCase();
+      }
+      function hexToRgb(h) {
+        h = normalizeHex(h).slice(1);
+        if (h.length !== 6) return null;
+        return { r: parseInt(h.slice(0, 2), 16), g: parseInt(h.slice(2, 4), 16), b: parseInt(h.slice(4, 6), 16) };
+      }
+      function rgbToHex(r, g, b) {
+        return (
+          '#' +
+          [r, g, b]
+            .map(function (x) {
+              x = Math.max(0, Math.min(255, Math.round(x)));
+              return ('0' + x.toString(16)).slice(-2);
+            })
+            .join('')
+        );
+      }
+      function mixWhiteHex(hex, t) {
+        var o = hexToRgb(hex);
+        if (!o) return hex;
+        var w = 255;
+        return rgbToHex(o.r + (w - o.r) * t, o.g + (w - o.g) * t, o.b + (w - o.b) * t);
+      }
+      function darkenHex(hex) {
+        var o = hexToRgb(hex);
+        if (!o) return hex;
+        return rgbToHex(o.r * 0.58, o.g * 0.58, o.b * 0.58);
+      }
+
+      function defaultNavItems() {
+        return [
+          { t: 'Start', u: '#demo-start' },
+          { t: 'Über uns', u: '#demo-section-intro' },
+          { t: 'Angebot', u: '#demo-section-usp' },
+          { t: 'Leistungen', u: '#demo-leistungen' },
+          { t: 'Kontakt', u: '#kontakt' },
+          { t: '', u: '' },
+          { t: '', u: '' },
+          { t: '', u: '' },
+        ];
+      }
+
       function defaultState() {
         return {
+          colorMode: 'preset',
           accent: 'wald',
+          accentHex: '#2d5a27',
+          headerTone: 'accent',
+          navStyle: 'pills',
           stil: 'rustikal',
           fs: 'md',
           hero: 'neutral',
@@ -516,6 +734,7 @@
           pagebg: 'stein',
           density: 'normal',
           btnStyle: 'solid',
+          secNav: true,
           secIntro: true,
           secUsp: true,
           secHi: true,
@@ -523,7 +742,7 @@
           secLeist: true,
           secFoot: true,
           navManual: '',
-          navLinkT: 'Hofladen',
+          navItems: defaultNavItems(),
           heroBadge: 'Regional · Frisch',
           heroImgUrl: '',
           title: '',
@@ -560,6 +779,8 @@
           foot: '© Ihr Betrieb · Alle Rechte vorbehalten.',
           footA1: 'Impressum',
           footA2: 'Datenschutz',
+          footU1: '#',
+          footU2: '#',
         };
       }
 
@@ -567,9 +788,29 @@
         var d = defaultState();
         if (!raw || typeof raw !== 'object') return d;
         Object.keys(d).forEach(function (k) {
+          if (k === 'navItems') return;
           if (Object.prototype.hasOwnProperty.call(raw, k) && raw[k] !== undefined && raw[k] !== null) d[k] = raw[k];
         });
         if (!d.navManual && raw.navBrand && typeof raw.navBrand === 'string') d.navManual = raw.navBrand;
+        var defN = defaultNavItems();
+        if (Array.isArray(raw.navItems) && raw.navItems.length > 0) {
+          d.navItems = raw.navItems.slice(0, 8).map(function (it, i) {
+            var o = it && typeof it === 'object' ? it : {};
+            return {
+              t: o.t != null ? String(o.t) : '',
+              u: o.u != null ? String(o.u) : '',
+            };
+          });
+          while (d.navItems.length < 8) d.navItems.push({ t: '', u: '' });
+        } else if (raw.navLinkT && String(raw.navLinkT).trim()) {
+          d.navItems = defN.slice();
+          d.navItems[0] = { t: String(raw.navLinkT).trim(), u: '#' };
+        } else {
+          d.navItems = defN.slice();
+        }
+        if (!normalizeHex(d.accentHex)) d.accentHex = defaultState().accentHex;
+        if (!Array.isArray(d.navItems) || d.navItems.length !== 8) d.navItems = defaultNavItems();
+        if (d.colorMode !== 'preset' && d.colorMode !== 'custom') d.colorMode = 'preset';
         return d;
       }
 
@@ -580,15 +821,47 @@
         return 'Ihr Betrieb';
       }
 
+      function safeNavHref(u) {
+        u = String(u || '').trim();
+        if (!u) return '#';
+        if (/^javascript:/i.test(u)) return '#';
+        if (/^https?:\/\//i.test(u) || /^mailto:/i.test(u) || u[0] === '/') return u;
+        if (u[0] === '#') return u;
+        return '#' + u.replace(/^#+/, '');
+      }
+
       function applyDemoToPreview(st) {
         st = mergeState(st);
+        var wrapP = document.getElementById('wrap-accent-preset');
+        var wrapC = document.getElementById('wrap-accent-custom');
+        if (wrapP && wrapC) {
+          wrapP.classList.toggle('hidden', st.colorMode === 'custom');
+          wrapC.classList.toggle('hidden', st.colorMode !== 'custom');
+        }
+        var hxNorm = normalizeHex(st.accentHex) || defaultState().accentHex;
+        var cIn = document.getElementById('ctrl-accent-hex');
+        var cTx = document.getElementById('ctrl-accent-hex-text');
+        if (cIn) cIn.value = hxNorm;
+        if (cTx) cTx.value = hxNorm;
+
         var site = document.getElementById('demo-site');
-        site.setAttribute('data-accent', st.accent);
+        site.style.removeProperty('--accent');
+        site.style.removeProperty('--accent-dark');
+        site.style.removeProperty('--accent-soft');
+        if (st.colorMode === 'custom' && normalizeHex(st.accentHex)) {
+          var hx = normalizeHex(st.accentHex);
+          site.style.setProperty('--accent', hx);
+          site.style.setProperty('--accent-dark', darkenHex(hx));
+          site.style.setProperty('--accent-soft', mixWhiteHex(hx, 0.87));
+        }
+        site.setAttribute('data-accent', st.accent || 'wald');
         site.setAttribute('data-fs', st.fs);
         site.setAttribute('data-hero', st.hero);
         site.setAttribute('data-hero-h', st.heroH);
         site.setAttribute('data-pagebg', st.pagebg);
         site.setAttribute('data-density', st.density);
+        site.setAttribute('data-header-tone', st.headerTone || 'accent');
+        site.setAttribute('data-nav-style', st.navStyle || 'pills');
         site.classList.remove('demo-stil-rustikal', 'demo-stil-modern');
         site.classList.add(st.stil === 'modern' ? 'demo-stil-modern' : 'demo-stil-rustikal');
         site.style.setProperty('--radius', (st.radius != null ? st.radius : 1) + 'rem');
@@ -601,15 +874,19 @@
         document.getElementById('demo-p').textContent = st.sub || 'Ihre Geschichte – regional erzählt.';
         document.getElementById('demo-nav-brand').textContent = navDisplayName(st);
 
-        var navL = document.getElementById('demo-nav-link');
-        var nlt = (st.navLinkT || '').trim();
-        if (nlt) {
-          navL.textContent = nlt;
-          navL.classList.remove('hidden');
-        } else {
-          navL.textContent = '';
-          navL.classList.add('hidden');
+        var navMenu = document.getElementById('demo-nav-menu');
+        navMenu.innerHTML = '';
+        if (st.secNav) {
+          (st.navItems || []).forEach(function (it) {
+            var t = (it.t || '').trim();
+            if (!t) return;
+            var a = document.createElement('a');
+            a.href = safeNavHref(it.u);
+            a.textContent = t;
+            navMenu.appendChild(a);
+          });
         }
+        navMenu.classList.toggle('hidden', !st.secNav || navMenu.children.length === 0);
 
         var bw = document.getElementById('demo-badge-wrap');
         var bd = (st.heroBadge || '').trim();
@@ -674,8 +951,8 @@
         var a2 = (st.footA2 || '').trim();
         f1.textContent = a1;
         f2.textContent = a2;
-        f1.href = '#';
-        f2.href = '#';
+        f1.href = safeNavHref(st.footU1);
+        f2.href = safeNavHref(st.footU2);
 
         function secVis(id, on) {
           var el = document.getElementById(id);
@@ -686,7 +963,7 @@
         secVis('demo-section-usp', st.secUsp);
         secVis('demo-section-hi', st.secHi);
         secVis('demo-section-quote', st.secQuote);
-        secVis('demo-section-leist', st.secLeist);
+        secVis('demo-leistungen', st.secLeist);
         secVis('demo-section-foot', st.secFoot);
 
         var footBar = document.getElementById('demo-section-foot');
@@ -703,7 +980,22 @@
 
       function controlsFromState(st) {
         st = mergeState(st);
+        var cm = document.getElementById('ctrl-color-mode');
+        if (cm) cm.value = st.colorMode === 'custom' ? 'custom' : 'preset';
         document.getElementById('ctrl-accent').value = st.accent;
+        var hx = normalizeHex(st.accentHex) || defaultState().accentHex;
+        var cHex = document.getElementById('ctrl-accent-hex');
+        var cHtxt = document.getElementById('ctrl-accent-hex-text');
+        if (cHex) cHex.value = hx;
+        if (cHtxt) cHtxt.value = hx;
+        var wrapP = document.getElementById('wrap-accent-preset');
+        var wrapC = document.getElementById('wrap-accent-custom');
+        if (wrapP && wrapC) {
+          wrapP.classList.toggle('hidden', st.colorMode === 'custom');
+          wrapC.classList.toggle('hidden', st.colorMode !== 'custom');
+        }
+        document.getElementById('ctrl-header-tone').value = st.headerTone || 'accent';
+        document.getElementById('ctrl-nav-style').value = st.navStyle || 'pills';
         document.getElementById('ctrl-stil').value = st.stil;
         document.getElementById('ctrl-fs').value = st.fs;
         document.getElementById('ctrl-hero').value = st.hero;
@@ -713,6 +1005,7 @@
         document.getElementById('ctrl-density').value = st.density;
         document.getElementById('ctrl-btn-style').value = st.btnStyle;
 
+        document.getElementById('sec-nav').checked = !!st.secNav;
         document.getElementById('sec-intro').checked = !!st.secIntro;
         document.getElementById('sec-usp').checked = !!st.secUsp;
         document.getElementById('sec-hi').checked = !!st.secHi;
@@ -724,8 +1017,13 @@
           var el = document.getElementById(id);
           if (el) el.value = val != null ? val : '';
         }
+        var ni = st.navItems || defaultNavItems();
+        for (var i = 0; i < 8; i++) {
+          var row = ni[i] || { t: '', u: '' };
+          v('nav-' + i + '-t', row.t);
+          v('nav-' + i + '-u', row.u);
+        }
         v('demo-nav-manual', st.navManual);
-        v('demo-nav-link-t', st.navLinkT);
         v('demo-hero-badge', st.heroBadge);
         v('demo-hero-img-url', st.heroImgUrl);
         v('demo-title', st.title);
@@ -761,6 +1059,8 @@
         v('demo-foot', st.foot);
         v('demo-foot-a1', st.footA1);
         v('demo-foot-a2', st.footA2);
+        v('demo-foot-u1', st.footU1 != null ? st.footU1 : '#');
+        v('demo-foot-u2', st.footU2 != null ? st.footU2 : '#');
       }
 
       function applyDemoFromState(st) {
@@ -785,8 +1085,22 @@
           var el = document.getElementById(id);
           return el ? el.value : '';
         }
+        var hxFromText = normalizeHex(valRaw('ctrl-accent-hex-text'));
+        var hxFromPick = normalizeHex(document.getElementById('ctrl-accent-hex') ? document.getElementById('ctrl-accent-hex').value : '');
+        var accentHex = hxFromText || hxFromPick || defaultState().accentHex;
+        var navItems = [];
+        for (var ni = 0; ni < 8; ni++) {
+          navItems.push({
+            t: valRaw('nav-' + ni + '-t'),
+            u: valRaw('nav-' + ni + '-u'),
+          });
+        }
         return {
+          colorMode: document.getElementById('ctrl-color-mode').value === 'custom' ? 'custom' : 'preset',
           accent: document.getElementById('ctrl-accent').value,
+          accentHex: accentHex,
+          headerTone: document.getElementById('ctrl-header-tone').value,
+          navStyle: document.getElementById('ctrl-nav-style').value,
           stil: document.getElementById('ctrl-stil').value,
           fs: document.getElementById('ctrl-fs').value,
           hero: document.getElementById('ctrl-hero').value,
@@ -795,6 +1109,7 @@
           pagebg: document.getElementById('ctrl-pagebg').value,
           density: document.getElementById('ctrl-density').value,
           btnStyle: document.getElementById('ctrl-btn-style').value,
+          secNav: chk('sec-nav'),
           secIntro: chk('sec-intro'),
           secUsp: chk('sec-usp'),
           secHi: chk('sec-hi'),
@@ -802,7 +1117,7 @@
           secLeist: chk('sec-leist'),
           secFoot: chk('sec-foot'),
           navManual: valRaw('demo-nav-manual'),
-          navLinkT: valRaw('demo-nav-link-t'),
+          navItems: navItems,
           heroBadge: valRaw('demo-hero-badge'),
           heroImgUrl: valRaw('demo-hero-img-url'),
           title: val('demo-title'),
@@ -838,6 +1153,8 @@
           foot: valRaw('demo-foot'),
           footA1: valRaw('demo-foot-a1'),
           footA2: valRaw('demo-foot-a2'),
+          footU1: valRaw('demo-foot-u1'),
+          footU2: valRaw('demo-foot-u2'),
         };
       }
 
@@ -846,7 +1163,12 @@
       }
 
       var ctrlIds = [
+        'ctrl-color-mode',
         'ctrl-accent',
+        'ctrl-accent-hex',
+        'ctrl-accent-hex-text',
+        'ctrl-header-tone',
+        'ctrl-nav-style',
         'ctrl-stil',
         'ctrl-fs',
         'ctrl-hero',
@@ -864,7 +1186,6 @@
       });
       [
         'demo-nav-manual',
-        'demo-nav-link-t',
         'demo-hero-badge',
         'demo-hero-img-url',
         'demo-title',
@@ -900,17 +1221,42 @@
         'demo-foot',
         'demo-foot-a1',
         'demo-foot-a2',
+        'demo-foot-u1',
+        'demo-foot-u2',
       ].forEach(function (id) {
         var el = document.getElementById(id);
         if (!el) return;
         el.addEventListener('input', syncPreviewFromControls);
         el.addEventListener('change', syncPreviewFromControls);
       });
-      ['sec-intro', 'sec-usp', 'sec-hi', 'sec-quote', 'sec-leist', 'sec-foot'].forEach(function (id) {
+      for (var nv = 0; nv < 8; nv++) {
+        ['nav-' + nv + '-t', 'nav-' + nv + '-u'].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          el.addEventListener('input', syncPreviewFromControls);
+          el.addEventListener('change', syncPreviewFromControls);
+        });
+      }
+      ['sec-nav', 'sec-intro', 'sec-usp', 'sec-hi', 'sec-quote', 'sec-leist', 'sec-foot'].forEach(function (id) {
         var el = document.getElementById(id);
         if (!el) return;
         el.addEventListener('change', syncPreviewFromControls);
       });
+      var cHexPick = document.getElementById('ctrl-accent-hex');
+      var cHexTxt = document.getElementById('ctrl-accent-hex-text');
+      if (cHexPick) {
+        cHexPick.addEventListener('input', function () {
+          if (cHexTxt) cHexTxt.value = this.value;
+          syncPreviewFromControls();
+        });
+      }
+      if (cHexTxt) {
+        cHexTxt.addEventListener('input', function () {
+          var h = normalizeHex(this.value);
+          if (h && cHexPick) cHexPick.value = h;
+          syncPreviewFromControls();
+        });
+      }
 
       function setLocalHeader() {
         var g = document.getElementById('header-auth-guest');
