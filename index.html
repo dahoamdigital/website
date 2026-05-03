@@ -232,6 +232,7 @@
     </div>
   </footer>
 
+  <script src="js/config.defaults.js"></script>
   <script src="js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script>
@@ -267,7 +268,9 @@
       }
       function openModal() {
         if (!client) {
-          showError('Supabase ist nicht konfiguriert (js/config.js).');
+          showError(
+            'Supabase ist nicht konfiguriert. Auf Cloudflare Pages: Settings → Environment variables → DAHOAM_SUPABASE_URL und DAHOAM_SUPABASE_ANON_KEY (anon public key) eintragen, dann neu deployen. Build command: npm run build.'
+          );
           modal.classList.remove('hidden'); modal.classList.add('flex');
           return;
         }
@@ -282,7 +285,12 @@
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
         showError('');
-        if (!client) { showError('Kein Supabase-Client. Bitte js/config.js prüfen.'); return; }
+        if (!client) {
+          showError(
+            'Kein Supabase-Client: URL oder Key fehlen. Cloudflare → Environment variables (DAHOAM_SUPABASE_URL, DAHOAM_SUPABASE_ANON_KEY) setzen und erneut deployen; lokal js/config.js aus config.example.js anlegen.'
+          );
+          return;
+        }
         var email = document.getElementById('index-login-email').value.trim();
         var pass = document.getElementById('index-login-pass').value;
         var res = await client.auth.signInWithPassword({ email: email, password: pass });

@@ -286,6 +286,7 @@
     </div>
   </div>
 
+  <script src="js/config.defaults.js"></script>
   <script src="js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script>
@@ -489,7 +490,8 @@
       document.getElementById('btn-open-auftrag').addEventListener('click', function () {
         var hint = document.getElementById('kunden-auftrag-config-hinweis');
         if (!supaClient) {
-          hint.textContent = 'Supabase nicht konfiguriert: js/config.js mit URL und anon-Key füllen. Du kannst trotzdem JSON exportieren.';
+          hint.textContent =
+            'Supabase nicht konfiguriert: In Cloudflare unter Environment variables DAHOAM_SUPABASE_URL und DAHOAM_SUPABASE_ANON_KEY setzen und neu deployen; lokal js/config.js aus config.example.js. JSON-Export geht trotzdem.';
           hint.classList.remove('hidden');
         } else hint.classList.add('hidden');
         auftragModal.classList.remove('hidden'); auftragModal.classList.add('flex');
@@ -503,7 +505,8 @@
         var errEl = document.getElementById('kunden-auftrag-error');
         errEl.classList.add('hidden');
         if (!supaClient) {
-          errEl.textContent = 'Supabase nicht konfiguriert.';
+          errEl.textContent =
+            'Supabase nicht konfiguriert (URL/Key fehlen). Cloudflare → Environment variables setzen und neu deployen.';
           errEl.classList.remove('hidden');
           return;
         }

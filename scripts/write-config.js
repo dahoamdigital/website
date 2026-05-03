@@ -13,12 +13,31 @@ const url = (process.env.DAHOAM_SUPABASE_URL || '').trim();
 const key = (process.env.DAHOAM_SUPABASE_ANON_KEY || '').trim();
 const mail = (process.env.DAHOAM_BAUFPLAN_EMAIL_TO || '').trim();
 
+// Auf Cloudflare/Netlify ohne gesetzte Variablen: Stub schreiben, damit der Build durchläuft und js/config.js existiert.
+const isHostedCi =
+  process.env.CF_PAGES === '1' ||
+  String(process.env.NETLIFY || '').toLowerCase() === 'true';
+
 if (!url || !key) {
-  console.error(
+  const msg =
     'Fehlende Umgebungsvariablen: DAHOAM_SUPABASE_URL und DAHOAM_SUPABASE_ANON_KEY.\n' +
-      '→ Cloudflare Pages: Project → Settings → Environment variables (Production / Preview).\n' +
-      '→ Lokal: Kopiere js/config.example.js nach js/config.js und trage Werte ein (ohne npm run build).'
-  );
+    '→ Cloudflare Pages: Workers & Pages → dein Projekt → Settings → Environment variables (Production + Preview).\n' +
+    '→ Lokal: js/config.example.js nach js/config.js kopieren (ohne npm run build).';
+  if (isHostedCi) {
+    console.warn('WARN (Build läuft trotzdem): ' + msg);
+    const stub = [
+      '// Platzhalter: Beim Build fehlten DAHOAM_SUPABASE_URL / DAHOAM_SUPABASE_ANON_KEY. In Cloudflare unter Environment variables eintragen und neu deployen.',
+      'window.DAHOAM_SUPABASE_URL = "";',
+      'window.DAHOAM_SUPABASE_ANON_KEY = "";',
+    ];
+    if (mail) stub.push('window.DAHOAM_BAUFPLAN_EMAIL_TO = ' + JSON.stringify(mail) + ';');
+    stub.push('');
+    fs.mkdirSync(path.dirname(out), { recursive: true });
+    fs.writeFileSync(out, stub.join('\n'), 'utf8');
+    console.log('OK: Stub geschrieben (leere Keys)', path.relative(root, out));
+    process.exit(0);
+  }
+  console.error(msg);
   process.exit(1);
 }
 

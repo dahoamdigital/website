@@ -89,6 +89,7 @@
     </section>
   </main>
 
+  <script src="js/config.defaults.js"></script>
   <script src="js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script>
@@ -125,7 +126,9 @@
 
       async function initSession() {
         if (!client) {
-          showLoginError('js/config.js fehlt oder URL/Key sind leer.');
+          showLoginError(
+            'Supabase-URL oder anon-Key fehlen. Cloudflare Pages → Settings → Environment variables: DAHOAM_SUPABASE_URL und DAHOAM_SUPABASE_ANON_KEY setzen, neu deployen (npm run build).'
+          );
           return;
         }
         var first = await client.auth.getSession();

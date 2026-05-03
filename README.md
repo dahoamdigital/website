@@ -38,6 +38,18 @@ Danach führt Git nach jedem erfolgreichen **`git commit`** automatisch **`git p
 
 Weitere Infos: **HOSTING.txt**.
 
+### Login auf der Live-Seite: „Kein Supabase-Client“ / URL oder Key fehlen
+
+Die **anon**-Credentials kommen auf Cloudflare nur aus dem **Build**, nicht aus Git.
+
+1. Cloudflare → **Workers & Pages** → dein Projekt → **Settings** → **Environment variables**.
+2. Für **Production** (und bei Bedarf **Preview**) anlegen:
+   - `DAHOAM_SUPABASE_URL` = Supabase Project URL (z. B. `https://xxxx.supabase.co`)
+   - `DAHOAM_SUPABASE_ANON_KEY` = **anon public** key (Dashboard → Project Settings → API – **nicht** der `service_role`-Key)
+3. **Save** → Tab **Deployments** → letztes Deployment **Retry deployment** (oder neuen Commit pushen).
+
+Ohne diese Variablen erzeugt der Build eine leere `js/config.js` – die Seite lädt, **Anmelden** geht erst nach korrektem Deploy mit Werten.
+
 ## Dateien für Hosting
 
 | Datei | Rolle |
