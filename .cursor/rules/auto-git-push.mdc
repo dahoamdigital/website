@@ -1,0 +1,17 @@
+---
+description: Nach Änderungen im Website-Repo automatisch committen und pushen
+alwaysApply: true
+---
+
+# Git: Auto-Push nach Änderungen
+
+Gilt für dieses Repository (statische Website unter dem Projektroot).
+
+- Wenn du **Dateien in diesem Repo** geändert, neu angelegt oder sinnvoll gelöscht hast: im **Repository-Root** (Ordner mit `index.html` und `.git`) ausführen:
+  - `git add -A`
+  - `git commit -m "<kurze englische oder deutsche Beschreibung der Änderung>"`
+  - `git push origin main` (oder aktuellen Branch, falls nicht `main`)
+- **Ausnahme:** Der Nutzer schreibt ausdrücklich, dass **nicht** gepusht oder **nicht** committed werden soll – dann nur lokale Änderungen belassen.
+- `js/config.js` bleibt durch `.gitignore` unberührt; nicht committen.
+
+Der Hook `post-commit` pusht zusätzlich **nach jedem manuellen Commit** automatisch, sobald `git config core.hooksPath .githooks` gesetzt ist (siehe README).

@@ -1,0 +1,7 @@
+#!/bin/sh
+# Nach jedem erfolgreichen Commit automatisch pushen.
+# Aktivierung (einmal im Repo): git config core.hooksPath .githooks
+
+branch=$(git symbolic-ref --short HEAD 2>/dev/null) || exit 0
+[ -n "$branch" ] || exit 0
+git push origin "$branch"
