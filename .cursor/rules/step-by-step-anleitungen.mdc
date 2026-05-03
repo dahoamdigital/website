@@ -1,0 +1,12 @@
+---
+description: Antworten immer als klare Schritt-für-Schritt-Anleitung formulieren
+alwaysApply: true
+---
+
+# Schritt-für-Schritt-Anleitungen
+
+- Wenn der Nutzer nach **Vorgehen, Setup, Deployment, Fehlerbehebung** oder **„wie mache ich …“** fragt: **immer** eine **nummerierte Schritt-für-Schritt-Anleitung** liefern (1., 2., 3., …).
+- Pro Schritt: **was** tun, **wo** im UI oder in welcher Datei/URL, **woran** man Erfolg erkennt (kurz).
+- Bei optionalen oder verzweigten Wegen: kurz **„Wenn A → dann … / Wenn B → dann …“**.
+- Technische Antworten ohne explizite „Anleitung“-Frage: trotzdem wo sinnvoll die **wichtigsten Schritte** am Ende als kurze Checkliste zusammenfassen, wenn es um Handlung geht.
+- Sprache: **Deutsch**, soweit der Nutzer auf Deutsch schreibt.
