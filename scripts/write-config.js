@@ -12,6 +12,7 @@ const out = path.join(root, 'js', 'config.js');
 const url = (process.env.DAHOAM_SUPABASE_URL || '').trim();
 const key = (process.env.DAHOAM_SUPABASE_ANON_KEY || '').trim();
 const mail = (process.env.DAHOAM_BAUFPLAN_EMAIL_TO || '').trim();
+const siteOrigin = (process.env.DAHOAM_SITE_ORIGIN || '').trim();
 
 // Auf Cloudflare/Netlify ohne gesetzte Variablen: Stub schreiben, damit der Build durchläuft und js/config.js existiert.
 const isHostedCi =
@@ -48,6 +49,9 @@ const lines = [
 ];
 if (mail) {
   lines.push('window.DAHOAM_BAUFPLAN_EMAIL_TO = ' + JSON.stringify(mail) + ';');
+}
+if (siteOrigin) {
+  lines.push('window.DAHOAM_SITE_ORIGIN = ' + JSON.stringify(siteOrigin.replace(/\/$/, '')) + ';');
 }
 lines.push('');
 

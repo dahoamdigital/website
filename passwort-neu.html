@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Passwort zurücksetzen | Dahoam-Digital</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#2D5A27" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { steirer: { DEFAULT: '#2D5A27', dark: '#1f3f1b', soft: '#e8f0e6' } },
+          fontFamily: { display: ['Fraunces', 'Georgia', 'serif'], sans: ['DM Sans', 'system-ui', 'sans-serif'] },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-stone-100 to-stone-200/80 font-sans text-stone-800">
+  <header class="border-b border-stone-200/90 bg-white/95 shadow-sm">
+    <div class="mx-auto flex max-w-lg items-center justify-between px-4 py-4 sm:px-6">
+      <a href="index.html" class="font-display text-lg font-semibold text-steirer">← Start</a>
+      <a href="mein-abo.html" class="text-sm font-medium text-stone-600 hover:text-steirer">Mein Abo</a>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-lg px-4 py-10 sm:px-6 sm:py-14">
+    <p id="pw-config-error" class="hidden rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950"></p>
+
+    <section id="pw-set-section" class="mt-6 hidden rounded-2xl border border-stone-200/90 bg-white p-8 shadow-lg ring-1 ring-stone-900/[0.04]">
+      <h1 class="font-display text-xl font-semibold text-stone-900">Neues Passwort setzen</h1>
+      <p class="mt-2 text-sm text-stone-600">Sie sind über den Link aus der E-Mail eingeloggt. Wählen Sie ein neues Passwort.</p>
+      <form id="pw-set-form" class="mt-6 space-y-4">
+        <div>
+          <label for="pw-new" class="block text-sm font-medium text-stone-700">Neues Passwort</label>
+          <input id="pw-new" type="password" autocomplete="new-password" required minlength="8" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-steirer focus:outline-none focus:ring-1 focus:ring-steirer" />
+        </div>
+        <div>
+          <label for="pw-new2" class="block text-sm font-medium text-stone-700">Passwort wiederholen</label>
+          <input id="pw-new2" type="password" autocomplete="new-password" required minlength="8" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-steirer focus:outline-none focus:ring-1 focus:ring-steirer" />
+        </div>
+        <p id="pw-set-error" class="hidden text-sm text-red-600"></p>
+        <p id="pw-set-success" class="hidden text-sm text-green-800"></p>
+        <button type="submit" class="w-full rounded-full bg-steirer py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-steirer-dark">Passwort speichern</button>
+      </form>
+    </section>
+
+    <section id="pw-request-section" class="mt-6 rounded-2xl border border-stone-200/90 bg-white p-8 shadow-lg ring-1 ring-stone-900/[0.04]">
+      <h1 class="font-display text-xl font-semibold text-stone-900">Passwort vergessen?</h1>
+      <p class="mt-2 text-sm text-stone-600">Wir senden Ihnen einen Link zum Zurücksetzen (gleiche E-Mail wie bei Ihrem Konto).</p>
+      <form id="pw-request-form" class="mt-6 space-y-4">
+        <div>
+          <label for="pw-email" class="block text-sm font-medium text-stone-700">E-Mail</label>
+          <input id="pw-email" type="email" autocomplete="email" required class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-steirer focus:outline-none focus:ring-1 focus:ring-steirer" />
+        </div>
+        <p id="pw-request-error" class="hidden text-sm text-red-600"></p>
+        <p id="pw-request-success" class="hidden text-sm text-green-800"></p>
+        <button type="submit" class="w-full rounded-full border border-steirer/40 bg-steirer-soft py-2.5 text-sm font-semibold text-steirer transition hover:bg-white">Link anfordern</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="js/config.defaults.js"></script>
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script>
+    (function () {
+      function getClient() {
+        var url = (window.DAHOAM_SUPABASE_URL || '').trim();
+        var key = (window.DAHOAM_SUPABASE_ANON_KEY || '').trim();
+        if (!url || !key) return null;
+        var lib = typeof window.supabase !== 'undefined' ? window.supabase : typeof supabase !== 'undefined' ? supabase : null;
+        if (!lib || typeof lib.createClient !== 'function') return null;
+        return lib.createClient(url, key, {
+          auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage },
+        });
+      }
+      function redirectToPasswortNeu() {
+        return new URL('passwort-neu.html', window.location.href).href.replace(/#.*$/, '');
+      }
+
+      var client = getClient();
+      var cfgErr = document.getElementById('pw-config-error');
+      var setSection = document.getElementById('pw-set-section');
+      var requestSection = document.getElementById('pw-request-section');
+      var hash = window.location.hash || '';
+
+      if (!client) {
+        cfgErr.textContent =
+          'Supabase ist nicht konfiguriert. Legen Sie js/config.js an (siehe js/config.example.js) oder setzen Sie auf dem Hosting DAHOAM_SUPABASE_URL und DAHOAM_SUPABASE_ANON_KEY.';
+        cfgErr.classList.remove('hidden');
+        return;
+      }
+
+      function showRecoveryUi() {
+        setSection.classList.remove('hidden');
+        requestSection.classList.add('hidden');
+      }
+
+      function isRecoveryHash() {
+        return hash.indexOf('type=recovery') !== -1 || hash.indexOf('type%3Drecovery') !== -1;
+      }
+
+      client.auth.onAuthStateChange(function (event, session) {
+        if (event === 'PASSWORD_RECOVERY') {
+          showRecoveryUi();
+          return;
+        }
+        if (event === 'INITIAL_SESSION' && session && session.user && isRecoveryHash()) {
+          showRecoveryUi();
+        }
+      });
+
+      if (isRecoveryHash()) {
+        setTimeout(function () {
+          client.auth.getSession().then(function (res) {
+            if (res.data && res.data.session && res.data.session.user) showRecoveryUi();
+          });
+        }, 300);
+      }
+
+      document.getElementById('pw-request-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var err = document.getElementById('pw-request-error');
+        var ok = document.getElementById('pw-request-success');
+        err.classList.add('hidden');
+        ok.classList.add('hidden');
+        var email = document.getElementById('pw-email').value.trim();
+        var redir = redirectToPasswortNeu();
+        var res = await client.auth.resetPasswordForEmail(email, { redirectTo: redir });
+        if (res.error) {
+          err.textContent = res.error.message || 'Anforderung fehlgeschlagen.';
+          err.classList.remove('hidden');
+          return;
+        }
+        ok.textContent =
+          'Wenn ein Konto existiert, erhalten Sie in Kürze eine E-Mail. Prüfen Sie auch den Spam-Ordner. Die Redirect-URL muss in Supabase unter Authentication → URL Configuration eingetragen sein: ' +
+          redir;
+        ok.classList.remove('hidden');
+      });
+
+      document.getElementById('pw-set-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var err = document.getElementById('pw-set-error');
+        var ok = document.getElementById('pw-set-success');
+        err.classList.add('hidden');
+        ok.classList.add('hidden');
+        var a = document.getElementById('pw-new').value;
+        var b = document.getElementById('pw-new2').value;
+        if (a !== b) {
+          err.textContent = 'Die Passwörter stimmen nicht überein.';
+          err.classList.remove('hidden');
+          return;
+        }
+        if (a.length < 8) {
+          err.textContent = 'Mindestens 8 Zeichen.';
+          err.classList.remove('hidden');
+          return;
+        }
+        var res = await client.auth.updateUser({ password: a });
+        if (res.error) {
+          err.textContent = res.error.message || 'Speichern fehlgeschlagen.';
+          err.classList.remove('hidden');
+          return;
+        }
+        ok.textContent = 'Passwort gespeichert. Sie werden weitergeleitet …';
+        ok.classList.remove('hidden');
+        setTimeout(function () {
+          window.location.href = 'mein-abo.html';
+        }, 1200);
+      });
+    })();
+  </script>
+</body>
+</html>

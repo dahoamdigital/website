@@ -2,6 +2,8 @@
 
 Statische Website (HTML/CSS/JS) mit optionalem Supabase-Login.
 
+**Supabase Schritt für Schritt:** siehe **[SUPABASE-EINRICHTUNG.md](./SUPABASE-EINRICHTUNG.md)** (Projekt, Keys, SQL, Auth-URLs, Benutzer, „Mein Abo“, Passwort-Reset).
+
 ## Erste Schritte (lokal)
 
 1. `js/config.example.js` nach `js/config.js` kopieren und URL sowie anon-Key eintragen.
@@ -34,7 +36,7 @@ Danach führt Git nach jedem erfolgreichen **`git commit`** automatisch **`git p
 - **Framework preset:** None  
 - **Build command:** `npm run build`  
 - **Build output directory:** `/`  
-- **Environment variables:** `DAHOAM_SUPABASE_URL`, `DAHOAM_SUPABASE_ANON_KEY`, optional `DAHOAM_BAUFPLAN_EMAIL_TO`.
+- **Environment variables:** `DAHOAM_SUPABASE_URL`, `DAHOAM_SUPABASE_ANON_KEY`, optional `DAHOAM_BAUFPLAN_EMAIL_TO`, optional `DAHOAM_SITE_ORIGIN` (feste öffentliche Basis-URL für erzeugte `js/config.js`).
 
 Weitere Infos: **HOSTING.txt**.
 
@@ -58,6 +60,8 @@ Ohne diese Variablen erzeugt der Build eine leere `js/config.js` – die Seite l
 | `vercel.json` | Header für Vercel |
 | `netlify.toml` | Netlify Publish-Root |
 | `.htaccess` | nur Apache (z. B. InfinityFree) |
+| `SUPABASE-EINRICHTUNG.md` | Schritt-für-Schritt: Supabase-Projekt, Keys, SQL, Auth-URLs, Accounts |
+| `passwort-neu.html` | Passwort-Reset (Redirect-Ziel für Supabase Auth) |
 
 ## Kundenportal „Mein Abo“
 
