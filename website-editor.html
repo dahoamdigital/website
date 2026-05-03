@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Website Editor: Vorlagen anpassen, lokal speichern und Bauplan für Dahoam-Digital anfragen." />
+  <meta name="description" content="Website-Editor: Vorlagen anpassen, lokal speichern und Bauplan bei Dahoam-Digital anfragen." />
   <title>Website Editor | Dahoam-Digital</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <meta name="theme-color" content="#2D5A27" />
@@ -81,7 +81,7 @@
         <button type="button" id="account-modal-close" class="rounded-lg p-1 text-stone-500 hover:bg-stone-100" aria-label="Schließen">✕</button>
       </div>
       <div id="account-modal-guest" class="mt-4">
-        <p class="text-sm text-stone-600">Speichern und später weitermachen geht mit einem lokalen Konto auf <strong>diesem Gerät</strong> (Browser-Speicher). Kein Server – bitte kein wichtiges Passwort verwenden.</p>
+        <p class="text-sm text-stone-600">Speichern und später Weitermachen gelingt mit einem lokalen Konto auf <strong>diesem Gerät</strong> (Browser-Speicher). Kein Server – bitte verwenden Sie kein wichtiges Passwort.</p>
         <div class="mt-4 rounded-xl border border-stone-200 bg-stone-50 p-4">
           <h3 class="text-sm font-semibold text-stone-900">Neues Konto</h3>
           <div class="mt-3 grid gap-2">
@@ -111,9 +111,9 @@
         </div>
       </div>
       <div id="account-modal-user" class="mt-4 hidden border-t border-stone-200 pt-4">
-        <p class="text-sm text-stone-700">Eingeloggt als <strong id="modal-auth-name"></strong></p>
+        <p class="text-sm text-stone-700">Angemeldet als <strong id="modal-auth-name"></strong></p>
         <p class="mt-1 text-xs text-stone-500" id="modal-auth-email"></p>
-        <p class="mt-4 text-sm text-stone-600">Deine Website-Vorlage kannst du links mit <strong>„Website speichern“</strong> sichern.</p>
+        <p class="mt-4 text-sm text-stone-600">Ihre Website-Vorlage sichern Sie links mit <strong>„Website speichern“</strong>.</p>
         <button type="button" id="modal-btn-logout" class="mt-4 w-full rounded-lg border border-stone-300 py-2.5 text-sm font-medium hover:bg-stone-50">Abmelden</button>
       </div>
     </div>
@@ -124,7 +124,7 @@
       <div class="flex items-start justify-between gap-3">
         <div>
           <h2 class="font-display text-xl font-semibold text-stone-900">Bauplan absenden</h2>
-          <p class="mt-1 text-sm text-stone-600">Kontaktdaten – dein Editor-Bauplan wird mitgespeichert.</p>
+          <p class="mt-1 text-sm text-stone-600">Kontaktdaten – Ihr Editor-Bauplan wird mitgespeichert.</p>
         </div>
         <button type="button" id="kunden-auftrag-close" class="shrink-0 rounded-lg p-1 text-stone-500 hover:bg-stone-100" aria-label="Schließen">✕</button>
       </div>
@@ -246,7 +246,7 @@
         <label for="bauplan-msg" class="mt-3 block text-xs font-semibold uppercase tracking-wide text-stone-500">Nachricht (für E-Mail)</label>
         <textarea id="bauplan-msg" rows="3" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" placeholder="Wünsche, Zeitfenster …"></textarea>
         <p class="mt-2 text-xs text-stone-500">E-Mail-Ziel (mailto):</p>
-        <input id="bauplan-email-to" type="email" class="mt-1 w-full rounded border border-stone-200 px-2 py-1 text-xs" placeholder="deine@empfangsadresse.at" />
+        <input id="bauplan-email-to" type="email" class="mt-1 w-full rounded border border-stone-200 px-2 py-1 text-xs" placeholder="ihre@empfangsadresse.at" />
         <div class="mt-3 flex flex-col gap-2">
           <button type="button" id="btn-download-bauplan" class="rounded-lg bg-stone-800 py-2 text-sm font-semibold text-white hover:bg-stone-900">JSON herunterladen</button>
           <button type="button" id="btn-copy-bauplan" class="rounded-lg border border-stone-300 py-2 text-sm hover:bg-stone-50">In Zwischenablage</button>
@@ -259,13 +259,13 @@
       <div class="rounded-xl border border-stone-400 bg-white p-2 shadow-inner">
         <div id="demo-site" class="demo-scale demo-stil-rustikal overflow-hidden rounded-lg border border-stone-200 bg-stone-100" data-accent="wald" data-fs="md" data-hero="neutral">
           <div class="demo-bg-accent px-4 py-3 text-white">
-            <span id="demo-nav-brand" class="text-sm font-semibold">Dein Betrieb</span>
+            <span id="demo-nav-brand" class="text-sm font-semibold">Ihr Betrieb</span>
           </div>
           <div class="relative h-40 bg-stone-300">
             <img id="demo-hero-img" alt="" class="h-full w-full object-cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400'%3E%3Crect fill='%23d6d3d1' width='1200' height='400'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23575252' font-family='sans-serif' font-size='28'%3EPlatzhalter Hero%3C/text%3E%3C/svg%3E" />
             <div class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/50 to-transparent p-4 text-white">
               <h1 id="demo-h1" class="demo-heading text-2xl">Willkommen</h1>
-              <p id="demo-p" class="mt-1 text-sm opacity-90">Deine Geschichte – regional erzählt.</p>
+              <p id="demo-p" class="mt-1 text-sm opacity-90">Ihre Geschichte – regional erzählt.</p>
             </div>
           </div>
           <div class="grid gap-3 p-4 sm:grid-cols-2">
@@ -343,9 +343,9 @@
         document.getElementById('demo-sub').value = st.sub || '';
         document.getElementById('demo-cta').value = st.cta || '';
         document.getElementById('demo-h1').textContent = st.title || 'Willkommen';
-        document.getElementById('demo-p').textContent = st.sub || 'Deine Geschichte – regional erzählt.';
+        document.getElementById('demo-p').textContent = st.sub || 'Ihre Geschichte – regional erzählt.';
         document.getElementById('demo-cta-btn').textContent = st.cta || 'Anfragen';
-        document.getElementById('demo-nav-brand').textContent = st.navBrand || 'Dein Betrieb';
+        document.getElementById('demo-nav-brand').textContent = st.navBrand || 'Ihr Betrieb';
       }
 
       function getFormState() {
@@ -358,14 +358,14 @@
           title: document.getElementById('demo-title').value.trim(),
           sub: document.getElementById('demo-sub').value.trim(),
           cta: document.getElementById('demo-cta').value.trim(),
-          navBrand: (localSess && localSess.name) ? localSess.name : 'Dein Betrieb',
+          navBrand: (localSess && localSess.name) ? localSess.name : 'Ihr Betrieb',
         };
       }
 
       function syncPreviewFromControls() {
         var st = getFormState();
         document.getElementById('demo-h1').textContent = st.title || 'Willkommen';
-        document.getElementById('demo-p').textContent = st.sub || 'Deine Geschichte – regional erzählt.';
+        document.getElementById('demo-p').textContent = st.sub || 'Ihre Geschichte – regional erzählt.';
         document.getElementById('demo-cta-btn').textContent = st.cta || 'Anfragen';
         if (localSess && localSess.name) document.getElementById('demo-nav-brand').textContent = localSess.name;
         var site = document.getElementById('demo-site');
@@ -427,10 +427,10 @@
         var name = document.getElementById('reg-name').value.trim();
         var p1 = document.getElementById('reg-pass').value;
         var p2 = document.getElementById('reg-pass2').value;
-        if (!email || !name || p1.length < 6) { alert('Bitte alle Felder ausfüllen (Passwort mind. 6 Zeichen).'); return; }
-        if (p1 !== p2) { alert('Passwörter stimmen nicht überein.'); return; }
+        if (!email || !name || p1.length < 6) { alert('Bitte füllen Sie alle Felder aus (Passwort mindestens 6 Zeichen).'); return; }
+        if (p1 !== p2) { alert('Die Passwörter stimmen nicht überein.'); return; }
         var arr = accountsRead();
-        if (arr.some(function (a) { return a.email === email; })) { alert('Diese E-Mail ist schon registriert.'); return; }
+        if (arr.some(function (a) { return a.email === email; })) { alert('Diese E-Mail-Adresse ist bereits registriert.'); return; }
         arr.push({ email: email, name: name, password: p1 });
         accountsWrite(arr);
         localSess = { email: email, name: name }; sessWrite(email);
@@ -442,7 +442,7 @@
         var pass = document.getElementById('login-pass').value;
         var arr = accountsRead();
         var u = arr.find(function (a) { return a.email === email && a.password === pass; });
-        if (!u) { alert('Login fehlgeschlagen.'); return; }
+        if (!u) { alert('Anmeldung fehlgeschlagen. Bitte prüfen Sie E-Mail und Passwort.'); return; }
         localSess = { email: u.email, name: u.name }; sessWrite(email);
         setLocalHeader(); closeAccountModal();
         try {
@@ -452,9 +452,9 @@
       });
 
       document.getElementById('btn-save-local').addEventListener('click', function () {
-        if (!localSess) { alert('Bitte zuerst lokal anmelden (Account).'); openAccountModal(); return; }
+        if (!localSess) { alert('Bitte melden Sie sich zuerst lokal an (Account).'); openAccountModal(); return; }
         localStorage.setItem(stateKey(localSess.email), JSON.stringify(getFormState()));
-        alert('Gespeichert.');
+        alert('Ihre Vorlage wurde gespeichert.');
       });
 
       function buildBauplanJson() {
@@ -476,13 +476,13 @@
         URL.revokeObjectURL(a.href);
       });
       document.getElementById('btn-copy-bauplan').addEventListener('click', function () {
-        navigator.clipboard.writeText(JSON.stringify(buildBauplanJson(), null, 2)).then(function () { alert('Kopiert.'); }).catch(function () { alert('Zwischenablage fehlgeschlagen.'); });
+        navigator.clipboard.writeText(JSON.stringify(buildBauplanJson(), null, 2)).then(function () { alert('In die Zwischenablage kopiert.'); }).catch(function () { alert('Kopieren in die Zwischenablage ist fehlgeschlagen.'); });
       });
       document.getElementById('btn-mail-bauplan').addEventListener('click', function () {
         var to = (document.getElementById('bauplan-email-to').value || '').trim();
-        if (!to) { alert('Bitte Empfänger-E-Mail eintragen.'); return; }
+        if (!to) { alert('Bitte tragen Sie die Empfänger-E-Mail-Adresse ein.'); return; }
         var sub = encodeURIComponent('Bauplan Dahoam-Digital');
-        var body = encodeURIComponent('Anfrage mit Bauplan – bitte JSON anhängen (Download im Editor).\n\n' + (document.getElementById('bauplan-msg').value || ''));
+        var body = encodeURIComponent('Anfrage mit Bauplan – bitte hängen Sie die JSON-Datei an (Download im Editor).\n\n' + (document.getElementById('bauplan-msg').value || ''));
         window.location.href = 'mailto:' + to + '?subject=' + sub + '&body=' + body;
       });
 
@@ -491,7 +491,7 @@
         var hint = document.getElementById('kunden-auftrag-config-hinweis');
         if (!supaClient) {
           hint.textContent =
-            'Supabase nicht konfiguriert: In Cloudflare unter Environment variables DAHOAM_SUPABASE_URL und DAHOAM_SUPABASE_ANON_KEY setzen und neu deployen; lokal js/config.js aus config.example.js. JSON-Export geht trotzdem.';
+            'Supabase ist nicht konfiguriert: Tragen Sie in Cloudflare unter Environment variables DAHOAM_SUPABASE_URL und DAHOAM_SUPABASE_ANON_KEY ein und deployen Sie neu; lokal erstellen Sie js/config.js anhand von config.example.js. Der JSON-Export funktioniert dennoch.';
           hint.classList.remove('hidden');
         } else hint.classList.add('hidden');
         auftragModal.classList.remove('hidden'); auftragModal.classList.add('flex');
@@ -506,7 +506,7 @@
         errEl.classList.add('hidden');
         if (!supaClient) {
           errEl.textContent =
-            'Supabase nicht konfiguriert (URL/Key fehlen). Cloudflare → Environment variables setzen und neu deployen.';
+            'Supabase ist nicht konfiguriert (URL/Key fehlen). Bitte setzen Sie die Environment variables in Cloudflare und deployen Sie neu.';
           errEl.classList.remove('hidden');
           return;
         }
@@ -531,7 +531,7 @@
             errEl.classList.remove('hidden');
             return;
           }
-          alert('Gespeichert. Vielen Dank!');
+          alert('Gespeichert. Vielen Dank für Ihre Anfrage!');
           closeAuftrag();
         });
       });
