@@ -30,7 +30,7 @@
     #demo-site[data-fs="sm"] { --demo-font-scale: 0.9; }
     #demo-site[data-fs="md"] { --demo-font-scale: 1; }
     #demo-site[data-fs="lg"] { --demo-font-scale: 1.08; }
-    #demo-site .demo-scale { font-size: calc(1rem * var(--demo-font-scale)); }
+    #demo-site.demo-scale { font-size: calc(1rem * var(--demo-font-scale)); }
     .demo-bg-accent { background-color: var(--accent); }
     .demo-text-accent { color: var(--accent); }
     .demo-ring-soft { background-color: var(--accent-soft); }
@@ -47,6 +47,21 @@
     #demo-site[data-hero="kuehl"] { --hero-filter: saturate(0.85) hue-rotate(-6deg) contrast(1.02); }
     .demo-radius-ui { border-radius: var(--radius); }
     #auth-msg:empty { display: none; }
+    #demo-site[data-hero-h="sm"] .demo-hero-h { height: 9rem; }
+    #demo-site[data-hero-h="md"] .demo-hero-h { height: 12rem; }
+    #demo-site[data-hero-h="lg"] .demo-hero-h { height: 16rem; }
+    #demo-site[data-density="kompakt"] .demo-ph { padding: 0.65rem; }
+    #demo-site[data-density="normal"] .demo-ph { padding: 1rem; }
+    #demo-site[data-density="luftig"] .demo-ph { padding: 1.35rem; }
+    #demo-site[data-pagebg="weiss"] { background-color: #fff; }
+    #demo-site[data-pagebg="stein"] { background-color: #f5f5f4; }
+    #demo-site[data-pagebg="soft"] { background-color: #f4f7f4; }
+    .demo-btn-outline { background: transparent !important; color: var(--accent) !important; border: 2px solid var(--accent) !important; }
+    .demo-btn-outline:hover { background: var(--accent-soft) !important; }
+    .editor-details summary { cursor: pointer; list-style: none; }
+    .editor-details summary::-webkit-details-marker { display: none; }
+    .editor-details summary::before { content: '▸ '; display: inline-block; transition: transform 0.15s; }
+    .editor-details[open] summary::before { transform: rotate(90deg); }
   </style>
 </head>
 <body class="min-h-screen bg-stone-100 font-sans text-stone-800 antialiased">
@@ -185,62 +200,192 @@
 
   <p id="auth-msg" class="mx-auto max-w-7xl px-4 py-2 text-center text-sm text-red-600 sm:px-6"></p>
 
-  <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 pb-10 pt-4 lg:flex-row lg:gap-6 lg:px-6">
-    <aside class="w-full shrink-0 space-y-4 lg:max-w-sm">
-      <div class="rounded-xl border border-stone-300 bg-white p-4 shadow-sm">
-        <h2 class="font-display text-sm font-semibold text-stone-900">Vorlage</h2>
-        <div class="mt-3 space-y-3 text-sm">
-          <div>
-            <label class="block text-xs font-medium text-stone-500">Akzentfarbe</label>
-            <select id="ctrl-accent" class="mt-1 w-full rounded-lg border border-stone-300 px-2 py-1.5 text-sm">
-              <option value="wald">Waldgrün</option>
-              <option value="erde">Erde / Gold</option>
-              <option value="nacht">Nachtblau</option>
-              <option value="rost">Rostrot</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-medium text-stone-500">Stil</label>
-            <select id="ctrl-stil" class="mt-1 w-full rounded-lg border border-stone-300 px-2 py-1.5 text-sm">
-              <option value="rustikal">Rustikal</option>
-              <option value="modern">Modern</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-medium text-stone-500">Schriftgrad</label>
-            <select id="ctrl-fs" class="mt-1 w-full rounded-lg border border-stone-300 px-2 py-1.5 text-sm">
-              <option value="sm">Kleiner</option>
-              <option value="md" selected>Normal</option>
-              <option value="lg">Größer</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-medium text-stone-500">Eckenradius</label>
-            <input id="ctrl-radius" type="range" min="0.25" max="1.5" step="0.05" value="1" class="mt-1 w-full" />
-          </div>
-          <div>
-            <label class="block text-xs font-medium text-stone-500">Hero-Bildstimmung</label>
-            <select id="ctrl-hero" class="mt-1 w-full rounded-lg border border-stone-300 px-2 py-1.5 text-sm">
-              <option value="neutral">Neutral</option>
-              <option value="warm">Warm</option>
-              <option value="kuehl">Kühl</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="rounded-xl border border-stone-300 bg-white p-4 shadow-sm">
-        <h2 class="font-display text-sm font-semibold text-stone-900">Demo-Texte</h2>
-        <div class="mt-3 space-y-2 text-sm">
-          <input id="demo-title" type="text" class="w-full rounded-lg border border-stone-300 px-2 py-1.5" placeholder="Überschrift" />
-          <input id="demo-sub" type="text" class="w-full rounded-lg border border-stone-300 px-2 py-1.5" placeholder="Untertitel" />
-          <input id="demo-cta" type="text" class="w-full rounded-lg border border-stone-300 px-2 py-1.5" placeholder="Button-Text" />
-        </div>
-      </div>
+  <div class="mx-auto flex max-w-[1600px] flex-col gap-4 px-4 pb-10 pt-4 xl:flex-row xl:gap-6 xl:px-6">
+    <aside class="w-full shrink-0 space-y-3 xl:max-w-md xl:max-h-[calc(100vh-4.5rem)] xl:overflow-y-auto xl:pr-1 xl:sticky xl:top-14">
       <div class="rounded-xl border border-stone-300 bg-white p-4 shadow-sm">
         <button type="button" id="btn-save-local" class="w-full rounded-lg bg-steirer py-2.5 text-sm font-semibold text-white hover:bg-steirer-dark">Website speichern</button>
         <p class="mt-2 text-xs text-stone-500">Nur mit lokalem Account (dieses Gerät).</p>
-        <button type="button" id="btn-open-auftrag" class="mt-4 w-full rounded-lg border-2 border-steirer py-2.5 text-sm font-semibold text-steirer hover:bg-steirer-soft">Bauplan absenden</button>
+        <button type="button" id="btn-open-auftrag" class="mt-3 w-full rounded-lg border-2 border-steirer py-2.5 text-sm font-semibold text-steirer hover:bg-steirer-soft">Bauplan absenden</button>
       </div>
+
+      <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
+        <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Erscheinungsbild &amp; Layout</summary>
+        <div class="space-y-3 border-t border-stone-100 px-4 pb-4 pt-3 text-sm">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs text-stone-500">Akzent</label>
+              <select id="ctrl-accent" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
+                <option value="wald">Waldgrün</option><option value="erde">Erde</option><option value="nacht">Nacht</option><option value="rost">Rost</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-stone-500">Stil</label>
+              <select id="ctrl-stil" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
+                <option value="rustikal">Rustikal</option><option value="modern">Modern</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-stone-500">Schrift</label>
+              <select id="ctrl-fs" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
+                <option value="sm">Klein</option><option value="md" selected>Normal</option><option value="lg">Groß</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-stone-500">Hero-Farbe</label>
+              <select id="ctrl-hero" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
+                <option value="neutral">Neutral</option><option value="warm">Warm</option><option value="kuehl">Kühl</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs text-stone-500">Eckenradius</label>
+            <input id="ctrl-radius" type="range" min="0.25" max="1.5" step="0.05" value="1" class="mt-1 w-full" />
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs text-stone-500">Hero-Höhe</label>
+              <select id="ctrl-hero-h" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
+                <option value="sm">Niedrig</option><option value="md" selected>Mittel</option><option value="lg">Hoch</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-stone-500">Seitenhintergrund</label>
+              <select id="ctrl-pagebg" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
+                <option value="stein">Stein</option><option value="weiss">Weiß</option><option value="soft">Grün-weiß</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-stone-500">Abstände</label>
+              <select id="ctrl-density" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
+                <option value="kompakt">Kompakt</option><option value="normal" selected>Normal</option><option value="luftig">Luftig</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-stone-500">Hauptbutton</label>
+              <select id="ctrl-btn-style" class="mt-0.5 w-full rounded border border-stone-300 px-1.5 py-1 text-xs">
+                <option value="solid" selected>Gefüllt</option><option value="outline">Outline</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
+        <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Sichtbare Bereiche</summary>
+        <div class="space-y-2 border-t border-stone-100 px-4 pb-4 pt-3 text-xs text-stone-700">
+          <label class="flex items-center gap-2"><input type="checkbox" id="sec-intro" class="rounded border-stone-300 text-steirer" checked /> Einleitung unter Hero</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="sec-usp" class="rounded border-stone-300 text-steirer" checked /> Drei Stärken (USP)</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="sec-hi" class="rounded border-stone-300 text-steirer" checked /> Zwei Highlight-Kacheln</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="sec-quote" class="rounded border-stone-300 text-steirer" checked /> Zitat / Vertrauen</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="sec-leist" class="rounded border-stone-300 text-steirer" checked /> Drei Leistungen</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="sec-foot" class="rounded border-stone-300 text-steirer" checked /> Fußzeile</label>
+        </div>
+      </details>
+
+      <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
+        <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Kopfzeile &amp; Hero</summary>
+        <div class="space-y-2 border-t border-stone-100 px-4 pb-4 pt-3 text-sm">
+          <label class="text-xs text-stone-500">Name in der Leiste (leer = Kontoname)</label>
+          <input id="demo-nav-manual" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="z. B. Biohof Huber" />
+          <label class="text-xs text-stone-500">Rechter Menü-Link (Text)</label>
+          <input id="demo-nav-link-t" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="z. B. Hofladen" />
+          <label class="text-xs text-stone-500">Badge über der Hero-Überschrift</label>
+          <input id="demo-hero-badge" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="Regional · Saisonal" />
+          <label class="text-xs text-stone-500">Hero-Bild (URL, optional)</label>
+          <input id="demo-hero-img-url" type="url" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="https://…jpg (sonst Platzhalter)" />
+          <label class="text-xs text-stone-500">Hero-Überschrift</label>
+          <input id="demo-title" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="Willkommen" />
+          <label class="text-xs text-stone-500">Hero-Untertitel</label>
+          <input id="demo-sub" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" />
+        </div>
+      </details>
+
+      <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
+        <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Einleitung &amp; Zitat</summary>
+        <div class="space-y-2 border-t border-stone-100 px-4 pb-4 pt-3 text-sm">
+          <label class="text-xs text-stone-500">Einleitung (Absatz)</label>
+          <textarea id="demo-intro" rows="3" class="w-full rounded border border-stone-300 px-2 py-1 text-xs"></textarea>
+          <label class="text-xs text-stone-500">Zitat</label>
+          <textarea id="demo-quote" rows="2" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="Kundenstimme oder Leitsatz"></textarea>
+          <label class="text-xs text-stone-500">Zitat-Autor / Quelle</label>
+          <input id="demo-quote-author" type="text" class="w-full rounded border border-stone-300 px-2 py-1 text-xs" placeholder="Name, Ort" />
+        </div>
+      </details>
+
+      <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
+        <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Drei Stärken (USP)</summary>
+        <div class="space-y-3 border-t border-stone-100 px-4 pb-4 pt-3 text-xs">
+          <div class="rounded border border-stone-100 p-2">
+            <p class="font-semibold text-stone-800">1</p>
+            <input id="demo-usp1-t" type="text" class="mt-1 w-full rounded border border-stone-200 px-1 py-0.5" placeholder="Titel" />
+            <textarea id="demo-usp1-x" rows="2" class="mt-1 w-full rounded border border-stone-200 px-1 py-0.5"></textarea>
+          </div>
+          <div class="rounded border border-stone-100 p-2">
+            <p class="font-semibold text-stone-800">2</p>
+            <input id="demo-usp2-t" type="text" class="mt-1 w-full rounded border border-stone-200 px-1 py-0.5" placeholder="Titel" />
+            <textarea id="demo-usp2-x" rows="2" class="mt-1 w-full rounded border border-stone-200 px-1 py-0.5"></textarea>
+          </div>
+          <div class="rounded border border-stone-100 p-2">
+            <p class="font-semibold text-stone-800">3</p>
+            <input id="demo-usp3-t" type="text" class="mt-1 w-full rounded border border-stone-200 px-1 py-0.5" placeholder="Titel" />
+            <textarea id="demo-usp3-x" rows="2" class="mt-1 w-full rounded border border-stone-200 px-1 py-0.5"></textarea>
+          </div>
+        </div>
+      </details>
+
+      <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
+        <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Zwei Highlights</summary>
+        <div class="space-y-3 border-t border-stone-100 px-4 pb-4 pt-3 text-xs">
+          <div class="rounded border border-stone-100 p-2">
+            <input id="demo-hi1-t" type="text" class="w-full rounded border border-stone-200 px-1 py-0.5 font-medium" placeholder="Kachel A Titel" />
+            <textarea id="demo-hi1-x" rows="2" class="mt-1 w-full rounded border border-stone-200 px-1 py-0.5"></textarea>
+          </div>
+          <div class="rounded border border-stone-100 p-2">
+            <input id="demo-hi2-t" type="text" class="w-full rounded border border-stone-200 px-1 py-0.5 font-medium" placeholder="Kachel B Titel" />
+            <textarea id="demo-hi2-x" rows="2" class="mt-1 w-full rounded border border-stone-200 px-1 py-0.5"></textarea>
+          </div>
+        </div>
+      </details>
+
+      <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
+        <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Leistungen (3 Spalten)</summary>
+        <div class="space-y-3 border-t border-stone-100 px-4 pb-4 pt-3 text-xs">
+          <div class="rounded border border-stone-100 p-2"><input id="demo-l1-t" type="text" class="w-full rounded border px-1 py-0.5" placeholder="Titel" /><textarea id="demo-l1-x" rows="2" class="mt-1 w-full rounded border px-1 py-0.5"></textarea></div>
+          <div class="rounded border border-stone-100 p-2"><input id="demo-l2-t" type="text" class="w-full rounded border px-1 py-0.5" placeholder="Titel" /><textarea id="demo-l2-x" rows="2" class="mt-1 w-full rounded border px-1 py-0.5"></textarea></div>
+          <div class="rounded border border-stone-100 p-2"><input id="demo-l3-t" type="text" class="w-full rounded border px-1 py-0.5" placeholder="Titel" /><textarea id="demo-l3-x" rows="2" class="mt-1 w-full rounded border px-1 py-0.5"></textarea></div>
+        </div>
+      </details>
+
+      <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
+        <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Öffnungszeiten &amp; Kontakt</summary>
+        <div class="space-y-2 border-t border-stone-100 px-4 pb-4 pt-3 text-xs">
+          <input id="demo-hours-t" type="text" class="w-full rounded border px-2 py-1" placeholder="Überschrift Öffnungszeiten" />
+          <textarea id="demo-hours-x" rows="3" class="w-full rounded border px-2 py-1"></textarea>
+          <input id="demo-contact-t" type="text" class="w-full rounded border px-2 py-1" placeholder="Überschrift Kontakt" />
+          <textarea id="demo-contact-x" rows="3" class="w-full rounded border px-2 py-1"></textarea>
+          <input id="demo-phone" type="text" class="w-full rounded border px-2 py-1" placeholder="Telefon (Anzeige)" />
+          <input id="demo-email" type="text" class="w-full rounded border px-2 py-1" placeholder="E-Mail (Anzeige)" />
+        </div>
+      </details>
+
+      <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
+        <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Buttons &amp; Fußzeile</summary>
+        <div class="space-y-2 border-t border-stone-100 px-4 pb-4 pt-3 text-sm">
+          <label class="text-xs text-stone-500">Haupt-Button</label>
+          <input id="demo-cta" type="text" class="w-full rounded border px-2 py-1 text-xs" />
+          <label class="text-xs text-stone-500">Zweiter Button (Text)</label>
+          <input id="demo-cta2" type="text" class="w-full rounded border px-2 py-1 text-xs" placeholder="optional" />
+          <label class="text-xs text-stone-500">Zweiter Button (Link, z. B. #kontakt)</label>
+          <input id="demo-cta2-url" type="text" class="w-full rounded border px-2 py-1 text-xs" placeholder="#" />
+          <label class="text-xs text-stone-500">Fußzeile Text</label>
+          <input id="demo-foot" type="text" class="w-full rounded border px-2 py-1 text-xs" />
+          <div class="grid grid-cols-2 gap-1">
+            <input id="demo-foot-a1" type="text" class="rounded border px-1 py-0.5 text-xs" placeholder="Link 1" />
+            <input id="demo-foot-a2" type="text" class="rounded border px-1 py-0.5 text-xs" placeholder="Link 2" />
+          </div>
+        </div>
+      </details>
+
       <div class="rounded-xl border border-stone-300 bg-white p-4 shadow-sm">
         <h2 class="font-display text-sm font-semibold text-stone-900">Bauplan exportieren</h2>
         <label for="bauplan-msg" class="mt-3 block text-xs font-semibold uppercase tracking-wide text-stone-500">Nachricht (für E-Mail)</label>
@@ -256,30 +401,62 @@
     </aside>
 
     <div class="min-w-0 flex-1">
+      <p class="mb-2 text-center text-xs text-stone-500 xl:text-left">Live-Vorschau – alle Änderungen wirken sofort.</p>
       <div class="rounded-xl border border-stone-400 bg-white p-2 shadow-inner">
-        <div id="demo-site" class="demo-scale demo-stil-rustikal overflow-hidden rounded-lg border border-stone-200 bg-stone-100" data-accent="wald" data-fs="md" data-hero="neutral">
-          <div class="demo-bg-accent px-4 py-3 text-white">
+        <div id="demo-site" class="demo-scale demo-stil-rustikal overflow-hidden rounded-lg border border-stone-200 bg-stone-100" data-accent="wald" data-fs="md" data-hero="neutral" data-hero-h="md" data-pagebg="stein" data-density="normal">
+          <div class="demo-bg-accent demo-ph flex items-center justify-between px-4 py-3 text-white">
             <span id="demo-nav-brand" class="text-sm font-semibold">Ihr Betrieb</span>
+            <span id="demo-nav-link" class="hidden text-xs font-medium opacity-90 hover:opacity-100"></span>
           </div>
-          <div class="relative h-40 bg-stone-300">
+          <div class="relative bg-stone-300 demo-hero-h">
+            <span id="demo-badge-wrap" class="absolute left-3 top-3 hidden rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-stone-800 shadow"></span>
             <img id="demo-hero-img" alt="" class="h-full w-full object-cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400'%3E%3Crect fill='%23d6d3d1' width='1200' height='400'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23575252' font-family='sans-serif' font-size='28'%3EPlatzhalter Hero%3C/text%3E%3C/svg%3E" />
-            <div class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/50 to-transparent p-4 text-white">
+            <div class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/55 to-transparent p-4 text-white">
               <h1 id="demo-h1" class="demo-heading text-2xl">Willkommen</h1>
               <p id="demo-p" class="mt-1 text-sm opacity-90">Ihre Geschichte – regional erzählt.</p>
             </div>
           </div>
-          <div class="grid gap-3 p-4 sm:grid-cols-2">
+          <div id="demo-section-intro" class="demo-ph border-b border-stone-200/80 bg-white/60 px-4 py-3">
+            <p id="demo-intro-out" class="text-sm leading-relaxed text-stone-700"></p>
+          </div>
+          <div id="demo-section-usp" class="demo-ph grid gap-3 sm:grid-cols-3">
+            <div class="demo-card p-3"><h3 id="demo-usp1-h" class="demo-heading demo-text-accent text-base"></h3><p id="demo-usp1-p" class="mt-2 text-xs text-stone-600"></p></div>
+            <div class="demo-card p-3"><h3 id="demo-usp2-h" class="demo-heading demo-text-accent text-base"></h3><p id="demo-usp2-p" class="mt-2 text-xs text-stone-600"></p></div>
+            <div class="demo-card p-3"><h3 id="demo-usp3-h" class="demo-heading demo-text-accent text-base"></h3><p id="demo-usp3-p" class="mt-2 text-xs text-stone-600"></p></div>
+          </div>
+          <div id="demo-section-hi" class="demo-ph grid gap-3 sm:grid-cols-2">
+            <div class="demo-card p-3"><h3 id="demo-hi1-h" class="demo-heading text-base text-stone-900"></h3><p id="demo-hi1-p" class="mt-2 text-xs text-stone-600"></p></div>
+            <div class="demo-card p-3"><h3 id="demo-hi2-h" class="demo-heading text-base text-stone-900"></h3><p id="demo-hi2-p" class="mt-2 text-xs text-stone-600"></p></div>
+          </div>
+          <div id="demo-section-quote" class="demo-ph border-y border-stone-200/80 bg-stone-50/90 px-4 py-4">
+            <p id="demo-quote-out" class="text-center text-sm italic text-stone-700"></p>
+            <p id="demo-quote-by" class="mt-2 text-center text-xs font-medium text-stone-500"></p>
+          </div>
+          <div id="kontakt" class="demo-ph grid gap-3 scroll-mt-4 sm:grid-cols-2">
             <div class="demo-card p-4">
-              <h3 class="demo-heading demo-text-accent text-lg">Öffnungszeiten</h3>
-              <p class="mt-2 text-sm text-stone-600">Mo–Fr 8–18 Uhr</p>
+              <h3 id="demo-hours-h" class="demo-heading demo-text-accent text-lg"></h3>
+              <p id="demo-hours-p" class="mt-2 whitespace-pre-line text-sm text-stone-600"></p>
             </div>
             <div class="demo-card p-4">
-              <h3 class="demo-heading demo-text-accent text-lg">Kontakt</h3>
-              <p class="mt-2 text-sm text-stone-600">Tel. &amp; Route</p>
+              <h3 id="demo-contact-h" class="demo-heading demo-text-accent text-lg"></h3>
+              <p id="demo-contact-p" class="mt-2 whitespace-pre-line text-sm text-stone-600"></p>
             </div>
           </div>
-          <div class="p-4 pt-0">
-            <button type="button" id="demo-cta-btn" class="demo-btn px-6 py-2 text-sm font-semibold">Anfragen</button>
+          <div id="demo-section-leist" class="demo-ph grid gap-3 border-t border-stone-200/80 bg-white/50 sm:grid-cols-3">
+            <div class="demo-card border border-stone-200/60 p-3"><p id="demo-leist1-t" class="text-sm font-semibold text-stone-900"></p><p id="demo-leist1-x" class="mt-1 text-xs text-stone-600"></p></div>
+            <div class="demo-card border border-stone-200/60 p-3"><p id="demo-leist2-t" class="text-sm font-semibold text-stone-900"></p><p id="demo-leist2-x" class="mt-1 text-xs text-stone-600"></p></div>
+            <div class="demo-card border border-stone-200/60 p-3"><p id="demo-leist3-t" class="text-sm font-semibold text-stone-900"></p><p id="demo-leist3-x" class="mt-1 text-xs text-stone-600"></p></div>
+          </div>
+          <div class="demo-ph flex flex-wrap items-center gap-2 border-t border-stone-200/80 pt-3">
+            <button type="button" id="demo-cta-btn" class="demo-btn px-5 py-2 text-sm font-semibold">Anfragen</button>
+            <a id="demo-cta2-btn" href="#" class="hidden rounded-lg border-2 px-4 py-2 text-sm font-semibold transition hover:bg-stone-50" style="border-color: var(--accent); color: var(--accent);"></a>
+          </div>
+          <div id="demo-section-foot" class="demo-bg-accent mt-2 px-4 py-3 text-center text-[11px] text-white/90">
+            <span id="demo-foot-out"></span>
+            <span class="mx-2 opacity-50">|</span>
+            <a id="demo-foot-l1" href="#" class="underline opacity-90 hover:opacity-100"></a>
+            <span class="mx-1 opacity-50">·</span>
+            <a id="demo-foot-l2" href="#" class="underline opacity-90 hover:opacity-100"></a>
           </div>
         </div>
       </div>
@@ -325,64 +502,414 @@
       }
       var supaClient = getClient();
 
-      function applyDemoFromState(st) {
-        st = st || {};
+      var PLACEHOLDER_HERO =
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400'%3E%3Crect fill='%23d6d3d1' width='1200' height='400'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23575252' font-family='sans-serif' font-size='28'%3EPlatzhalter Hero%3C/text%3E%3C/svg%3E";
+
+      function defaultState() {
+        return {
+          accent: 'wald',
+          stil: 'rustikal',
+          fs: 'md',
+          hero: 'neutral',
+          radius: 1,
+          heroH: 'md',
+          pagebg: 'stein',
+          density: 'normal',
+          btnStyle: 'solid',
+          secIntro: true,
+          secUsp: true,
+          secHi: true,
+          secQuote: true,
+          secLeist: true,
+          secFoot: true,
+          navManual: '',
+          navLinkT: 'Hofladen',
+          heroBadge: 'Regional · Frisch',
+          heroImgUrl: '',
+          title: '',
+          sub: '',
+          intro:
+            'Als regionaler Betrieb verbinden wir Handwerk, Gastfreundschaft und Qualität. Hier entsteht Ihre Vorschau – Bilder und Texte passen wir gemeinsam an.',
+          quote: '„Endlich eine Website, die zu uns passt.“',
+          quoteAuthor: '— Gästin, Murau',
+          usp1t: 'Aus der Region',
+          usp1x: 'Produkte und Dienstleistungen mit kurzen Wegen und klarem Ursprung.',
+          usp2t: 'Persönlich',
+          usp2x: 'Sie sprechen mit Menschen, die Ihre Sprache sprechen – ohne Callcenter.',
+          usp3t: 'Langlebig',
+          usp3x: 'Sauberer Auftritt, der auf allen Geräten funktioniert und mitwächst.',
+          hi1t: 'Saison & Angebote',
+          hi1x: 'Hier stehen Aktionen, Events oder Menü-Highlights – ganz wie bei Ihnen.',
+          hi2t: 'Bildergalerie',
+          hi2x: 'Platz für Impressionen: Hof, Team, Produktion – wir gestalten das passende Kapitel.',
+          l1t: 'Beratung',
+          l1x: 'Wir hören zu und übersetzen Ihre Ziele in eine klare Struktur.',
+          l2t: 'Umsetzung',
+          l2x: 'Design, Texte und Technik aus einer Hand – regional verwurzelt.',
+          l3t: 'Betreuung',
+          l3x: 'Auch nach dem Launch sind wir für Sie da.',
+          hoursT: 'Öffnungszeiten',
+          hoursX: 'Mo–Fr 8–18 Uhr\nSa nach Vereinbarung',
+          contactT: 'Kontakt',
+          contactX: 'Wir freuen uns auf Ihre Nachricht.',
+          phone: '+43 …',
+          email: 'info@beispiel.at',
+          cta: 'Anfragen',
+          cta2: 'Route',
+          cta2Url: '#kontakt',
+          foot: '© Ihr Betrieb · Alle Rechte vorbehalten.',
+          footA1: 'Impressum',
+          footA2: 'Datenschutz',
+        };
+      }
+
+      function mergeState(raw) {
+        var d = defaultState();
+        if (!raw || typeof raw !== 'object') return d;
+        Object.keys(d).forEach(function (k) {
+          if (Object.prototype.hasOwnProperty.call(raw, k) && raw[k] !== undefined && raw[k] !== null) d[k] = raw[k];
+        });
+        if (!d.navManual && raw.navBrand && typeof raw.navBrand === 'string') d.navManual = raw.navBrand;
+        return d;
+      }
+
+      function navDisplayName(st) {
+        var m = (st.navManual || '').trim();
+        if (m) return m;
+        if (localSess && localSess.name) return localSess.name;
+        return 'Ihr Betrieb';
+      }
+
+      function applyDemoToPreview(st) {
+        st = mergeState(st);
         var site = document.getElementById('demo-site');
-        site.setAttribute('data-accent', st.accent || 'wald');
-        site.setAttribute('data-fs', st.fs || 'md');
-        site.setAttribute('data-hero', st.hero || 'neutral');
+        site.setAttribute('data-accent', st.accent);
+        site.setAttribute('data-fs', st.fs);
+        site.setAttribute('data-hero', st.hero);
+        site.setAttribute('data-hero-h', st.heroH);
+        site.setAttribute('data-pagebg', st.pagebg);
+        site.setAttribute('data-density', st.density);
         site.classList.remove('demo-stil-rustikal', 'demo-stil-modern');
         site.classList.add(st.stil === 'modern' ? 'demo-stil-modern' : 'demo-stil-rustikal');
         site.style.setProperty('--radius', (st.radius != null ? st.radius : 1) + 'rem');
-        document.getElementById('ctrl-accent').value = st.accent || 'wald';
-        document.getElementById('ctrl-stil').value = st.stil || 'rustikal';
-        document.getElementById('ctrl-fs').value = st.fs || 'md';
-        document.getElementById('ctrl-hero').value = st.hero || 'neutral';
-        document.getElementById('ctrl-radius').value = st.radius != null ? st.radius : 1;
-        document.getElementById('demo-title').value = st.title || '';
-        document.getElementById('demo-sub').value = st.sub || '';
-        document.getElementById('demo-cta').value = st.cta || '';
+
+        var heroImg = document.getElementById('demo-hero-img');
+        var url = (st.heroImgUrl || '').trim();
+        heroImg.src = url || PLACEHOLDER_HERO;
+
         document.getElementById('demo-h1').textContent = st.title || 'Willkommen';
         document.getElementById('demo-p').textContent = st.sub || 'Ihre Geschichte – regional erzählt.';
-        document.getElementById('demo-cta-btn').textContent = st.cta || 'Anfragen';
-        document.getElementById('demo-nav-brand').textContent = st.navBrand || 'Ihr Betrieb';
+        document.getElementById('demo-nav-brand').textContent = navDisplayName(st);
+
+        var navL = document.getElementById('demo-nav-link');
+        var nlt = (st.navLinkT || '').trim();
+        if (nlt) {
+          navL.textContent = nlt;
+          navL.classList.remove('hidden');
+        } else {
+          navL.textContent = '';
+          navL.classList.add('hidden');
+        }
+
+        var bw = document.getElementById('demo-badge-wrap');
+        var bd = (st.heroBadge || '').trim();
+        if (bd) {
+          bw.textContent = bd;
+          bw.classList.remove('hidden');
+        } else {
+          bw.textContent = '';
+          bw.classList.add('hidden');
+        }
+
+        document.getElementById('demo-intro-out').textContent = st.intro || '';
+        document.getElementById('demo-quote-out').textContent = st.quote || '';
+        document.getElementById('demo-quote-by').textContent = st.quoteAuthor || '';
+
+        function pair(hId, pId, t, x) {
+          document.getElementById(hId).textContent = t || '';
+          document.getElementById(pId).textContent = x || '';
+        }
+        pair('demo-usp1-h', 'demo-usp1-p', st.usp1t, st.usp1x);
+        pair('demo-usp2-h', 'demo-usp2-p', st.usp2t, st.usp2x);
+        pair('demo-usp3-h', 'demo-usp3-p', st.usp3t, st.usp3x);
+        pair('demo-hi1-h', 'demo-hi1-p', st.hi1t, st.hi1x);
+        pair('demo-hi2-h', 'demo-hi2-p', st.hi2t, st.hi2x);
+        document.getElementById('demo-leist1-t').textContent = st.l1t || '';
+        document.getElementById('demo-leist1-x').textContent = st.l1x || '';
+        document.getElementById('demo-leist2-t').textContent = st.l2t || '';
+        document.getElementById('demo-leist2-x').textContent = st.l2x || '';
+        document.getElementById('demo-leist3-t').textContent = st.l3t || '';
+        document.getElementById('demo-leist3-x').textContent = st.l3x || '';
+
+        document.getElementById('demo-hours-h').textContent = st.hoursT || '';
+        document.getElementById('demo-hours-p').textContent = st.hoursX || '';
+        var cp = (st.contactX || '').trim();
+        var ph = (st.phone || '').trim();
+        var em = (st.email || '').trim();
+        if (ph) cp += (cp ? '\n' : '') + 'Tel. ' + ph;
+        if (em) cp += (cp ? '\n' : '') + em;
+        document.getElementById('demo-contact-h').textContent = st.contactT || '';
+        document.getElementById('demo-contact-p').textContent = cp;
+
+        var c1 = document.getElementById('demo-cta-btn');
+        c1.textContent = st.cta || 'Anfragen';
+        c1.classList.toggle('demo-btn-outline', st.btnStyle === 'outline');
+
+        var c2 = document.getElementById('demo-cta2-btn');
+        var c2t = (st.cta2 || '').trim();
+        if (c2t) {
+          c2.textContent = c2t;
+          c2.href = (st.cta2Url || '').trim() || '#';
+          c2.classList.remove('hidden');
+        } else {
+          c2.textContent = '';
+          c2.href = '#';
+          c2.classList.add('hidden');
+        }
+
+        document.getElementById('demo-foot-out').textContent = st.foot || '';
+        var f1 = document.getElementById('demo-foot-l1');
+        var f2 = document.getElementById('demo-foot-l2');
+        var a1 = (st.footA1 || '').trim();
+        var a2 = (st.footA2 || '').trim();
+        f1.textContent = a1;
+        f2.textContent = a2;
+        f1.href = '#';
+        f2.href = '#';
+
+        function secVis(id, on) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          el.classList.toggle('hidden', !on);
+        }
+        secVis('demo-section-intro', st.secIntro);
+        secVis('demo-section-usp', st.secUsp);
+        secVis('demo-section-hi', st.secHi);
+        secVis('demo-section-quote', st.secQuote);
+        secVis('demo-section-leist', st.secLeist);
+        secVis('demo-section-foot', st.secFoot);
+
+        var footBar = document.getElementById('demo-section-foot');
+        if (footBar) {
+          var sp = footBar.querySelectorAll('span.mx-2, span.mx-1');
+          var showMid = !!(a1 || a2);
+          sp.forEach(function (s) {
+            s.classList.toggle('hidden', !showMid);
+          });
+          f1.classList.toggle('hidden', !a1);
+          f2.classList.toggle('hidden', !a2);
+        }
+      }
+
+      function controlsFromState(st) {
+        st = mergeState(st);
+        document.getElementById('ctrl-accent').value = st.accent;
+        document.getElementById('ctrl-stil').value = st.stil;
+        document.getElementById('ctrl-fs').value = st.fs;
+        document.getElementById('ctrl-hero').value = st.hero;
+        document.getElementById('ctrl-radius').value = st.radius != null ? st.radius : 1;
+        document.getElementById('ctrl-hero-h').value = st.heroH;
+        document.getElementById('ctrl-pagebg').value = st.pagebg;
+        document.getElementById('ctrl-density').value = st.density;
+        document.getElementById('ctrl-btn-style').value = st.btnStyle;
+
+        document.getElementById('sec-intro').checked = !!st.secIntro;
+        document.getElementById('sec-usp').checked = !!st.secUsp;
+        document.getElementById('sec-hi').checked = !!st.secHi;
+        document.getElementById('sec-quote').checked = !!st.secQuote;
+        document.getElementById('sec-leist').checked = !!st.secLeist;
+        document.getElementById('sec-foot').checked = !!st.secFoot;
+
+        function v(id, val) {
+          var el = document.getElementById(id);
+          if (el) el.value = val != null ? val : '';
+        }
+        v('demo-nav-manual', st.navManual);
+        v('demo-nav-link-t', st.navLinkT);
+        v('demo-hero-badge', st.heroBadge);
+        v('demo-hero-img-url', st.heroImgUrl);
+        v('demo-title', st.title);
+        v('demo-sub', st.sub);
+        v('demo-intro', st.intro);
+        v('demo-quote', st.quote);
+        v('demo-quote-author', st.quoteAuthor);
+        v('demo-usp1-t', st.usp1t);
+        v('demo-usp1-x', st.usp1x);
+        v('demo-usp2-t', st.usp2t);
+        v('demo-usp2-x', st.usp2x);
+        v('demo-usp3-t', st.usp3t);
+        v('demo-usp3-x', st.usp3x);
+        v('demo-hi1-t', st.hi1t);
+        v('demo-hi1-x', st.hi1x);
+        v('demo-hi2-t', st.hi2t);
+        v('demo-hi2-x', st.hi2x);
+        v('demo-l1-t', st.l1t);
+        v('demo-l1-x', st.l1x);
+        v('demo-l2-t', st.l2t);
+        v('demo-l2-x', st.l2x);
+        v('demo-l3-t', st.l3t);
+        v('demo-l3-x', st.l3x);
+        v('demo-hours-t', st.hoursT);
+        v('demo-hours-x', st.hoursX);
+        v('demo-contact-t', st.contactT);
+        v('demo-contact-x', st.contactX);
+        v('demo-phone', st.phone);
+        v('demo-email', st.email);
+        v('demo-cta', st.cta);
+        v('demo-cta2', st.cta2);
+        v('demo-cta2-url', st.cta2Url);
+        v('demo-foot', st.foot);
+        v('demo-foot-a1', st.footA1);
+        v('demo-foot-a2', st.footA2);
+      }
+
+      function applyDemoFromState(st) {
+        st = mergeState(st);
+        controlsFromState(st);
+        applyDemoToPreview(st);
       }
 
       function getFormState() {
+        function num(id, def) {
+          var n = parseFloat(document.getElementById(id).value, 10);
+          return isNaN(n) ? def : n;
+        }
+        function chk(id) {
+          return !!document.getElementById(id).checked;
+        }
+        function val(id) {
+          var el = document.getElementById(id);
+          return el ? el.value.trim() : '';
+        }
+        function valRaw(id) {
+          var el = document.getElementById(id);
+          return el ? el.value : '';
+        }
         return {
           accent: document.getElementById('ctrl-accent').value,
           stil: document.getElementById('ctrl-stil').value,
           fs: document.getElementById('ctrl-fs').value,
           hero: document.getElementById('ctrl-hero').value,
-          radius: parseFloat(document.getElementById('ctrl-radius').value, 10) || 1,
-          title: document.getElementById('demo-title').value.trim(),
-          sub: document.getElementById('demo-sub').value.trim(),
-          cta: document.getElementById('demo-cta').value.trim(),
-          navBrand: (localSess && localSess.name) ? localSess.name : 'Ihr Betrieb',
+          radius: num('ctrl-radius', 1),
+          heroH: document.getElementById('ctrl-hero-h').value,
+          pagebg: document.getElementById('ctrl-pagebg').value,
+          density: document.getElementById('ctrl-density').value,
+          btnStyle: document.getElementById('ctrl-btn-style').value,
+          secIntro: chk('sec-intro'),
+          secUsp: chk('sec-usp'),
+          secHi: chk('sec-hi'),
+          secQuote: chk('sec-quote'),
+          secLeist: chk('sec-leist'),
+          secFoot: chk('sec-foot'),
+          navManual: valRaw('demo-nav-manual'),
+          navLinkT: valRaw('demo-nav-link-t'),
+          heroBadge: valRaw('demo-hero-badge'),
+          heroImgUrl: valRaw('demo-hero-img-url'),
+          title: val('demo-title'),
+          sub: val('demo-sub'),
+          intro: valRaw('demo-intro'),
+          quote: valRaw('demo-quote'),
+          quoteAuthor: valRaw('demo-quote-author'),
+          usp1t: valRaw('demo-usp1-t'),
+          usp1x: valRaw('demo-usp1-x'),
+          usp2t: valRaw('demo-usp2-t'),
+          usp2x: valRaw('demo-usp2-x'),
+          usp3t: valRaw('demo-usp3-t'),
+          usp3x: valRaw('demo-usp3-x'),
+          hi1t: valRaw('demo-hi1-t'),
+          hi1x: valRaw('demo-hi1-x'),
+          hi2t: valRaw('demo-hi2-t'),
+          hi2x: valRaw('demo-hi2-x'),
+          l1t: valRaw('demo-l1-t'),
+          l1x: valRaw('demo-l1-x'),
+          l2t: valRaw('demo-l2-t'),
+          l2x: valRaw('demo-l2-x'),
+          l3t: valRaw('demo-l3-t'),
+          l3x: valRaw('demo-l3-x'),
+          hoursT: valRaw('demo-hours-t'),
+          hoursX: valRaw('demo-hours-x'),
+          contactT: valRaw('demo-contact-t'),
+          contactX: valRaw('demo-contact-x'),
+          phone: valRaw('demo-phone'),
+          email: valRaw('demo-email'),
+          cta: val('demo-cta'),
+          cta2: valRaw('demo-cta2'),
+          cta2Url: valRaw('demo-cta2-url'),
+          foot: valRaw('demo-foot'),
+          footA1: valRaw('demo-foot-a1'),
+          footA2: valRaw('demo-foot-a2'),
         };
       }
 
       function syncPreviewFromControls() {
-        var st = getFormState();
-        document.getElementById('demo-h1').textContent = st.title || 'Willkommen';
-        document.getElementById('demo-p').textContent = st.sub || 'Ihre Geschichte – regional erzählt.';
-        document.getElementById('demo-cta-btn').textContent = st.cta || 'Anfragen';
-        if (localSess && localSess.name) document.getElementById('demo-nav-brand').textContent = localSess.name;
-        var site = document.getElementById('demo-site');
-        site.setAttribute('data-accent', st.accent);
-        site.setAttribute('data-fs', st.fs);
-        site.setAttribute('data-hero', st.hero);
-        site.classList.remove('demo-stil-rustikal', 'demo-stil-modern');
-        site.classList.add(st.stil === 'modern' ? 'demo-stil-modern' : 'demo-stil-rustikal');
-        site.style.setProperty('--radius', st.radius + 'rem');
+        applyDemoToPreview(getFormState());
       }
 
-      ['ctrl-accent', 'ctrl-stil', 'ctrl-fs', 'ctrl-hero', 'ctrl-radius'].forEach(function (id) {
-        document.getElementById(id).addEventListener('input', syncPreviewFromControls);
-        document.getElementById(id).addEventListener('change', syncPreviewFromControls);
+      var ctrlIds = [
+        'ctrl-accent',
+        'ctrl-stil',
+        'ctrl-fs',
+        'ctrl-hero',
+        'ctrl-radius',
+        'ctrl-hero-h',
+        'ctrl-pagebg',
+        'ctrl-density',
+        'ctrl-btn-style',
+      ];
+      ctrlIds.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', syncPreviewFromControls);
+        el.addEventListener('change', syncPreviewFromControls);
       });
-      ['demo-title', 'demo-sub', 'demo-cta'].forEach(function (id) {
-        document.getElementById(id).addEventListener('input', syncPreviewFromControls);
+      [
+        'demo-nav-manual',
+        'demo-nav-link-t',
+        'demo-hero-badge',
+        'demo-hero-img-url',
+        'demo-title',
+        'demo-sub',
+        'demo-intro',
+        'demo-quote',
+        'demo-quote-author',
+        'demo-usp1-t',
+        'demo-usp1-x',
+        'demo-usp2-t',
+        'demo-usp2-x',
+        'demo-usp3-t',
+        'demo-usp3-x',
+        'demo-hi1-t',
+        'demo-hi1-x',
+        'demo-hi2-t',
+        'demo-hi2-x',
+        'demo-l1-t',
+        'demo-l1-x',
+        'demo-l2-t',
+        'demo-l2-x',
+        'demo-l3-t',
+        'demo-l3-x',
+        'demo-hours-t',
+        'demo-hours-x',
+        'demo-contact-t',
+        'demo-contact-x',
+        'demo-phone',
+        'demo-email',
+        'demo-cta',
+        'demo-cta2',
+        'demo-cta2-url',
+        'demo-foot',
+        'demo-foot-a1',
+        'demo-foot-a2',
+      ].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', syncPreviewFromControls);
+        el.addEventListener('change', syncPreviewFromControls);
+      });
+      ['sec-intro', 'sec-usp', 'sec-hi', 'sec-quote', 'sec-leist', 'sec-foot'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('change', syncPreviewFromControls);
       });
 
       function setLocalHeader() {
@@ -558,7 +1085,8 @@
         }
       }
       setLocalHeader();
-      syncPreviewFromControls();
+      if (!localSess) applyDemoFromState({});
+      else syncPreviewFromControls();
 
       var lastMail = localStorage.getItem('dahoam_bauplan_mailto');
       if (lastMail) document.getElementById('bauplan-email-to').value = lastMail;
