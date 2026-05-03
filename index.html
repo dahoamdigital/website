@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Dahoam-Digital: Websites und Onlineshops für steirische Traditionsbetriebe – fair, regional, mit Handschlagqualität." />
+  <title>Dahoam-Digital | Deine digitale Heimat</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#2D5A27" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            steirer: { DEFAULT: '#2D5A27', dark: '#1f3f1b', soft: '#e8f0e6' },
+            erde: { DEFAULT: '#8B6914', light: '#c9a22733', warm: '#b8956a', sand: '#f5f0e8' },
+          },
+          fontFamily: {
+            display: ['Fraunces', 'Georgia', 'serif'],
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .input-field, .textarea-field, .select-field {
+      width: 100%; border-radius: 0.75rem; border: 1px solid #e7e5e4;
+      background-color: rgba(250, 250, 249, 0.5); padding: 0.75rem 1rem;
+      font-size: 1rem; line-height: 1.5; color: #1c1917;
+      transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .textarea-field { resize: vertical; min-height: 5.5rem; }
+    .input-field::placeholder, .textarea-field::placeholder { color: #a8a29e; }
+    .input-field:focus, .textarea-field:focus, .select-field:focus {
+      border-color: #2D5A27; background-color: #fff; outline: none;
+      box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.2);
+    }
+    .select-field {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23575452'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 1rem center;
+      background-size: 1.25rem; padding-right: 2.75rem;
+    }
+    .file-input { width: 100%; font-size: 0.875rem; color: #57534e; }
+    .file-input::file-selector-button {
+      margin-right: 1rem; cursor: pointer; border-radius: 0.5rem; border: 0;
+      background-color: #e8f0e6; padding: 0.5rem 1rem; font-weight: 600;
+      font-size: 0.875rem; color: #2D5A27;
+    }
+    .file-input::file-selector-button:hover { background-color: rgba(45, 90, 39, 0.18); }
+  </style>
+</head>
+<body class="font-sans text-stone-800 antialiased bg-white">
+  <header class="sticky top-0 z-40 border-b border-stone-200/80 bg-white/95 backdrop-blur-md">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3 sm:gap-4 sm:px-6 lg:px-8">
+      <a href="index.html" class="font-display shrink-0 text-lg font-semibold tracking-tight text-steirer sm:text-xl">Dahoam-Digital</a>
+      <nav class="hidden flex-1 justify-center gap-6 text-sm font-medium text-stone-600 lg:gap-8 sm:flex">
+        <a href="#vorteile" class="hover:text-steirer transition-colors">Vorteile</a>
+        <a href="#leistungen" class="hover:text-steirer transition-colors">Leistungen</a>
+        <a href="website-editor.html" class="hover:text-steirer transition-colors">Website-Editor</a>
+        <a href="#kontakt" class="hover:text-steirer transition-colors">Kontakt</a>
+      </nav>
+      <div class="flex shrink-0 items-center gap-2 sm:gap-3">
+        <button type="button" id="index-open-login" class="rounded-full border border-stone-300 bg-white px-3 py-2 text-sm font-medium text-stone-700 shadow-sm transition hover:border-steirer hover:text-steirer sm:px-4">Anmelden</button>
+        <div id="index-auth-session" class="hidden items-center gap-2">
+          <a href="admin.html" class="inline-flex items-center rounded-full border border-steirer/50 bg-steirer-soft px-3 py-2 text-sm font-semibold text-steirer transition hover:bg-steirer/15 sm:px-4" title="Bauplan-Aufträge">Aufträge</a>
+          <button type="button" id="index-btn-logout" class="rounded-full px-2 py-2 text-sm font-medium text-stone-600 hover:text-steirer sm:px-3">Abmelden</button>
+        </div>
+        <a href="#kontakt" class="rounded-full bg-steirer px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-steirer-dark sm:hidden">Anfrage</a>
+        <a href="#kontakt" class="hidden rounded-full bg-steirer px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-steirer-dark sm:inline-flex">Unverbindlich anfragen</a>
+      </div>
+    </div>
+  </header>
+
+  <div id="index-login-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-stone-900/50 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="index-login-title">
+    <div class="relative w-full max-w-md rounded-2xl border border-stone-200 bg-white p-6 shadow-xl">
+      <button type="button" id="index-login-close" class="absolute right-4 top-4 rounded-lg p-1 text-stone-500 hover:bg-stone-100 hover:text-stone-800" aria-label="Schließen">✕</button>
+      <h2 id="index-login-title" class="font-display text-lg font-semibold text-stone-900">Anmelden</h2>
+      <p class="mt-2 text-sm text-stone-600">Zugang für dein Team: dieselben Zugangsdaten wie in Supabase unter <strong>Authentication</strong> (nicht das lokale Editor-Konto).</p>
+      <form id="index-login-form" class="mt-5 space-y-4">
+        <div>
+          <label for="index-login-email" class="block text-sm font-medium text-stone-700">E-Mail</label>
+          <input id="index-login-email" type="email" required autocomplete="username" class="input-field mt-1" />
+        </div>
+        <div>
+          <label for="index-login-pass" class="block text-sm font-medium text-stone-700">Passwort</label>
+          <div class="relative mt-1">
+            <input id="index-login-pass" type="password" required autocomplete="current-password" class="input-field w-full pr-24" />
+            <button type="button" class="absolute bottom-0 right-0 top-0 flex items-center px-3 text-xs font-medium text-stone-600 hover:text-steirer focus:outline-none focus-visible:ring-2 focus-visible:ring-steirer/40 rounded-r-xl" data-password-toggle="index-login-pass" aria-label="Passwort anzeigen" aria-pressed="false"><span class="password-toggle-label">Anzeigen</span></button>
+          </div>
+        </div>
+        <p id="index-login-error" class="hidden text-sm text-red-600"></p>
+        <button type="submit" class="w-full rounded-xl bg-steirer py-3 text-sm font-semibold text-white transition hover:bg-steirer-dark">Einloggen</button>
+      </form>
+    </div>
+  </div>
+
+  <main>
+    <section class="relative overflow-hidden bg-gradient-to-b from-steirer-soft to-white px-4 pb-16 pt-12 sm:px-6 sm:pb-24 sm:pt-16 lg:px-8 lg:pt-20">
+      <div class="pointer-events-none absolute -right-24 top-10 h-64 w-64 rounded-full bg-erde-light blur-3xl sm:-right-16" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute -left-20 bottom-0 h-48 w-48 rounded-full bg-steirer/5 blur-3xl" aria-hidden="true"></div>
+      <div class="relative mx-auto max-w-3xl text-center">
+        <p class="mb-4 inline-flex items-center gap-2 rounded-full border border-steirer/20 bg-white/80 px-3 py-1 text-xs font-medium text-steirer shadow-sm sm:text-sm">
+          <span class="h-1.5 w-1.5 rounded-full bg-steirer" aria-hidden="true"></span>
+          Für Betriebe in Weiz &amp; der Südoststeiermark
+        </p>
+        <h1 class="font-display text-3xl font-semibold leading-tight tracking-tight text-stone-900 sm:text-4xl lg:text-5xl">
+          Deine digitale Heimat –<br class="hidden sm:inline" />
+          <span class="text-steirer">Einfach. Regional. Persönlich.</span>
+        </h1>
+        <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-stone-600 sm:text-lg">
+          Wir bringen steirische Traditionsbetriebe ins Netz – ohne hohe Einmalkosten, mit Handschlagqualität.
+        </p>
+        <div class="mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
+          <a href="#kontakt" class="inline-flex items-center justify-center rounded-full bg-steirer px-8 py-3.5 text-base font-semibold text-white shadow-md transition hover:bg-steirer-dark">Jetzt kurz Bescheid sagen</a>
+          <a href="website-editor.html" class="inline-flex items-center justify-center rounded-full border-2 border-stone-300 bg-white px-8 py-3.5 text-base font-semibold text-stone-800 transition hover:border-steirer hover:text-steirer">Website-Editor öffnen</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="vorteile" class="scroll-mt-24 border-t border-stone-100 bg-erde-sand/40 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <div class="mx-auto max-w-6xl">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="font-display text-2xl font-semibold text-stone-900 sm:text-3xl">Warum mit uns?</h2>
+          <p class="mt-3 text-stone-600">Vier gute Gründe – klar gesagt, ohne Schnickschnack.</p>
+        </div>
+        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+          <article class="group flex flex-col rounded-2xl border border-stone-200/80 bg-white p-6 shadow-sm transition hover:border-steirer/30 hover:shadow-md">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-steirer-soft text-steirer">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <h3 class="font-display text-lg font-semibold text-stone-900">Website als Dauerleistung</h3>
+            <p class="mt-1 text-xs font-medium uppercase tracking-wide text-erde">Was andere „Abo-Modell“ nennen</p>
+            <p class="mt-3 flex-1 text-sm leading-relaxed text-stone-600">Faires monatliches Paket statt einer hohen Rechnung am Anfang. Du planst sicher, wir kümmern uns um Betrieb und Updates.</p>
+          </article>
+          <article class="flex flex-col rounded-2xl border border-stone-200/80 bg-white p-6 shadow-sm transition hover:border-steirer/30 hover:shadow-md">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-steirer-soft text-steirer">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <h3 class="font-display text-lg font-semibold text-stone-900">Regional verwurzelt</h3>
+            <p class="mt-3 flex-1 text-sm leading-relaxed text-stone-600">Wir sprechen deine Sprache – und die deiner Gäste. Texte, Fotos und Tonfall passen zur Steiermark.</p>
+          </article>
+          <article class="flex flex-col rounded-2xl border border-stone-200/80 bg-white p-6 shadow-sm transition hover:border-steirer/30 hover:shadow-md">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-steirer-soft text-steirer">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <h3 class="font-display text-lg font-semibold text-stone-900">Technik in guten Händen</h3>
+            <p class="mt-3 flex-1 text-sm leading-relaxed text-stone-600">SSL, Backups, Updates – du musst dich nicht auskennen. Wir halten die Seite fit und erreichbar.</p>
+          </article>
+          <article class="flex flex-col rounded-2xl border border-stone-200/80 bg-white p-6 shadow-sm transition hover:border-steirer/30 hover:shadow-md">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-steirer-soft text-steirer">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+            </div>
+            <h3 class="font-display text-lg font-semibold text-stone-900">Persönlicher Kontakt</h3>
+            <p class="mt-3 flex-1 text-sm leading-relaxed text-stone-600">Kein anonymes Ticket-System. Du erreichst uns – und wir melden uns zurück.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="leistungen" class="scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <div class="mx-auto max-w-6xl">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="font-display text-2xl font-semibold text-stone-900 sm:text-3xl">Leistungen</h2>
+          <p class="mt-3 text-stone-600">Von der ersten Idee bis zur laufenden Website – modular buchbar.</p>
+        </div>
+        <ul class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <li class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+            <h3 class="font-semibold text-stone-900">Website &amp; Landingpage</h3>
+            <p class="mt-2 text-sm text-stone-600">Struktur, Texte, Bilder, Google-Maps – alles, was Besucher brauchen.</p>
+          </li>
+          <li class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+            <h3 class="font-semibold text-stone-900">Onlineshop (optional)</h3>
+            <p class="mt-2 text-sm text-stone-600">Produkte, Zahlung, Versand – wenn du verkaufen willst, nicht nur informieren.</p>
+          </li>
+          <li class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+            <h3 class="font-semibold text-stone-900">Pflege &amp; Hosting</h3>
+            <p class="mt-2 text-sm text-stone-600">Domain, E-Mail-Weiterleitung, kleine Änderungen – aus einer Hand.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="kontakt" class="scroll-mt-24 border-t border-stone-100 bg-stone-50 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <div class="mx-auto max-w-2xl">
+        <h2 class="font-display text-center text-2xl font-semibold text-stone-900 sm:text-3xl">Kontakt</h2>
+        <p class="mt-3 text-center text-stone-600">Schreib uns – wir melden uns bei dir.</p>
+        <form id="kontakt-form" class="mt-10 space-y-5 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8" action="#" method="get">
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="sm:col-span-2">
+              <label for="kf-name" class="block text-sm font-medium text-stone-700">Name / Betrieb</label>
+              <input id="kf-name" name="name" type="text" class="input-field mt-1" required autocomplete="organization" />
+            </div>
+            <div>
+              <label for="kf-email" class="block text-sm font-medium text-stone-700">E-Mail</label>
+              <input id="kf-email" name="email" type="email" class="input-field mt-1" required autocomplete="email" />
+            </div>
+            <div>
+              <label for="kf-tel" class="block text-sm font-medium text-stone-700">Telefon (optional)</label>
+              <input id="kf-tel" name="tel" type="tel" class="input-field mt-1" autocomplete="tel" />
+            </div>
+            <div class="sm:col-span-2">
+              <label for="kf-msg" class="block text-sm font-medium text-stone-700">Deine Nachricht</label>
+              <textarea id="kf-msg" name="message" class="textarea-field mt-1" rows="5" required placeholder="Worum geht’s? Brauchst du eine neue Seite oder nur ein Update?"></textarea>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="kf-files" class="block text-sm font-medium text-stone-700">Dateien (optional)</label>
+              <input id="kf-files" type="file" multiple class="file-input mt-1" data-file-hint="kf-file-hint" />
+              <p id="kf-file-hint" class="mt-2 text-xs text-stone-500">Noch keine Datei ausgewählt.</p>
+              <p class="mt-1 text-xs text-stone-500">Hinweis: Dieses Formular sendet im Browser per E-Mail-Programm (mailto) – für echtes Formular-Backend bitte separat anbinden.</p>
+            </div>
+          </div>
+          <button type="submit" class="w-full rounded-xl bg-steirer py-3 text-sm font-semibold text-white transition hover:bg-steirer-dark">Anfrage per E-Mail öffnen</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-stone-200 bg-white px-4 py-10 sm:px-6">
+    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-center text-sm text-stone-600 sm:flex-row sm:text-left">
+      <p>© <span id="y"></span> Dahoam-Digital · Weiz &amp; Umgebung</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="website-editor.html" class="hover:text-steirer">Website-Editor</a>
+        <a href="admin.html" class="hover:text-steirer">Admin</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script>
+    (function () {
+      function getClient() {
+        var url = (window.DAHOAM_SUPABASE_URL || '').trim();
+        var key = (window.DAHOAM_SUPABASE_ANON_KEY || '').trim();
+        if (!url || !key) return null;
+        var lib = typeof window.supabase !== 'undefined' ? window.supabase : typeof supabase !== 'undefined' ? supabase : null;
+        if (!lib || typeof lib.createClient !== 'function') return null;
+        return lib.createClient(url, key, {
+          auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage },
+        });
+      }
+      var client = getClient();
+      var btnOpen = document.getElementById('index-open-login');
+      var barSession = document.getElementById('index-auth-session');
+      var modal = document.getElementById('index-login-modal');
+      var form = document.getElementById('index-login-form');
+      var errEl = document.getElementById('index-login-error');
+      function showError(msg) {
+        errEl.textContent = msg || '';
+        errEl.classList.toggle('hidden', !msg);
+      }
+      function setHeaderAuth(session) {
+        var ok = !!(session && session.user);
+        if (btnOpen) btnOpen.classList.toggle('hidden', ok);
+        if (barSession) { barSession.classList.toggle('hidden', !ok); barSession.classList.toggle('flex', ok); }
+        if (ok) {
+          showError('');
+          if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+        }
+      }
+      function openModal() {
+        if (!client) {
+          showError('Supabase ist nicht konfiguriert (js/config.js).');
+          modal.classList.remove('hidden'); modal.classList.add('flex');
+          return;
+        }
+        showError('');
+        modal.classList.remove('hidden'); modal.classList.add('flex');
+      }
+      function closeModal() { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+      if (btnOpen) btnOpen.addEventListener('click', openModal);
+      document.getElementById('index-login-close').addEventListener('click', closeModal);
+      modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+      document.getElementById('index-btn-logout').addEventListener('click', async function () { if (client) await client.auth.signOut(); });
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        showError('');
+        if (!client) { showError('Kein Supabase-Client. Bitte js/config.js prüfen.'); return; }
+        var email = document.getElementById('index-login-email').value.trim();
+        var pass = document.getElementById('index-login-pass').value;
+        var res = await client.auth.signInWithPassword({ email: email, password: pass });
+        if (res.error) { showError(res.error.message || 'Login fehlgeschlagen.'); return; }
+      });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) closeModal(); });
+      var em = document.getElementById('index-login-email');
+      if (em && !em.value && (window.DAHOAM_BAUFPLAN_EMAIL_TO || '').trim()) em.value = (window.DAHOAM_BAUFPLAN_EMAIL_TO || '').trim();
+      document.querySelectorAll('[data-password-toggle]').forEach(function (btn) {
+        var id = btn.getAttribute('data-password-toggle');
+        var input = document.getElementById(id);
+        if (!input) return;
+        btn.addEventListener('click', function () {
+          var show = input.type === 'password';
+          input.type = show ? 'text' : 'password';
+          btn.setAttribute('aria-pressed', show ? 'true' : 'false');
+          var label = btn.querySelector('.password-toggle-label');
+          if (label) label.textContent = show ? 'Verbergen' : 'Anzeigen';
+        });
+      });
+      if (client) {
+        function applyAuthEvent(event, session) {
+          if (session && session.user) { setHeaderAuth(session); return; }
+          if (event === 'SIGNED_OUT') { setHeaderAuth(null); return; }
+          client.auth.getSession().then(function (r) { setHeaderAuth(r.data && r.data.session ? r.data.session : null); });
+        }
+        client.auth.getSession().then(function (res) {
+          if (res.error) console.warn('Supabase getSession', res.error.message);
+          setHeaderAuth(res.data && res.data.session ? res.data.session : null);
+        });
+        client.auth.onAuthStateChange(applyAuthEvent);
+      } else setHeaderAuth(null);
+    })();
+  </script>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+    document.getElementById('kontakt-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = document.getElementById('kf-name').value.trim();
+      var email = document.getElementById('kf-email').value.trim();
+      var tel = document.getElementById('kf-tel').value.trim();
+      var msg = document.getElementById('kf-msg').value.trim();
+      var body = encodeURIComponent('Name/Betrieb: ' + name + '\nE-Mail: ' + email + '\nTelefon: ' + tel + '\n\n---\n\n' + msg);
+      var subject = encodeURIComponent('Anfrage Dahoam-Digital');
+      window.location.href = 'mailto:info@dahoam-digital.at?subject=' + subject + '&body=' + body;
+    });
+    document.querySelectorAll('[data-file-hint]').forEach(function (input) {
+      var hintId = input.getAttribute('data-file-hint');
+      var hint = hintId ? document.getElementById(hintId) : null;
+      if (!hint) return;
+      function updateHint() {
+        var files = input.files;
+        if (!files || files.length === 0) { hint.textContent = 'Noch keine Datei ausgewählt.'; return; }
+        if (files.length === 1) { hint.textContent = '1 Datei: ' + files[0].name; return; }
+        var names = Array.prototype.slice.call(files, 0, 3).map(function (f) { return f.name; }).join(', ');
+        hint.textContent = files.length + ' Dateien' + (files.length > 3 ? ' (u. a. ' + names + ' …)' : ': ' + names);
+      }
+      input.addEventListener('change', updateHint);
+    });
+  </script>
+</body>
+</html>

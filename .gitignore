@@ -1,0 +1,6 @@
+# Lokale Supabase-Keys (bei Git → Cloudflare Pages / Netlify nicht committen)
+js/config.js
+
+node_modules/
+.DS_Store
+Thumbs.db

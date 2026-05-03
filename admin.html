@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin – Bauplan-Aufträge | Dahoam-Digital</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#2D5A27" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { steirer: { DEFAULT: '#2D5A27', dark: '#1f3f1b', soft: '#e8f0e6' } },
+          fontFamily: { display: ['Fraunces', 'Georgia', 'serif'], sans: ['DM Sans', 'system-ui', 'sans-serif'] },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="min-h-screen bg-stone-100 font-sans text-stone-800">
+  <header class="border-b border-stone-200 bg-white shadow-sm">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
+      <div>
+        <h1 class="font-display text-xl font-semibold text-steirer">Dahoam-Digital · Admin</h1>
+        <p class="text-sm text-stone-500">Bauplan-Aufträge aus der Datenbank</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <a href="index.html" class="text-sm font-medium text-stone-600 hover:text-steirer">Zur Website</a>
+        <a href="website-editor.html" class="text-sm font-medium text-stone-600 hover:text-steirer">Editor</a>
+        <button type="button" id="btn-logout" class="hidden rounded-lg border border-stone-300 px-4 py-2 text-sm font-medium hover:bg-stone-50">Abmelden</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+    <section id="login-section" class="mx-auto max-w-md rounded-2xl border border-stone-200 bg-white p-8 shadow-sm">
+      <h2 class="font-display text-lg font-semibold text-stone-900">Anmelden</h2>
+      <p class="mt-2 text-sm text-stone-600">Nutze den <strong>Admin-Benutzer</strong>, den du in Supabase unter Authentication angelegt hast (nicht das anonyme Kunden-Konto aus dem Editor).</p>
+      <form id="login-form" class="mt-6 space-y-4">
+        <div>
+          <label for="admin-email" class="block text-sm font-medium text-stone-700">E-Mail</label>
+          <input id="admin-email" type="email" required autocomplete="username" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label for="admin-pass" class="block text-sm font-medium text-stone-700">Passwort</label>
+          <div class="relative mt-1">
+            <input id="admin-pass" type="password" required autocomplete="current-password" class="w-full rounded-lg border border-stone-300 px-3 py-2 pr-20 text-sm" />
+            <button type="button" class="absolute bottom-0 right-0 top-0 flex items-center px-3 text-xs font-medium text-stone-600 hover:text-steirer rounded-r-lg" data-password-toggle="admin-pass" aria-label="Passwort anzeigen"><span class="password-toggle-label">Anzeigen</span></button>
+          </div>
+        </div>
+        <p id="login-error" class="hidden text-sm text-red-600"></p>
+        <button type="submit" class="w-full rounded-xl bg-steirer py-3 text-sm font-semibold text-white hover:bg-steirer-dark">Einloggen</button>
+      </form>
+      <p class="mt-6 text-xs text-stone-500">Konfiguration: dieselbe <code class="rounded bg-stone-100 px-1">js/config.js</code> wie im Website-Editor (URL + anon key).</p>
+    </section>
+
+    <section id="admin-section" class="hidden">
+      <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h2 class="font-display text-lg font-semibold text-stone-900">Aufträge</h2>
+          <p class="text-sm text-stone-600">Neueste zuerst · Klick auf eine Zeile öffnet den Bauplan (JSON)</p>
+        </div>
+        <button type="button" id="btn-reload" class="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium hover:bg-stone-50">Aktualisieren</button>
+      </div>
+      <div class="overflow-x-auto rounded-xl border border-stone-200 bg-white shadow-sm">
+        <table class="min-w-full divide-y divide-stone-200 text-left text-sm">
+          <thead class="bg-stone-50 text-xs font-semibold uppercase tracking-wide text-stone-500">
+            <tr>
+              <th class="px-4 py-3">Datum</th>
+              <th class="px-4 py-3">Betrieb</th>
+              <th class="px-4 py-3">Kontakt</th>
+              <th class="px-4 py-3">Region</th>
+              <th class="px-4 py-3">Editor-Konto</th>
+            </tr>
+          </thead>
+          <tbody id="auftraege-body" class="divide-y divide-stone-100"></tbody>
+        </table>
+      </div>
+      <p id="empty-hint" class="mt-4 hidden text-center text-sm text-stone-500">Noch keine Einträge.</p>
+      <div id="detail-panel" class="mt-8 hidden rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+        <h3 class="font-semibold text-stone-900">Bauplan (JSON)</h3>
+        <pre id="detail-json" class="mt-3 max-h-[480px] overflow-auto rounded-lg bg-stone-900 p-4 text-xs text-emerald-100"></pre>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script>
+    (function () {
+      function getClient() {
+        var url = (window.DAHOAM_SUPABASE_URL || '').trim();
+        var key = (window.DAHOAM_SUPABASE_ANON_KEY || '').trim();
+        if (!url || !key) return null;
+        var lib = typeof window.supabase !== 'undefined' ? window.supabase : typeof supabase !== 'undefined' ? supabase : null;
+        if (!lib || typeof lib.createClient !== 'function') return null;
+        return lib.createClient(url, key, {
+          auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage },
+        });
+      }
+
+      var client = getClient();
+      var loginSection = document.getElementById('login-section');
+      var adminSection = document.getElementById('admin-section');
+      var btnLogout = document.getElementById('btn-logout');
+
+      function showLoginError(msg) {
+        var el = document.getElementById('login-error');
+        el.textContent = msg || '';
+        el.classList.toggle('hidden', !msg);
+      }
+
+      function setLoggedInUi(session) {
+        var ok = !!(session && session.user);
+        loginSection.classList.toggle('hidden', ok);
+        adminSection.classList.toggle('hidden', !ok);
+        btnLogout.classList.toggle('hidden', !ok);
+        if (ok) loadAuftraege();
+      }
+
+      async function initSession() {
+        if (!client) {
+          showLoginError('js/config.js fehlt oder URL/Key sind leer.');
+          return;
+        }
+        var first = await client.auth.getSession();
+        if (first.error) console.warn('Supabase getSession', first.error.message);
+        setLoggedInUi(first.data && first.data.session ? first.data.session : null);
+        client.auth.onAuthStateChange(function (event, session) {
+          if (session && session.user) { setLoggedInUi(session); return; }
+          if (event === 'SIGNED_OUT') { setLoggedInUi(null); return; }
+        });
+      }
+
+      var tbody = document.getElementById('auftraege-body');
+      var emptyHint = document.getElementById('empty-hint');
+      var detailPanel = document.getElementById('detail-panel');
+      var detailJson = document.getElementById('detail-json');
+
+      async function loadAuftraege() {
+        if (!client) return;
+        tbody.innerHTML = '';
+        detailPanel.classList.add('hidden');
+        var res = await client.from('bauplan_auftraege').select('*').order('created_at', { ascending: false });
+        if (res.error) {
+          console.error(res.error);
+          tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-6 text-center text-red-600">' + (res.error.message || 'Fehler beim Laden') + '</td></tr>';
+          emptyHint.classList.add('hidden');
+          return;
+        }
+        var rows = res.data || [];
+        emptyHint.classList.toggle('hidden', rows.length > 0);
+        rows.forEach(function (row) {
+          var tr = document.createElement('tr');
+          tr.className = 'cursor-pointer hover:bg-stone-50';
+          var d = row.created_at ? new Date(row.created_at) : null;
+          var dateStr = d && !isNaN(d) ? d.toLocaleString('de-AT') : '–';
+          tr.innerHTML =
+            '<td class="px-4 py-3 whitespace-nowrap text-stone-600">' + escapeHtml(dateStr) + '</td>' +
+            '<td class="px-4 py-3 font-medium text-stone-900">' + escapeHtml(row.betrieb || '') + '</td>' +
+            '<td class="px-4 py-3">' + escapeHtml(row.email || '') + '<br/><span class="text-xs text-stone-500">' + escapeHtml(row.telefon || '') + '</span></td>' +
+            '<td class="px-4 py-3 text-stone-600">' + escapeHtml(row.region || '') + '</td>' +
+            '<td class="px-4 py-3 text-xs text-stone-500">' + escapeHtml(row.editor_konto_email || '–') + '</td>';
+          tr.addEventListener('click', function () {
+            detailJson.textContent = JSON.stringify(row.bauplan_json, null, 2);
+            detailPanel.classList.remove('hidden');
+          });
+          tbody.appendChild(tr);
+        });
+      }
+
+      function escapeHtml(s) {
+        if (!s) return '';
+        var d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+      }
+
+      document.getElementById('login-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        showLoginError('');
+        if (!client) { showLoginError('Kein Supabase-Client.'); return; }
+        var email = document.getElementById('admin-email').value.trim();
+        var pass = document.getElementById('admin-pass').value;
+        var res = await client.auth.signInWithPassword({ email: email, password: pass });
+        if (res.error) { showLoginError(res.error.message || 'Login fehlgeschlagen.'); return; }
+      });
+
+      document.getElementById('btn-logout').addEventListener('click', async function () {
+        if (client) await client.auth.signOut();
+      });
+
+      document.getElementById('btn-reload').addEventListener('click', function () { loadAuftraege(); });
+
+      document.querySelectorAll('[data-password-toggle]').forEach(function (btn) {
+        var id = btn.getAttribute('data-password-toggle');
+        var input = document.getElementById(id);
+        if (!input) return;
+        btn.addEventListener('click', function () {
+          var show = input.type === 'password';
+          input.type = show ? 'text' : 'password';
+          var label = btn.querySelector('.password-toggle-label');
+          if (label) label.textContent = show ? 'Verbergen' : 'Anzeigen';
+        });
+      });
+
+      var ae = document.getElementById('admin-email');
+      if (ae && !ae.value && (window.DAHOAM_BAUFPLAN_EMAIL_TO || '').trim()) ae.value = (window.DAHOAM_BAUFPLAN_EMAIL_TO || '').trim();
+
+      initSession();
+    })();
+  </script>
+</body>
+</html>

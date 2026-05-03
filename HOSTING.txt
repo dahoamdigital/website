@@ -1,0 +1,27 @@
+Empfehlung: Cloudflare Pages oder Netlify (statisches Hosting, kostenloser Einstieg, CDN, weniger Konfiguration als klassisches Webspace-FTP).
+
+Tägliche Arbeit (GitHub + Cloudflare verbunden):
+  Änderungen nur im Git-Repository (Cursor oder github.com) committen und pushen — kein separater Upload zu Cloudflare. Jeder Push auf den verbundenen Branch startet automatisch einen neuen Deploy.
+
+Dieser Ordner ist dafür vorbereitet:
+  _headers      → Sicherheits-Header (Cloudflare Pages + Netlify)
+  vercel.json   → gleiche Header für Vercel
+  netlify.toml  → Publish-Root für Netlify (optional, oft in der UI gesetzt)
+  robots.txt    → Suchmaschinen
+  404.html      → Fehlerseite
+  favicon.svg   → Tab-Icon
+  .htaccess     → nur Apache (z. B. InfinityFree); bei Pages/Netlify unwirksam
+
+Deployment (kurz):
+1) Cloudflare Dashboard → Workers & Pages → Create → Pages → Upload assets ODER Git verbinden.
+2) „Build output / Publish directory“ = dieser Ordner (Root mit index.html).
+3) Eigene Domain anbinden (DNS bei Cloudflare oder CNAME laut Anleitung).
+4) Supabase: Project Settings → Authentication → URL Configuration
+   → Site URL = deine Live-URL (https://…)
+   → Redirect URLs: dieselbe URL + ggf. Preview-URLs von Pages ergänzen.
+5) Mit GitHub + Cloudflare Pages: Im Cloudflare-Projekt unter „Environment variables“ eintragen:
+     DAHOAM_SUPABASE_URL, DAHOAM_SUPABASE_ANON_KEY (optional DAHOAM_BAUFPLAN_EMAIL_TO).
+     Build command: npm run build  (erzeugt js/config.js beim Deploy; die Datei bleibt aus .gitignore raus).
+   Nur ZIP-Upload ohne Git: js/config.js aus js/config.example.js anlegen und mit hochladen.
+
+Alternative InfinityFree: Dateien in den genau zu deiner Domain gehörenden …/htdocs/-Ordner legen (Client Area → Domains → Manage). Keine Ordner/Dateinamen mit „chat“ oder Ordner „includes“ in der URL.

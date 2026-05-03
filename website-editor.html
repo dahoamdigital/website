@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Website Editor: Vorlagen anpassen, lokal speichern und Bauplan für Dahoam-Digital anfragen." />
+  <title>Website Editor | Dahoam-Digital</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#2D5A27" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { steirer: { DEFAULT: '#2D5A27', dark: '#1f3f1b', soft: '#e8f0e6' } },
+          fontFamily: { display: ['Fraunces', 'Georgia', 'serif'], sans: ['DM Sans', 'system-ui', 'sans-serif'] },
+        },
+      },
+    };
+  </script>
+  <style>
+    #demo-site { --accent: #2D5A27; --accent-dark: #1f3f1b; --accent-soft: #e8f0e6; --radius: 1rem; --hero-filter: none; --demo-font-scale: 1; }
+    #demo-site[data-accent="wald"] { --accent: #2D5A27; --accent-dark: #1f3f1b; --accent-soft: #e8f0e6; }
+    #demo-site[data-accent="erde"] { --accent: #8B6914; --accent-dark: #5c460e; --accent-soft: #f5efd9; }
+    #demo-site[data-accent="nacht"] { --accent: #1e3a5f; --accent-dark: #13263d; --accent-soft: #e8eef5; }
+    #demo-site[data-accent="rost"] { --accent: #8b3a2a; --accent-dark: #5c2619; --accent-soft: #f5e8e5; }
+    #demo-site[data-fs="sm"] { --demo-font-scale: 0.9; }
+    #demo-site[data-fs="md"] { --demo-font-scale: 1; }
+    #demo-site[data-fs="lg"] { --demo-font-scale: 1.08; }
+    #demo-site .demo-scale { font-size: calc(1rem * var(--demo-font-scale)); }
+    .demo-bg-accent { background-color: var(--accent); }
+    .demo-text-accent { color: var(--accent); }
+    .demo-ring-soft { background-color: var(--accent-soft); }
+    .demo-btn { background-color: var(--accent); color: #fff; border-radius: var(--radius); }
+    .demo-btn:hover { background-color: var(--accent-dark); }
+    .demo-card { border-radius: var(--radius); background: #fff; }
+    #demo-site.demo-stil-rustikal .demo-card { border: 1px solid rgba(28, 25, 23, 0.12); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); }
+    #demo-site.demo-stil-modern .demo-card { border: none; box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.15); }
+    .demo-heading { font-family: Fraunces, Georgia, serif; font-weight: 600; }
+    #demo-site.demo-stil-modern .demo-heading { font-family: 'DM Sans', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.03em; }
+    #demo-hero-img { filter: var(--hero-filter); transition: filter 0.25s ease; }
+    #demo-site[data-hero="neutral"] { --hero-filter: none; }
+    #demo-site[data-hero="warm"] { --hero-filter: sepia(0.18) saturate(1.15) brightness(1.02); }
+    #demo-site[data-hero="kuehl"] { --hero-filter: saturate(0.85) hue-rotate(-6deg) contrast(1.02); }
+    .demo-radius-ui { border-radius: var(--radius); }
+    #auth-msg:empty { display: none; }
+  </style>
+</head>
+<body class="min-h-screen bg-stone-200 font-sans text-stone-800 antialiased">
+  <header class="sticky top-0 z-50 border-b border-stone-300 bg-white shadow-sm">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
+      <div class="flex min-w-0 flex-1 flex-wrap items-center gap-3">
+        <a href="index.html" class="font-display shrink-0 text-base font-semibold text-steirer sm:text-lg">← Dahoam-Digital</a>
+        <span class="hidden h-4 w-px bg-stone-300 sm:block" aria-hidden="true"></span>
+        <p class="hidden min-w-0 truncate text-sm text-stone-600 lg:block"><span class="font-semibold text-stone-800">Website Editor</span> · Vorlage &amp; Bauplan</p>
+      </div>
+      <div class="flex shrink-0 items-center gap-2 sm:gap-3">
+        <div id="header-auth-guest" class="flex items-center gap-2">
+          <button type="button" id="header-btn-account" class="rounded-full border-2 border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-800 transition hover:border-steirer hover:text-steirer">Anmelden</button>
+        </div>
+        <div id="header-auth-user" class="hidden items-center gap-2">
+          <button type="button" id="header-btn-account-user" class="flex max-w-[14rem] items-center gap-2 rounded-full border-2 border-steirer/40 bg-steirer-soft py-1.5 pl-1.5 pr-3 text-sm font-semibold text-steirer transition hover:bg-white" title="Account">
+            <span id="header-account-initial" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-steirer text-xs font-bold text-white">?</span>
+            <span id="header-account-short" class="truncate">Account</span>
+          </button>
+          <button type="button" id="header-btn-logout" class="rounded-full px-3 py-2 text-sm font-medium text-stone-600 hover:text-stone-900 hover:underline">Abmelden</button>
+        </div>
+        <a href="admin.html" id="header-link-auftraege" class="hidden items-center rounded-full border border-steirer/40 bg-steirer-soft px-3 py-2 text-sm font-semibold text-steirer transition hover:bg-white" title="Bauplan-Aufträge">Aufträge</a>
+        <a href="index.html#kontakt" class="hidden rounded-full bg-steirer px-4 py-2 text-sm font-semibold text-white transition hover:bg-steirer-dark sm:inline-flex">Kontakt</a>
+      </div>
+    </div>
+  </header>
+
+  <div id="account-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/45 p-4" role="dialog" aria-modal="true">
+    <div class="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
+      <div class="flex items-start justify-between gap-3">
+        <h2 class="font-display text-xl font-semibold text-stone-900">Account</h2>
+        <button type="button" id="account-modal-close" class="rounded-lg p-1 text-stone-500 hover:bg-stone-100" aria-label="Schließen">✕</button>
+      </div>
+      <div id="account-modal-guest" class="mt-4">
+        <p class="text-sm text-stone-600">Speichern und später weitermachen geht mit einem lokalen Konto auf <strong>diesem Gerät</strong> (Browser-Speicher). Kein Server – bitte kein wichtiges Passwort verwenden.</p>
+        <div class="mt-4 rounded-xl border border-stone-200 bg-stone-50 p-4">
+          <h3 class="text-sm font-semibold text-stone-900">Neues Konto</h3>
+          <div class="mt-3 grid gap-2">
+            <input id="reg-email" type="email" autocomplete="email" placeholder="E-Mail" class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm" />
+            <input id="reg-name" type="text" autocomplete="name" placeholder="Name / Betrieb" class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm" />
+            <div class="relative">
+              <input id="reg-pass" type="password" autocomplete="new-password" placeholder="Passwort (mind. 6 Zeichen)" class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2 pr-20 text-sm" />
+              <button type="button" class="absolute inset-y-0 right-0 px-2 text-xs text-stone-600" data-password-toggle="reg-pass">Anzeigen</button>
+            </div>
+            <div class="relative">
+              <input id="reg-pass2" type="password" placeholder="Passwort wiederholen" class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2 pr-20 text-sm" />
+              <button type="button" class="absolute inset-y-0 right-0 px-2 text-xs text-stone-600" data-password-toggle="reg-pass2">Anzeigen</button>
+            </div>
+            <button type="button" id="btn-register" class="rounded-lg bg-steirer py-2.5 text-sm font-semibold text-white hover:bg-steirer-dark">Registrieren &amp; anmelden</button>
+          </div>
+        </div>
+        <div class="mt-5 rounded-xl border border-stone-200 p-4">
+          <h3 class="text-sm font-semibold text-stone-900">Anmelden</h3>
+          <div class="mt-3 grid gap-2">
+            <input id="login-email" type="email" autocomplete="username" placeholder="E-Mail" class="w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" />
+            <div class="relative">
+              <input id="login-pass" type="password" autocomplete="current-password" placeholder="Passwort" class="w-full rounded-lg border border-stone-300 px-3 py-2 pr-20 text-sm" />
+              <button type="button" class="absolute inset-y-0 right-0 px-2 text-xs text-stone-600" data-password-toggle="login-pass">Anzeigen</button>
+            </div>
+            <button type="button" id="btn-login" class="rounded-lg border-2 border-steirer py-2.5 text-sm font-semibold text-steirer hover:bg-steirer-soft">Anmelden</button>
+          </div>
+        </div>
+      </div>
+      <div id="account-modal-user" class="mt-4 hidden border-t border-stone-200 pt-4">
+        <p class="text-sm text-stone-700">Eingeloggt als <strong id="modal-auth-name"></strong></p>
+        <p class="mt-1 text-xs text-stone-500" id="modal-auth-email"></p>
+        <p class="mt-4 text-sm text-stone-600">Deine Website-Vorlage kannst du links mit <strong>„Website speichern“</strong> sichern.</p>
+        <button type="button" id="modal-btn-logout" class="mt-4 w-full rounded-lg border border-stone-300 py-2.5 text-sm font-medium hover:bg-stone-50">Abmelden</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="kunden-auftrag-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/45 p-4" role="dialog" aria-modal="true">
+    <div class="max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl sm:p-8">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h2 class="font-display text-xl font-semibold text-stone-900">Bauplan absenden</h2>
+          <p class="mt-1 text-sm text-stone-600">Kontaktdaten – dein Editor-Bauplan wird mitgespeichert.</p>
+        </div>
+        <button type="button" id="kunden-auftrag-close" class="shrink-0 rounded-lg p-1 text-stone-500 hover:bg-stone-100" aria-label="Schließen">✕</button>
+      </div>
+      <div class="mt-5">
+        <p id="kunden-auftrag-config-hinweis" class="mb-4 hidden rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-900"></p>
+        <form id="kunden-auftrag-form" class="space-y-4">
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="sm:col-span-2">
+              <label for="auftrag-betrieb" class="block text-sm font-medium text-stone-700">Name des Betriebs <span class="text-red-600">*</span></label>
+              <input id="auftrag-betrieb" required type="text" autocomplete="organization" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" />
+            </div>
+            <div class="sm:col-span-2">
+              <label for="auftrag-ansprechpartner" class="block text-sm font-medium text-stone-700">Ansprechpartner <span class="text-red-600">*</span></label>
+              <input id="auftrag-ansprechpartner" required type="text" autocomplete="name" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" />
+            </div>
+            <div>
+              <label for="auftrag-email" class="block text-sm font-medium text-stone-700">E-Mail <span class="text-red-600">*</span></label>
+              <input id="auftrag-email" required type="email" autocomplete="email" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" />
+            </div>
+            <div>
+              <label for="auftrag-telefon" class="block text-sm font-medium text-stone-700">Telefon</label>
+              <input id="auftrag-telefon" type="tel" autocomplete="tel" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" />
+            </div>
+            <div>
+              <label for="auftrag-region" class="block text-sm font-medium text-stone-700">Region <span class="text-red-600">*</span></label>
+              <input id="auftrag-region" required type="text" placeholder="z. B. Südoststeiermark" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" />
+            </div>
+            <div>
+              <label for="auftrag-gemeinde" class="block text-sm font-medium text-stone-700">Gemeinde</label>
+              <input id="auftrag-gemeinde" type="text" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" />
+            </div>
+            <div class="sm:col-span-2">
+              <label for="auftrag-adresse" class="block text-sm font-medium text-stone-700">Adresse</label>
+              <input id="auftrag-adresse" type="text" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" />
+            </div>
+            <div class="sm:col-span-2">
+              <label for="auftrag-produkt" class="block text-sm font-medium text-stone-700">Produkt / Wünsche</label>
+              <textarea id="auftrag-produkt" rows="2" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm"></textarea>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="auftrag-bemerkungen" class="block text-sm font-medium text-stone-700">Bemerkungen</label>
+              <textarea id="auftrag-bemerkungen" rows="2" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm"></textarea>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="auftrag-editor-msg" class="block text-sm font-medium text-stone-700">Nachricht an Dahoam-Digital</label>
+              <textarea id="auftrag-editor-msg" rows="2" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm"></textarea>
+            </div>
+          </div>
+          <p id="kunden-auftrag-error" class="hidden text-sm text-red-600"></p>
+          <div class="flex flex-wrap gap-2">
+            <button type="submit" class="rounded-lg bg-steirer px-5 py-2.5 text-sm font-semibold text-white hover:bg-steirer-dark">In Datenbank speichern</button>
+            <button type="button" id="kunden-auftrag-cancel" class="rounded-lg border border-stone-300 px-4 py-2 text-sm hover:bg-stone-50">Abbrechen</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <p id="auth-msg" class="mx-auto max-w-7xl px-4 py-2 text-center text-sm text-red-600 sm:px-6"></p>
+
+  <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 pb-10 pt-4 lg:flex-row lg:gap-6 lg:px-6">
+    <aside class="w-full shrink-0 space-y-4 lg:max-w-sm">
+      <div class="rounded-xl border border-stone-300 bg-white p-4 shadow-sm">
+        <h2 class="font-display text-sm font-semibold text-stone-900">Vorlage</h2>
+        <div class="mt-3 space-y-3 text-sm">
+          <div>
+            <label class="block text-xs font-medium text-stone-500">Akzentfarbe</label>
+            <select id="ctrl-accent" class="mt-1 w-full rounded-lg border border-stone-300 px-2 py-1.5 text-sm">
+              <option value="wald">Waldgrün</option>
+              <option value="erde">Erde / Gold</option>
+              <option value="nacht">Nachtblau</option>
+              <option value="rost">Rostrot</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-stone-500">Stil</label>
+            <select id="ctrl-stil" class="mt-1 w-full rounded-lg border border-stone-300 px-2 py-1.5 text-sm">
+              <option value="rustikal">Rustikal</option>
+              <option value="modern">Modern</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-stone-500">Schriftgrad</label>
+            <select id="ctrl-fs" class="mt-1 w-full rounded-lg border border-stone-300 px-2 py-1.5 text-sm">
+              <option value="sm">Kleiner</option>
+              <option value="md" selected>Normal</option>
+              <option value="lg">Größer</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-stone-500">Eckenradius</label>
+            <input id="ctrl-radius" type="range" min="0.25" max="1.5" step="0.05" value="1" class="mt-1 w-full" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-stone-500">Hero-Bildstimmung</label>
+            <select id="ctrl-hero" class="mt-1 w-full rounded-lg border border-stone-300 px-2 py-1.5 text-sm">
+              <option value="neutral">Neutral</option>
+              <option value="warm">Warm</option>
+              <option value="kuehl">Kühl</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="rounded-xl border border-stone-300 bg-white p-4 shadow-sm">
+        <h2 class="font-display text-sm font-semibold text-stone-900">Demo-Texte</h2>
+        <div class="mt-3 space-y-2 text-sm">
+          <input id="demo-title" type="text" class="w-full rounded-lg border border-stone-300 px-2 py-1.5" placeholder="Überschrift" />
+          <input id="demo-sub" type="text" class="w-full rounded-lg border border-stone-300 px-2 py-1.5" placeholder="Untertitel" />
+          <input id="demo-cta" type="text" class="w-full rounded-lg border border-stone-300 px-2 py-1.5" placeholder="Button-Text" />
+        </div>
+      </div>
+      <div class="rounded-xl border border-stone-300 bg-white p-4 shadow-sm">
+        <button type="button" id="btn-save-local" class="w-full rounded-lg bg-steirer py-2.5 text-sm font-semibold text-white hover:bg-steirer-dark">Website speichern</button>
+        <p class="mt-2 text-xs text-stone-500">Nur mit lokalem Account (dieses Gerät).</p>
+        <button type="button" id="btn-open-auftrag" class="mt-4 w-full rounded-lg border-2 border-steirer py-2.5 text-sm font-semibold text-steirer hover:bg-steirer-soft">Bauplan absenden</button>
+      </div>
+      <div class="rounded-xl border border-stone-300 bg-white p-4 shadow-sm">
+        <h2 class="font-display text-sm font-semibold text-stone-900">Bauplan exportieren</h2>
+        <label for="bauplan-msg" class="mt-3 block text-xs font-semibold uppercase tracking-wide text-stone-500">Nachricht (für E-Mail)</label>
+        <textarea id="bauplan-msg" rows="3" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" placeholder="Wünsche, Zeitfenster …"></textarea>
+        <p class="mt-2 text-xs text-stone-500">E-Mail-Ziel (mailto):</p>
+        <input id="bauplan-email-to" type="email" class="mt-1 w-full rounded border border-stone-200 px-2 py-1 text-xs" placeholder="deine@empfangsadresse.at" />
+        <div class="mt-3 flex flex-col gap-2">
+          <button type="button" id="btn-download-bauplan" class="rounded-lg bg-stone-800 py-2 text-sm font-semibold text-white hover:bg-stone-900">JSON herunterladen</button>
+          <button type="button" id="btn-copy-bauplan" class="rounded-lg border border-stone-300 py-2 text-sm hover:bg-stone-50">In Zwischenablage</button>
+          <button type="button" id="btn-mail-bauplan" class="rounded-lg border-2 border-steirer py-2 text-sm font-semibold text-steirer hover:bg-steirer-soft">E-Mail-Programm öffnen</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="min-w-0 flex-1">
+      <div class="rounded-xl border border-stone-400 bg-white p-2 shadow-inner">
+        <div id="demo-site" class="demo-scale demo-stil-rustikal overflow-hidden rounded-lg border border-stone-200 bg-stone-100" data-accent="wald" data-fs="md" data-hero="neutral">
+          <div class="demo-bg-accent px-4 py-3 text-white">
+            <span id="demo-nav-brand" class="text-sm font-semibold">Dein Betrieb</span>
+          </div>
+          <div class="relative h-40 bg-stone-300">
+            <img id="demo-hero-img" alt="" class="h-full w-full object-cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400'%3E%3Crect fill='%23d6d3d1' width='1200' height='400'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23575252' font-family='sans-serif' font-size='28'%3EPlatzhalter Hero%3C/text%3E%3C/svg%3E" />
+            <div class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/50 to-transparent p-4 text-white">
+              <h1 id="demo-h1" class="demo-heading text-2xl">Willkommen</h1>
+              <p id="demo-p" class="mt-1 text-sm opacity-90">Deine Geschichte – regional erzählt.</p>
+            </div>
+          </div>
+          <div class="grid gap-3 p-4 sm:grid-cols-2">
+            <div class="demo-card p-4">
+              <h3 class="demo-heading demo-text-accent text-lg">Öffnungszeiten</h3>
+              <p class="mt-2 text-sm text-stone-600">Mo–Fr 8–18 Uhr</p>
+            </div>
+            <div class="demo-card p-4">
+              <h3 class="demo-heading demo-text-accent text-lg">Kontakt</h3>
+              <p class="mt-2 text-sm text-stone-600">Tel. &amp; Route</p>
+            </div>
+          </div>
+          <div class="p-4 pt-0">
+            <button type="button" id="demo-cta-btn" class="demo-btn px-6 py-2 text-sm font-semibold">Anfragen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script>
+    (function () {
+      var LS_ACC = 'dahoam_editor_accounts';
+      var LS_SESS = 'dahoam_editor_session';
+
+      function accountsRead() {
+        try { return JSON.parse(localStorage.getItem(LS_ACC) || '[]'); } catch (e) { return []; }
+      }
+      function accountsWrite(arr) {
+        localStorage.setItem(LS_ACC, JSON.stringify(arr));
+      }
+      function sessRead() {
+        try { return JSON.parse(localStorage.getItem(LS_SESS) || 'null'); } catch (e) { return null; }
+      }
+      function sessWrite(email) {
+        if (!email) localStorage.removeItem(LS_SESS);
+        else localStorage.setItem(LS_SESS, JSON.stringify({ email: email.toLowerCase().trim() }));
+      }
+      function stateKey(email) {
+        return 'dahoam_editor_state_' + (email || '').toLowerCase().trim();
+      }
+
+      var localSess = null;
+
+      function getClient() {
+        var url = (window.DAHOAM_SUPABASE_URL || '').trim();
+        var key = (window.DAHOAM_SUPABASE_ANON_KEY || '').trim();
+        if (!url || !key) return null;
+        var lib = typeof window.supabase !== 'undefined' ? window.supabase : typeof supabase !== 'undefined' ? supabase : null;
+        if (!lib || typeof lib.createClient !== 'function') return null;
+        return lib.createClient(url, key, {
+          auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage },
+        });
+      }
+      var supaClient = getClient();
+
+      function applyDemoFromState(st) {
+        st = st || {};
+        var site = document.getElementById('demo-site');
+        site.setAttribute('data-accent', st.accent || 'wald');
+        site.setAttribute('data-fs', st.fs || 'md');
+        site.setAttribute('data-hero', st.hero || 'neutral');
+        site.classList.remove('demo-stil-rustikal', 'demo-stil-modern');
+        site.classList.add(st.stil === 'modern' ? 'demo-stil-modern' : 'demo-stil-rustikal');
+        site.style.setProperty('--radius', (st.radius != null ? st.radius : 1) + 'rem');
+        document.getElementById('ctrl-accent').value = st.accent || 'wald';
+        document.getElementById('ctrl-stil').value = st.stil || 'rustikal';
+        document.getElementById('ctrl-fs').value = st.fs || 'md';
+        document.getElementById('ctrl-hero').value = st.hero || 'neutral';
+        document.getElementById('ctrl-radius').value = st.radius != null ? st.radius : 1;
+        document.getElementById('demo-title').value = st.title || '';
+        document.getElementById('demo-sub').value = st.sub || '';
+        document.getElementById('demo-cta').value = st.cta || '';
+        document.getElementById('demo-h1').textContent = st.title || 'Willkommen';
+        document.getElementById('demo-p').textContent = st.sub || 'Deine Geschichte – regional erzählt.';
+        document.getElementById('demo-cta-btn').textContent = st.cta || 'Anfragen';
+        document.getElementById('demo-nav-brand').textContent = st.navBrand || 'Dein Betrieb';
+      }
+
+      function getFormState() {
+        return {
+          accent: document.getElementById('ctrl-accent').value,
+          stil: document.getElementById('ctrl-stil').value,
+          fs: document.getElementById('ctrl-fs').value,
+          hero: document.getElementById('ctrl-hero').value,
+          radius: parseFloat(document.getElementById('ctrl-radius').value, 10) || 1,
+          title: document.getElementById('demo-title').value.trim(),
+          sub: document.getElementById('demo-sub').value.trim(),
+          cta: document.getElementById('demo-cta').value.trim(),
+          navBrand: (localSess && localSess.name) ? localSess.name : 'Dein Betrieb',
+        };
+      }
+
+      function syncPreviewFromControls() {
+        var st = getFormState();
+        document.getElementById('demo-h1').textContent = st.title || 'Willkommen';
+        document.getElementById('demo-p').textContent = st.sub || 'Deine Geschichte – regional erzählt.';
+        document.getElementById('demo-cta-btn').textContent = st.cta || 'Anfragen';
+        if (localSess && localSess.name) document.getElementById('demo-nav-brand').textContent = localSess.name;
+        var site = document.getElementById('demo-site');
+        site.setAttribute('data-accent', st.accent);
+        site.setAttribute('data-fs', st.fs);
+        site.setAttribute('data-hero', st.hero);
+        site.classList.remove('demo-stil-rustikal', 'demo-stil-modern');
+        site.classList.add(st.stil === 'modern' ? 'demo-stil-modern' : 'demo-stil-rustikal');
+        site.style.setProperty('--radius', st.radius + 'rem');
+      }
+
+      ['ctrl-accent', 'ctrl-stil', 'ctrl-fs', 'ctrl-hero', 'ctrl-radius'].forEach(function (id) {
+        document.getElementById(id).addEventListener('input', syncPreviewFromControls);
+        document.getElementById(id).addEventListener('change', syncPreviewFromControls);
+      });
+      ['demo-title', 'demo-sub', 'demo-cta'].forEach(function (id) {
+        document.getElementById(id).addEventListener('input', syncPreviewFromControls);
+      });
+
+      function setLocalHeader() {
+        var g = document.getElementById('header-auth-guest');
+        var u = document.getElementById('header-auth-user');
+        if (localSess) {
+          g.classList.add('hidden'); u.classList.remove('hidden'); u.classList.add('flex');
+          document.getElementById('header-account-short').textContent = localSess.name || localSess.email;
+          document.getElementById('header-account-initial').textContent = (localSess.name || localSess.email || '?').charAt(0).toUpperCase();
+        } else {
+          g.classList.remove('hidden'); u.classList.add('hidden'); u.classList.remove('flex');
+        }
+      }
+
+      function openAccountModal() {
+        document.getElementById('account-modal').classList.remove('hidden');
+        document.getElementById('account-modal').classList.add('flex');
+        document.getElementById('account-modal-guest').classList.toggle('hidden', !!localSess);
+        document.getElementById('account-modal-user').classList.toggle('hidden', !localSess);
+        if (localSess) {
+          document.getElementById('modal-auth-name').textContent = localSess.name || localSess.email;
+          document.getElementById('modal-auth-email').textContent = localSess.email;
+        }
+      }
+      function closeAccountModal() {
+        document.getElementById('account-modal').classList.add('hidden');
+        document.getElementById('account-modal').classList.remove('flex');
+      }
+
+      document.getElementById('header-btn-account').addEventListener('click', openAccountModal);
+      document.getElementById('header-btn-account-user').addEventListener('click', openAccountModal);
+      document.getElementById('account-modal-close').addEventListener('click', closeAccountModal);
+      document.getElementById('modal-btn-logout').addEventListener('click', function () {
+        localSess = null; sessWrite(null); setLocalHeader(); closeAccountModal();
+      });
+      document.getElementById('header-btn-logout').addEventListener('click', function () {
+        localSess = null; sessWrite(null); setLocalHeader();
+      });
+
+      document.getElementById('btn-register').addEventListener('click', function () {
+        var email = document.getElementById('reg-email').value.trim().toLowerCase();
+        var name = document.getElementById('reg-name').value.trim();
+        var p1 = document.getElementById('reg-pass').value;
+        var p2 = document.getElementById('reg-pass2').value;
+        if (!email || !name || p1.length < 6) { alert('Bitte alle Felder ausfüllen (Passwort mind. 6 Zeichen).'); return; }
+        if (p1 !== p2) { alert('Passwörter stimmen nicht überein.'); return; }
+        var arr = accountsRead();
+        if (arr.some(function (a) { return a.email === email; })) { alert('Diese E-Mail ist schon registriert.'); return; }
+        arr.push({ email: email, name: name, password: p1 });
+        accountsWrite(arr);
+        localSess = { email: email, name: name }; sessWrite(email);
+        setLocalHeader(); closeAccountModal(); applyDemoFromState(JSON.parse(localStorage.getItem(stateKey(email)) || '{}'));
+      });
+
+      document.getElementById('btn-login').addEventListener('click', function () {
+        var email = document.getElementById('login-email').value.trim().toLowerCase();
+        var pass = document.getElementById('login-pass').value;
+        var arr = accountsRead();
+        var u = arr.find(function (a) { return a.email === email && a.password === pass; });
+        if (!u) { alert('Login fehlgeschlagen.'); return; }
+        localSess = { email: u.email, name: u.name }; sessWrite(email);
+        setLocalHeader(); closeAccountModal();
+        try {
+          var raw = localStorage.getItem(stateKey(email));
+          applyDemoFromState(raw ? JSON.parse(raw) : {});
+        } catch (e2) { applyDemoFromState({}); }
+      });
+
+      document.getElementById('btn-save-local').addEventListener('click', function () {
+        if (!localSess) { alert('Bitte zuerst lokal anmelden (Account).'); openAccountModal(); return; }
+        localStorage.setItem(stateKey(localSess.email), JSON.stringify(getFormState()));
+        alert('Gespeichert.');
+      });
+
+      function buildBauplanJson() {
+        return {
+          typ: 'dahoam_bauplan_v1',
+          erstellt: new Date().toISOString(),
+          vorlage: getFormState(),
+          nachricht: (document.getElementById('bauplan-msg').value || '').trim(),
+        };
+      }
+
+      document.getElementById('btn-download-bauplan').addEventListener('click', function () {
+        var bp = buildBauplanJson();
+        var blob = new Blob([JSON.stringify(bp, null, 2)], { type: 'application/json' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'bauplan-dahoam-' + new Date().toISOString().slice(0, 10) + '.json';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+      document.getElementById('btn-copy-bauplan').addEventListener('click', function () {
+        navigator.clipboard.writeText(JSON.stringify(buildBauplanJson(), null, 2)).then(function () { alert('Kopiert.'); }).catch(function () { alert('Zwischenablage fehlgeschlagen.'); });
+      });
+      document.getElementById('btn-mail-bauplan').addEventListener('click', function () {
+        var to = (document.getElementById('bauplan-email-to').value || '').trim();
+        if (!to) { alert('Bitte Empfänger-E-Mail eintragen.'); return; }
+        var sub = encodeURIComponent('Bauplan Dahoam-Digital');
+        var body = encodeURIComponent('Anfrage mit Bauplan – bitte JSON anhängen (Download im Editor).\n\n' + (document.getElementById('bauplan-msg').value || ''));
+        window.location.href = 'mailto:' + to + '?subject=' + sub + '&body=' + body;
+      });
+
+      var auftragModal = document.getElementById('kunden-auftrag-modal');
+      document.getElementById('btn-open-auftrag').addEventListener('click', function () {
+        var hint = document.getElementById('kunden-auftrag-config-hinweis');
+        if (!supaClient) {
+          hint.textContent = 'Supabase nicht konfiguriert: js/config.js mit URL und anon-Key füllen. Du kannst trotzdem JSON exportieren.';
+          hint.classList.remove('hidden');
+        } else hint.classList.add('hidden');
+        auftragModal.classList.remove('hidden'); auftragModal.classList.add('flex');
+      });
+      function closeAuftrag() { auftragModal.classList.add('hidden'); auftragModal.classList.remove('flex'); }
+      document.getElementById('kunden-auftrag-close').addEventListener('click', closeAuftrag);
+      document.getElementById('kunden-auftrag-cancel').addEventListener('click', closeAuftrag);
+
+      document.getElementById('kunden-auftrag-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var errEl = document.getElementById('kunden-auftrag-error');
+        errEl.classList.add('hidden');
+        if (!supaClient) {
+          errEl.textContent = 'Supabase nicht konfiguriert.';
+          errEl.classList.remove('hidden');
+          return;
+        }
+        var bp = buildBauplanJson();
+        var row = {
+          betrieb: document.getElementById('auftrag-betrieb').value.trim(),
+          ansprechpartner: document.getElementById('auftrag-ansprechpartner').value.trim(),
+          email: document.getElementById('auftrag-email').value.trim(),
+          telefon: (document.getElementById('auftrag-telefon').value || '').trim() || null,
+          region: document.getElementById('auftrag-region').value.trim(),
+          gemeinde: (document.getElementById('auftrag-gemeinde').value || '').trim() || null,
+          adresse: (document.getElementById('auftrag-adresse').value || '').trim() || null,
+          produkt_wuensche: (document.getElementById('auftrag-produkt').value || '').trim() || null,
+          bemerkungen: (document.getElementById('auftrag-bemerkungen').value || '').trim() || null,
+          editor_nachricht: (document.getElementById('auftrag-editor-msg').value || '').trim() || null,
+          bauplan_json: bp,
+          editor_konto_email: localSess ? localSess.email : null,
+        };
+        supaClient.from('bauplan_auftraege').insert([row]).select('id').then(function (res) {
+          if (res.error) {
+            errEl.textContent = res.error.message || 'Speichern fehlgeschlagen.';
+            errEl.classList.remove('hidden');
+            return;
+          }
+          alert('Gespeichert. Vielen Dank!');
+          closeAuftrag();
+        });
+      });
+
+      document.querySelectorAll('[data-password-toggle]').forEach(function (btn) {
+        var id = btn.getAttribute('data-password-toggle');
+        var inp = document.getElementById(id);
+        if (!inp) return;
+        btn.addEventListener('click', function () {
+          inp.type = inp.type === 'password' ? 'text' : 'password';
+        });
+      });
+
+      var s0 = sessRead();
+      if (s0 && s0.email) {
+        var arr0 = accountsRead();
+        var u0 = arr0.find(function (a) { return a.email === s0.email; });
+        if (u0) {
+          localSess = { email: u0.email, name: u0.name };
+          try {
+            var raw0 = localStorage.getItem(stateKey(s0.email));
+            applyDemoFromState(raw0 ? JSON.parse(raw0) : {});
+          } catch (e3) { applyDemoFromState({}); }
+        }
+      }
+      setLocalHeader();
+      syncPreviewFromControls();
+
+      var lastMail = localStorage.getItem('dahoam_bauplan_mailto');
+      if (lastMail) document.getElementById('bauplan-email-to').value = lastMail;
+      if ((window.DAHOAM_BAUFPLAN_EMAIL_TO || '').trim()) document.getElementById('bauplan-email-to').value = (window.DAHOAM_BAUFPLAN_EMAIL_TO || '').trim();
+      document.getElementById('bauplan-email-to').addEventListener('change', function () {
+        try { localStorage.setItem('dahoam_bauplan_mailto', this.value.trim()); } catch (e4) {}
+      });
+
+      var linkAuf = document.getElementById('header-link-auftraege');
+      if (supaClient) {
+        supaClient.auth.getSession().then(function (r) {
+          var ok = r.data && r.data.session && r.data.session.user;
+          linkAuf.classList.toggle('hidden', !ok);
+          if (ok) linkAuf.classList.add('inline-flex');
+        });
+        supaClient.auth.onAuthStateChange(function (_e, session) {
+          var ok = session && session.user;
+          linkAuf.classList.toggle('hidden', !ok);
+          linkAuf.classList.toggle('inline-flex', !!ok);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

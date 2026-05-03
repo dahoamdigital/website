@@ -1,0 +1,11 @@
+{
+  "name": "dahoam-digital-website",
+  "private": true,
+  "description": "Statische Website – Deploy z. B. Cloudflare Pages + GitHub",
+  "scripts": {
+    "build": "node scripts/write-config.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
