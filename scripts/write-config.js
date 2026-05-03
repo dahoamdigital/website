@@ -1,7 +1,7 @@
 'use strict';
 /**
  * Erzeugt js/config.js aus Umgebungsvariablen (Cloudflare Pages / CI).
- * Lokal ohne diese Variablen: js/config.js aus js/config.example.js kopieren und anpassen.
+ * Lokal ohne diese Variablen: js/config.js aus js/config.example.js kopieren und anpassen (siehe README).
  */
 const fs = require('fs');
 const path = require('path');
@@ -21,12 +21,12 @@ const isHostedCi =
 if (!url || !key) {
   const msg =
     'Fehlende Umgebungsvariablen: DAHOAM_SUPABASE_URL und DAHOAM_SUPABASE_ANON_KEY.\n' +
-    '→ Cloudflare Pages: Workers & Pages → dein Projekt → Settings → Environment variables (Production + Preview).\n' +
+    '→ Cloudflare Pages: Workers & Pages → Ihr Projekt → Settings → Environment variables (Production + Preview).\n' +
     '→ Lokal: js/config.example.js nach js/config.js kopieren (ohne npm run build).';
   if (isHostedCi) {
     console.warn('WARN (Build läuft trotzdem): ' + msg);
     const stub = [
-      '// Platzhalter: Beim Build fehlten DAHOAM_SUPABASE_URL / DAHOAM_SUPABASE_ANON_KEY. In Cloudflare unter Environment variables eintragen und neu deployen.',
+      '// Platzhalter: Beim Build fehlten DAHOAM_SUPABASE_URL / DAHOAM_SUPABASE_ANON_KEY. In Cloudflare unter Environment variables eintragen und erneut deployen.',
       'window.DAHOAM_SUPABASE_URL = "";',
       'window.DAHOAM_SUPABASE_ANON_KEY = "";',
     ];
