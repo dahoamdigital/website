@@ -7,7 +7,7 @@ alwaysApply: true
 
 Gilt für dieses Repository (statische Website unter dem Projektroot).
 
-- Wenn du **Dateien in diesem Repo** geändert, neu angelegt oder sinnvoll gelöscht hast: im **Repository-Root** (Ordner mit `index.html` und `.git`) ausführen:
+- Nach inhaltlichen Änderungen an **Dateien in diesem Repo** (neu, geändert oder sinnvoll gelöscht): im **Repository-Root** (Ordner mit `index.html` und `.git`) ausführen:
   - `git add -A`
   - `git commit -m "<kurze englische oder deutsche Beschreibung der Änderung>"`
   - `git push origin main` (oder aktuellen Branch, falls nicht `main`)
