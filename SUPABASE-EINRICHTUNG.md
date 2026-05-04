@@ -66,7 +66,12 @@ Hier steht **nicht** „ein Link in die Website schreiben“. Die Website lädt 
 
 ### D) Variablen in Cloudflare stehen, trotzdem Fehlermeldung „nicht konfiguriert“
 
-1. Cloudflare Pages → Ihr Projekt → **Settings** → Bereich **Builds** / **Build configuration** (Bezeichnung je nach Oberfläche):
+**Häufigste Ursache:** Im Cloudflare-Projekt ist **kein Build command** eingetragen (Feld leer). Dann läuft `npm run build` nie → **`js/config.js`** wird nicht geschrieben.
+
+**Wo eintragen (Kurz):** **Workers & Pages** → Ihr **Pages**-Projekt → **Settings** → links **Build** / **Builds** / **Builds & deployments** → Build-Konfiguration bearbeiten.  
+**Ausführlicher Klickpfad:** siehe **`HOSTING.txt`** ganz oben (Block „BUILD COMMAND FEHLT?“).
+
+1. Dort eintragen:
    - **Build command:** exakt `npm run build`
    - **Build output directory:** `/` (ein Schrägstrich = Root des Repos, dort liegt `index.html`)
 2. **Warum:** `js/config.js` liegt **nicht** im Git (`.gitignore`). Nur der Build führt `scripts/write-config.js` aus und **schreibt** `js/config.js` mit Ihren Umgebungsvariablen. Ohne `npm run build` bleibt die Seite ohne gültige Keys.

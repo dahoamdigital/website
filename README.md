@@ -35,7 +35,7 @@ Danach führt Git nach jedem erfolgreichen **`git commit`** automatisch **`git p
 ### Cloudflare Pages (Build)
 
 - **Framework preset:** None  
-- **Build command:** `npm run build`  
+- **Build command:** `npm run build` (wenn das Feld **leer** ist, Login/Supabase funktionieren nicht – siehe **`HOSTING.txt`** ganz oben)  
 - **Build output directory:** `/`  
 - **Environment variables:** `DAHOAM_SUPABASE_URL`, `DAHOAM_SUPABASE_ANON_KEY`, optional `DAHOAM_BAUFPLAN_EMAIL_TO`, optional `DAHOAM_SITE_ORIGIN` (feste öffentliche Basis-URL für erzeugte `js/config.js`).
 

@@ -1,3 +1,28 @@
+================================================================================
+CLOUDFLARE PAGES – BUILD COMMAND FEHLT? (Supabase-Login geht dann nicht)
+================================================================================
+Wo Sie den Build-Befehl eintragen (genauer Klickpfad):
+
+  1) https://dash.cloudflare.com anmelden
+  2) Links: **Workers & Pages**
+  3) Unter der Überschrift **Pages** Ihr Projekt anklicken (Name Ihrer Website / GitHub-Repo – kein „Worker“ aus Versehen).
+  4) Oben die Registerkarte **Settings** (nicht „Deployments“).
+  5) In der **linken Spalte** unter Settings nach einem der folgenden Punkte suchen (UI-Versionen weichen ab):
+        • **Build**  oder  **Builds**  oder  **Builds & deployments**
+     Dann: **Configure build**, **Edit configuration**, **Production** bearbeiten o. ä.
+  6) Im Formular ausfüllen:
+        **Framework preset:** None  (oder „None“ / leer – kein Astro/React-Preset nötig)
+        **Build command:**        npm run build
+        **Build output directory:**  /
+             (ein Schrägstrich = Projektroot mit index.html; danach liegen index.html und js/ auf der Site)
+        **Root directory:**       leer lassen  (nur bei Monorepo Unterordner, z. B. „website“)
+  7) **Save** / **Speichern**
+  8) Tab **Deployments** → beim letzten Build **⋯** → **Retry deployment**
+
+Ohne Schritt 6 wird **js/config.js** beim Deploy nicht erzeugt – Environment variables greifen dann nicht im Browser.
+
+================================================================================
+
 Empfehlung: Cloudflare Pages oder Netlify (statisches Hosting, kostenloser Einstieg, CDN, weniger Konfiguration als klassisches Webspace-FTP).
 
 Tägliche Arbeit (GitHub + Cloudflare verbunden):
