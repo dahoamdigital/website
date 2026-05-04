@@ -10,8 +10,8 @@
 //   → „Redirect URLs“ = dieselbe URL + ggf. Preview-URLs (*.pages.dev usw.) + passwort-neu.html
 // Details: HOSTING.txt und SUPABASE-EINRICHTUNG.md im Website-Ordner
 
-window.DAHOAM_SUPABASE_URL = 'https://DEIN-PROJEKT.supabase.co';
-window.DAHOAM_SUPABASE_ANON_KEY = 'DEIN-ANON-KEY';
+window.DAHOAM_SUPABASE_URL = 'https://bridnaylbfsaahokghua.supabase.co';
+window.DAHOAM_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJyaWRuYXlsYmZzYWFob2tnaHVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4NTM2MjgsImV4cCI6MjA5MzQyOTYyOH0.glc23qfi1-BhLm25YI1NnwBPqJZ4nMqHOI2j5F8vXAQ';
 
 // Optional: Standard-Empfänger für „E-Mail mit Bauplan“ im Editor + Vorschlag im Admin-Login
 window.DAHOAM_BAUFPLAN_EMAIL_TO = 'ihre@email.at';
