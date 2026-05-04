@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Konto bestätigt – Dahoam-Digital Kundenportal." />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Konto bestätigt | Dahoam-Digital</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#2D5A27" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { steirer: { DEFAULT: '#2D5A27', dark: '#1f3f1b', soft: '#e8f0e6' } },
+          fontFamily: { display: ['Fraunces', 'Georgia', 'serif'], sans: ['DM Sans', 'system-ui', 'sans-serif'] },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-stone-100 to-stone-200/80 font-sans text-stone-800">
+  <header class="border-b border-stone-200/90 bg-white/95 shadow-sm backdrop-blur-md">
+    <div class="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
+      <a href="index.html" class="font-display text-lg font-semibold text-steirer">← Dahoam-Digital</a>
+      <nav class="flex flex-wrap items-center gap-4 text-sm font-medium text-stone-600">
+        <a href="mein-abo.html" class="hover:text-steirer">Mein Abo</a>
+        <a href="preise.html" class="hover:text-steirer">Preise</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-md px-4 py-10 sm:px-6 sm:py-14">
+    <p id="welcome-config-error" class="hidden rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950"></p>
+
+    <section id="welcome-wait" class="mt-6 rounded-2xl border border-stone-200/90 bg-white p-8 shadow-lg ring-1 ring-stone-900/[0.04]">
+      <p class="text-center text-sm text-stone-600">Einen Moment – Ihr Zugang wird eingerichtet …</p>
+    </section>
+
+    <section id="welcome-done" class="mt-6 hidden rounded-2xl border border-stone-200/90 bg-white p-8 shadow-lg ring-1 ring-stone-900/[0.04]">
+      <p class="text-center text-4xl" aria-hidden="true">✓</p>
+      <h1 class="mt-4 text-center font-display text-xl font-semibold text-stone-900">Vielen Dank – Konto bestätigt</h1>
+      <p class="mt-3 text-center text-sm text-stone-600">
+        Sie sind angemeldet. Ihr Paket erscheint unter <strong>Mein Abo</strong>, sobald der Vertrag bei uns hinterlegt ist.
+      </p>
+      <p id="welcome-email-line" class="mt-2 hidden text-center text-xs text-stone-500"></p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+        <a id="welcome-btn-now" href="mein-abo.html" class="inline-flex justify-center rounded-full bg-steirer px-6 py-2.5 text-center text-sm font-semibold text-white shadow-md transition hover:bg-steirer-dark">Zu Mein Abo</a>
+        <a href="index.html" class="inline-flex justify-center rounded-full border border-stone-300 px-6 py-2.5 text-center text-sm font-medium text-stone-700 transition hover:bg-stone-50">Zur Startseite</a>
+      </div>
+      <p id="welcome-redirect-hint" class="mt-6 text-center text-xs text-stone-500"></p>
+    </section>
+
+    <section id="welcome-fallback" class="mt-6 hidden rounded-2xl border border-stone-200/90 bg-white p-8 shadow-lg ring-1 ring-stone-900/[0.04]">
+      <h1 class="font-display text-xl font-semibold text-stone-900">Kundenportal</h1>
+      <p class="mt-2 text-sm text-stone-600">
+        Diese Seite nutzen Sie am besten direkt über den Link in Ihrer Bestätigungs-E-Mail. Wenn Sie schon ein Konto haben, melden Sie sich unter Mein Abo an.
+      </p>
+      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+        <a href="mein-abo.html" class="inline-flex justify-center rounded-full bg-steirer px-6 py-2.5 text-center text-sm font-semibold text-white shadow-md transition hover:bg-steirer-dark">Zu Mein Abo</a>
+        <a href="konto-anlegen.html" class="inline-flex justify-center rounded-full border border-stone-300 px-6 py-2.5 text-center text-sm font-medium text-stone-700 transition hover:bg-stone-50">Konto anlegen</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/config.defaults.js"></script>
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script>
+    (function () {
+      var REDIRECT_SEC = 6;
+      var waitEl = document.getElementById('welcome-wait');
+      var doneEl = document.getElementById('welcome-done');
+      var fallbackEl = document.getElementById('welcome-fallback');
+      var cfgErr = document.getElementById('welcome-config-error');
+      var emailLine = document.getElementById('welcome-email-line');
+      var hintEl = document.getElementById('welcome-redirect-hint');
+      var client = window.DahoamSupabase ? window.DahoamSupabase.getClient() : null;
+      var redirectTimer = null;
+      var countdownTimer = null;
+      var handled = false;
+
+      function showCfg(msg) {
+        cfgErr.textContent = msg;
+        cfgErr.classList.remove('hidden');
+        waitEl.classList.add('hidden');
+      }
+
+      if (!client) {
+        var hint =
+          window.DahoamSupabase && typeof window.DahoamSupabase.explainWhyNoClient === 'function'
+            ? window.DahoamSupabase.explainWhyNoClient()
+            : 'Konfiguration fehlt.';
+        showCfg(hint || 'Konfiguration fehlt.');
+        return;
+      }
+
+      function clearRedirect() {
+        if (redirectTimer) clearTimeout(redirectTimer);
+        redirectTimer = null;
+        if (countdownTimer) clearInterval(countdownTimer);
+        countdownTimer = null;
+        hintEl.textContent = '';
+      }
+
+      function showDone(session) {
+        if (handled) return;
+        handled = true;
+        waitEl.classList.add('hidden');
+        fallbackEl.classList.add('hidden');
+        doneEl.classList.remove('hidden');
+        var em = session && session.user && session.user.email;
+        if (em) {
+          emailLine.textContent = 'Angemeldet als: ' + em;
+          emailLine.classList.remove('hidden');
+        }
+        var left = REDIRECT_SEC;
+        function tick() {
+          hintEl.textContent =
+            left > 0
+              ? 'Sie werden in ' + left + ' Sekunde' + (left === 1 ? '' : 'n') + ' automatisch zu Mein Abo weitergeleitet.'
+              : '';
+          left -= 1;
+        }
+        tick();
+        countdownTimer = setInterval(tick, 1000);
+        redirectTimer = setTimeout(function () {
+          window.location.replace('mein-abo.html');
+        }, REDIRECT_SEC * 1000);
+      }
+
+      document.getElementById('welcome-btn-now').addEventListener('click', function () {
+        clearRedirect();
+      });
+
+      var hash = window.location.hash || '';
+      var looksLikeAuthCallback =
+        hash.indexOf('access_token=') !== -1 ||
+        hash.indexOf('type%3Dsignup') !== -1 ||
+        hash.indexOf('type=signup') !== -1 ||
+        hash.indexOf('type%3Demail') !== -1 ||
+        hash.indexOf('type=email') !== -1;
+
+      client.auth.onAuthStateChange(function (event, session) {
+        if (session && session.user && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED')) {
+          if (event === 'TOKEN_REFRESHED' && handled) return;
+          showDone(session);
+        }
+      });
+
+      client.auth.getSession().then(function (res) {
+        var s = res.data && res.data.session ? res.data.session : null;
+        if (s && s.user) showDone(s);
+        else if (!looksLikeAuthCallback) {
+          setTimeout(function () {
+            if (handled) return;
+            waitEl.classList.add('hidden');
+            fallbackEl.classList.remove('hidden');
+            handled = true;
+          }, 600);
+        }
+      });
+
+      setTimeout(function () {
+        if (handled) return;
+        waitEl.classList.add('hidden');
+        if (looksLikeAuthCallback) {
+          doneEl.classList.remove('hidden');
+          doneEl.querySelector('h1').textContent = 'Bestätigung unklar';
+          doneEl.querySelector('p.mt-3').textContent =
+            'Der Link scheint abgelaufen oder ungültig zu sein. Bitte melden Sie sich unter Mein Abo an oder registrieren Sie sich erneut.';
+          emailLine.classList.add('hidden');
+          clearRedirect();
+          hintEl.textContent = '';
+          document.getElementById('welcome-btn-now').textContent = 'Zu Mein Abo';
+        } else {
+          fallbackEl.classList.remove('hidden');
+        }
+        handled = true;
+      }, 12000);
+    })();
+  </script>
+</body>
+</html>

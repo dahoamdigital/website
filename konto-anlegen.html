@@ -116,7 +116,7 @@
           errEl.classList.remove('hidden');
           return;
         }
-        var confirmUrl = new URL('mein-abo.html', redirectBase() + '/').href;
+        var confirmUrl = new URL('konto-willkommen.html', redirectBase() + '/').href;
         var res = await client.auth.signUp({
           email: email,
           password: a,
@@ -128,7 +128,7 @@
           return;
         }
         okEl.textContent =
-          'Wenn die Registrierung aktiviert ist, erhalten Sie eine E-Mail zur Bestätigung (Spam-Ordner prüfen). Danach unter „Mein Abo“ anmelden. Wenn keine E-Mail ankommt: In Supabase unter Authentication → Providers → E-Mail prüfen.';
+          'Wenn die Registrierung aktiviert ist, erhalten Sie eine E-Mail zur Bestätigung (Spam-Ordner prüfen). Nach dem Klick auf den Link landen Sie auf einer kurzen Dankesseite und sind bereits angemeldet – danach geht es zu Mein Abo. Wenn keine E-Mail ankommt: In Supabase unter Authentication → Providers → E-Mail prüfen.';
         okEl.classList.remove('hidden');
         form.reset();
       });
