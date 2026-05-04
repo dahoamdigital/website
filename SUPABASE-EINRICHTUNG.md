@@ -237,8 +237,8 @@ insert into public.kunden_pakete (user_id, paket_code, paket_name, monatspreis, 
 values (
   'HIER-DIE-UUID-DES-USERS'::uuid,
   'standard',
-  'Standard',
-  69.00,
+  'Mittel',
+  39.00,
   'aktiv',
   current_date
 );

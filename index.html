@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Dahoam-Digital: Einstieg in die digitale Welt – strukturierte Websites mit Design, Hosting und Domain ab 39 €/Monat. Technik muss nicht Ihre Stärke sein; fair kalkuliert durch schlanke Abläufe. Aus Weiz." />
+  <meta name="description" content="Dahoam-Digital: Einstieg in die digitale Welt – Website-Pakete ab 14 €/Monat plus einmalige Inbetriebnahme. Design, Hosting, Domain. Fair kalkuliert; aus Weiz." />
   <title>Dahoam-Digital | Websites &amp; soziale Medien für Betriebe in der Steiermark</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <meta name="theme-color" content="#2D5A27" />
@@ -434,24 +434,15 @@
               </label>
             </div>
             <div>
-              <label for="kf-paket-wunsch" class="block text-sm font-medium text-stone-700">Gewünschtes Website-Abo <span class="text-xs font-normal text-stone-500">(optional)</span></label>
+              <label for="kf-paket-wunsch" class="block text-sm font-medium text-stone-700">Gewünschtes Website-Paket <span class="text-xs font-normal text-stone-500">(optional)</span></label>
               <select id="kf-paket-wunsch" name="paket" class="select-field mt-1 max-w-md">
                 <option value="">Noch unentschieden / nur Beratung</option>
-                <option value="starter">Starter (39&nbsp;€ / Monat)</option>
-                <option value="standard">Standard (69&nbsp;€ / Monat)</option>
-                <option value="premium">Premium (119&nbsp;€ / Monat)</option>
-                <option value="zusatz">Nur Zusatzleistung (ohne neues Abo)</option>
+                <option value="starter">Klein – 14&nbsp;€/Monat + 99&nbsp;€ einmalig</option>
+                <option value="standard">Mittel – 39&nbsp;€/Monat + 199&nbsp;€ einmalig</option>
+                <option value="premium">Groß – 69&nbsp;€/Monat + 399&nbsp;€ einmalig</option>
+                <option value="zusatz">Nur Zusatzleistung (ohne neues Paket)</option>
               </select>
-            </div>
-            <div>
-              <label for="kf-inbetrieb-wunsch" class="block text-sm font-medium text-stone-700">Inbetriebnahme-Paket <span class="text-xs font-normal text-stone-500">(optional, einmalig)</span></label>
-              <select id="kf-inbetrieb-wunsch" name="inbetrieb" class="select-field mt-1 max-w-md">
-                <option value="">Noch unentschieden / erst Beratung</option>
-                <option value="klein">Klein (99&nbsp;€ einmalig)</option>
-                <option value="mittel">Mittel (199&nbsp;€ einmalig)</option>
-                <option value="gross">Groß (399&nbsp;€ einmalig)</option>
-              </select>
-              <p class="mt-1 text-xs text-stone-500">Festpreis-Pakete – Details und Umfang: <a href="preise.html#inbetrieb-title" class="font-medium text-steirer underline-offset-2 hover:underline">Preise &amp; Abo</a>.</p>
+              <p class="mt-1 text-xs text-stone-500">Abo und Inbetriebnahme pro Paket: <a href="preise.html#pakete-title" class="font-medium text-steirer underline-offset-2 hover:underline">Preise &amp; Pakete</a>.</p>
             </div>
             <div>
               <label for="kf-oeffnung" class="block text-sm font-medium text-stone-700">Verkaufs- oder Öffnungszeiten (optional)</label>
@@ -700,12 +691,6 @@
         var sel = document.getElementById('kf-paket-wunsch');
         if (sel) sel.value = p;
       }
-      var ib = (params.get('inbetrieb') || '').toLowerCase();
-      var ibAllowed = { klein: 1, mittel: 1, gross: 1 };
-      if (ibAllowed[ib]) {
-        var ibSel = document.getElementById('kf-inbetrieb-wunsch');
-        if (ibSel) ibSel.value = ib;
-      }
       if (window.location.hash === '#kontakt') {
         requestAnimationFrame(function () {
           var el = document.getElementById('kontakt');
@@ -890,16 +875,8 @@
       if (paketSel && paketSel.value && paketSel.options[paketSel.selectedIndex]) {
         paketLabel = paketSel.options[paketSel.selectedIndex].text.replace(/\u00a0/g, ' ');
       }
-      var inbSel = document.getElementById('kf-inbetrieb-wunsch');
-      var inbVal = inbSel && inbSel.value ? inbSel.value : '';
-      var inbLabel = '';
-      if (inbSel && inbSel.value && inbSel.options[inbSel.selectedIndex]) {
-        inbLabel = inbSel.options[inbSel.selectedIndex].text.replace(/\u00a0/g, ' ');
-      }
-
       var anliegenTeile = [];
-      if (inbVal) anliegenTeile.push('Inbetriebnahme: ' + (inbLabel || inbVal));
-      if (paketVal) anliegenTeile.push('Abo: ' + (paketLabel || paketVal));
+      if (paketVal) anliegenTeile.push('Paket: ' + (paketLabel || paketVal));
       if (leistungen.length) anliegenTeile.push(leistungen.join(', '));
       if (!anliegenTeile.length) anliegenTeile.push('Allgemeine Anfrage / Erstgespräch');
       var anliegen_kurz = anliegenTeile.join(' · ');
@@ -917,8 +894,6 @@
         leistungen: leistungen,
         paket_code: paketVal || null,
         paket_label: paketLabel || null,
-        inbetrieb_code: inbVal || null,
-        inbetrieb_label: inbLabel || null,
         oeffnung: oeffnung || null,
         nachricht: msg,
         bild_dateinamen: fileNames,
