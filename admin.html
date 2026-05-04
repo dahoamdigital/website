@@ -70,6 +70,9 @@
         <button type="button" id="admin-tab-anfragen" class="rounded-t-lg border border-transparent border-b-0 px-4 py-2 text-sm font-medium text-stone-600 hover:bg-stone-50">
           Website-Anfragen
         </button>
+        <button type="button" id="admin-tab-demo" class="rounded-t-lg border border-transparent border-b-0 px-4 py-2 text-sm font-medium text-stone-600 hover:bg-stone-50">
+          Kunden-Demos
+        </button>
       </div>
 
       <div id="admin-panel-bauplan">
@@ -142,11 +145,41 @@
           <div id="detail-anfragen-formatted" class="mt-4"></div>
           <div id="detail-anfragen-bilder" class="mt-6 hidden rounded-xl border border-stone-200 bg-stone-50/90 p-4"></div>
           <div id="detail-anfragen-actions" class="mt-6 flex flex-wrap gap-2"></div>
+        <p id="detail-anfragen-demo-msg" class="mt-3 hidden text-sm text-steirer-dark"></p>
           <details class="mt-6 rounded-lg border border-stone-200 bg-stone-50/80 p-3">
             <summary class="cursor-pointer text-sm font-medium text-stone-700">Rohdaten (JSON)</summary>
             <pre id="detail-anfragen-json" class="mt-3 max-h-[280px] overflow-auto rounded-lg bg-stone-900 p-4 text-xs text-emerald-100"></pre>
           </details>
         </div>
+      </div>
+
+      <div id="admin-panel-demo" class="hidden">
+        <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 class="font-display text-lg font-semibold text-stone-900">Kunden-Demo-Jobs</h2>
+            <p class="text-sm text-stone-600">
+              Aus Anfragen angelegt · <strong>Kein Supabase</strong> im Kunden-Repo – Portal bleibt auf eurer Hauptsite. Vollautomation GitHub/Cloudflare: nächster Schritt (Edge Function + Secrets).
+            </p>
+          </div>
+          <button type="button" id="btn-reload-demo" class="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium hover:bg-stone-50">Aktualisieren</button>
+        </div>
+        <div class="overflow-x-auto rounded-xl border border-stone-200 bg-white shadow-sm">
+          <table class="min-w-full divide-y divide-stone-200 text-left text-sm">
+            <thead class="bg-stone-50 text-xs font-semibold uppercase tracking-wide text-stone-500">
+              <tr>
+                <th class="px-4 py-3">Datum</th>
+                <th class="px-4 py-3">Status</th>
+                <th class="px-4 py-3">Betrieb</th>
+                <th class="px-4 py-3">E-Mail</th>
+                <th class="px-4 py-3">Repo-Slug</th>
+                <th class="px-4 py-3">Aktion</th>
+              </tr>
+            </thead>
+            <tbody id="demo-jobs-body" class="divide-y divide-stone-100"></tbody>
+          </table>
+        </div>
+        <p id="empty-demo-hint" class="mt-4 hidden text-center text-sm text-stone-500">Noch keine Demo-Jobs. Bei einer Website-Anfrage auf „Demo-Job anlegen“ klicken.</p>
+        <p id="demo-load-err" class="mt-4 hidden text-sm text-red-600"></p>
       </div>
     </section>
   </main>
@@ -177,6 +210,7 @@
         if (ok) {
           loadAuftraege();
           loadWebAnfragen();
+          loadDemoJobs();
         }
       }
 
@@ -434,7 +468,14 @@
           }
           btns +=
             ' <button type="button" data-anfrage-action="loeschen" class="rounded-lg border border-red-300 bg-white px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50">Endgültig löschen</button>';
+          btns +=
+            ' <button type="button" data-anfrage-action="demo-job" class="rounded-lg border border-steirer/40 bg-steirer-soft px-4 py-2 text-sm font-semibold text-steirer hover:bg-white">Demo-Job anlegen</button>';
           detailAnActions.innerHTML = btns;
+        }
+        var demoMsg = document.getElementById('detail-anfragen-demo-msg');
+        if (demoMsg) {
+          demoMsg.classList.add('hidden');
+          demoMsg.textContent = '';
         }
         if (detailAnPanel) {
           detailAnPanel.classList.remove('hidden');
@@ -449,12 +490,19 @@
 
       function adminSwitchTab(which) {
         var b = which === 'bauplan';
+        var a = which === 'anfragen';
+        var d = which === 'demo';
         document.getElementById('admin-panel-bauplan').classList.toggle('hidden', !b);
-        document.getElementById('admin-panel-anfragen').classList.toggle('hidden', b);
+        document.getElementById('admin-panel-anfragen').classList.toggle('hidden', !a);
+        var panelDemo = document.getElementById('admin-panel-demo');
+        if (panelDemo) panelDemo.classList.toggle('hidden', !d);
         var tb = document.getElementById('admin-tab-bauplan');
         var ta = document.getElementById('admin-tab-anfragen');
+        var td = document.getElementById('admin-tab-demo');
         tb.className = b ? tabActiveClass : tabInactiveClass;
-        ta.className = b ? tabInactiveClass : tabActiveClass;
+        ta.className = a ? tabActiveClass : tabInactiveClass;
+        if (td) td.className = d ? tabActiveClass : tabInactiveClass;
+        if (d) loadDemoJobs();
       }
 
       async function loadWebAnfragen() {
@@ -579,8 +627,106 @@
             loadWebAnfragen();
             return;
           }
+          if (act === 'demo-job') {
+            var rpc = await client.rpc('admin_demo_job_from_anfrage', { p_anfrage_id: selectedAnfrageId });
+            if (rpc.error) {
+              var em = rpc.error.message || 'Demo-Job fehlgeschlagen.';
+              if (/function|does not exist|schema cache/i.test(em)) {
+                em +=
+                  ' – SQL ausführen: supabase/kunden-demo-jobs-migration.sql';
+              }
+              window.alert(em);
+              return;
+            }
+            var jid = rpc.data;
+            var dm = document.getElementById('detail-anfragen-demo-msg');
+            if (dm) {
+              dm.textContent =
+                'Demo-Job angelegt (ID: ' +
+                String(jid) +
+                '). Tab „Kunden-Demos“ öffnen und „Agent-Brief kopieren“ für Cursor-Agent 2.';
+              dm.classList.remove('hidden');
+            }
+            loadDemoJobs();
+            adminSwitchTab('demo');
+            return;
+          }
         });
       }
+
+      var demoJobsLoadGen = 0;
+      async function loadDemoJobs() {
+        var body = document.getElementById('demo-jobs-body');
+        var emptyH = document.getElementById('empty-demo-hint');
+        var errEl = document.getElementById('demo-load-err');
+        if (!client || !body) return;
+        if (errEl) {
+          errEl.classList.add('hidden');
+          errEl.textContent = '';
+        }
+        var gen = ++demoJobsLoadGen;
+        body.innerHTML = '';
+        var res = await client.from('kunden_demo_jobs').select('*').order('created_at', { ascending: false }).limit(100);
+        if (gen !== demoJobsLoadGen) return;
+        if (res.error) {
+          if (errEl) {
+            errEl.textContent = res.error.message || 'Laden fehlgeschlagen.';
+            if (/relation|does not exist|schema cache/i.test(res.error.message || '')) {
+              errEl.textContent += ' – supabase/kunden-demo-jobs-migration.sql ausführen.';
+            }
+            errEl.classList.remove('hidden');
+          }
+          if (emptyH) emptyH.classList.add('hidden');
+          return;
+        }
+        var rows = res.data || [];
+        if (emptyH) emptyH.classList.toggle('hidden', rows.length > 0);
+        rows.forEach(function (row) {
+          var tr = document.createElement('tr');
+          tr.className = 'hover:bg-stone-50';
+          var d = row.created_at ? new Date(row.created_at) : null;
+          var ds = d && !isNaN(d.getTime()) ? d.toLocaleString('de-AT') : '–';
+          tr.innerHTML =
+            '<td class="px-4 py-3 whitespace-nowrap text-stone-600">' +
+            escapeHtml(ds) +
+            '</td>' +
+            '<td class="px-4 py-3 text-xs font-medium">' +
+            escapeHtml(row.status || '') +
+            '</td>' +
+            '<td class="px-4 py-3">' +
+            escapeHtml(row.betrieb_name || '–') +
+            '</td>' +
+            '<td class="px-4 py-3 text-xs">' +
+            escapeHtml(row.kunde_email || '–') +
+            '</td>' +
+            '<td class="px-4 py-3 font-mono text-xs">' +
+            escapeHtml(row.vorgeschlagenes_repo_slug || '–') +
+            '</td>' +
+            '<td class="px-4 py-3">' +
+            '<button type="button" class="rounded border border-stone-300 bg-white px-2 py-1 text-xs font-medium hover:bg-stone-50" data-copy-brief="' +
+            escapeHtml(String(row.id)) +
+            '">Agent-Brief kopieren</button></td>';
+          body.appendChild(tr);
+        });
+      }
+
+      document.getElementById('admin-panel-demo').addEventListener('click', async function (e) {
+        var btn = e.target.closest('[data-copy-brief]');
+        if (!btn || !client) return;
+        var id = btn.getAttribute('data-copy-brief');
+        var res = await client.from('kunden_demo_jobs').select('agent_brief_md').eq('id', id).maybeSingle();
+        if (res.error || !res.data) {
+          window.alert(res.error ? res.error.message : 'Eintrag nicht gefunden.');
+          return;
+        }
+        var text = res.data.agent_brief_md || '';
+        try {
+          await navigator.clipboard.writeText(text);
+          window.alert('Agent-Brief in die Zwischenablage kopiert. In Cursor an Agent 2 einfügen.');
+        } catch (e2) {
+          window.prompt('Zwischenablage nicht verfügbar – Text markieren und kopieren:', text);
+        }
+      });
 
       document.getElementById('admin-tab-bauplan').addEventListener('click', function () {
         adminSwitchTab('bauplan');
@@ -588,6 +734,18 @@
       document.getElementById('admin-tab-anfragen').addEventListener('click', function () {
         adminSwitchTab('anfragen');
       });
+      var tabDemo = document.getElementById('admin-tab-demo');
+      if (tabDemo) {
+        tabDemo.addEventListener('click', function () {
+          adminSwitchTab('demo');
+        });
+      }
+      var btnReloadDemo = document.getElementById('btn-reload-demo');
+      if (btnReloadDemo) {
+        btnReloadDemo.addEventListener('click', function () {
+          loadDemoJobs();
+        });
+      }
       document.getElementById('btn-reload-anfragen').addEventListener('click', function () {
         loadWebAnfragen();
       });

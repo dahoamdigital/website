@@ -149,6 +149,13 @@ Damit existieren u. a. `bauplan_auftraege` (Kontaktformular/Editor) und `kunde
 3. **Kunden-UI:** Seite **`kunde-website.html`** (nach Login mit Kundenkonto). Unter **Authentication → URL Configuration → Redirect URLs** die URL dieser Seite erlauben (z. B. `https://www.ihre-domain.at/kunde-website.html` oder `https://www.ihre-domain.at/**`).
 4. **GitHub / Cloudflare (noch manuell oder per eigenem Skript):** In `kunden_sites` gibt es Felder wie `github_repo_owner`, `github_repo_name`, `cloudflare_pages_project`, `live_url` – Platzhalter für eine spätere **Edge Function** mit Secrets (GitHub App, Cloudflare API), die Repo anlegt und Pages verbindet. Bis dahin: Repo/Deploy wie bisher von Hand pflegen und URLs in der Tabelle setzen (z. B. per SQL als `postgres`).
 
+### 5b) Admin: Demo-Job aus Website-Anfrage (für Cursor-Agent 2)
+
+1. SQL **`supabase/kunden-demo-jobs-migration.sql`** im Editor ausführen (nach 5a).
+2. **admin.html** → Tab **„Kunden-Demos“** oder bei einer **Website-Anfrage** auf **„Demo-Job anlegen“** – es entsteht ein Eintrag in **`kunden_demo_jobs`** inkl. **Markdown-Brief** (`agent_brief_md`).
+3. **„Agent-Brief kopieren“** → Inhalt in Cursor an den **zweiten Agenten** einfügen: der Brief beschreibt u. a. Repo **ohne** Supabase-Keys, statische Site, danach `kunden_pakete` + `kunden_sites` in **eurer** Supabase-Datenbank.
+4. **Vollautomation „ein Klick = GitHub + Cloudflare“:** dafür braucht ihr eine **Supabase Edge Function** (oder CI) mit **GitHub App**-Token und **Cloudflare API**-Token – nicht Teil der statischen Website; die Tabelle `kunden_demo_jobs` ist die Queue/Referenz dafür.
+
 ---
 
 ## 6) Authentication – E-Mail & Bestätigung
