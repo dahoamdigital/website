@@ -444,6 +444,16 @@
               </select>
             </div>
             <div>
+              <label for="kf-inbetrieb-wunsch" class="block text-sm font-medium text-stone-700">Inbetriebnahme-Paket <span class="text-xs font-normal text-stone-500">(optional, einmalig)</span></label>
+              <select id="kf-inbetrieb-wunsch" name="inbetrieb" class="select-field mt-1 max-w-md">
+                <option value="">Noch unentschieden / erst Beratung</option>
+                <option value="klein">Klein (99&nbsp;€ einmalig)</option>
+                <option value="mittel">Mittel (199&nbsp;€ einmalig)</option>
+                <option value="gross">Groß (399&nbsp;€ einmalig)</option>
+              </select>
+              <p class="mt-1 text-xs text-stone-500">Festpreis-Pakete – Details und Umfang: <a href="preise.html#inbetrieb-title" class="font-medium text-steirer underline-offset-2 hover:underline">Preise &amp; Abo</a>.</p>
+            </div>
+            <div>
               <label for="kf-oeffnung" class="block text-sm font-medium text-stone-700">Verkaufs- oder Öffnungszeiten (optional)</label>
               <input id="kf-oeffnung" type="text" class="input-field mt-1" placeholder="z. B. Fr–So 9–17, nach Vereinbarung …" />
             </div>
@@ -690,6 +700,12 @@
         var sel = document.getElementById('kf-paket-wunsch');
         if (sel) sel.value = p;
       }
+      var ib = (params.get('inbetrieb') || '').toLowerCase();
+      var ibAllowed = { klein: 1, mittel: 1, gross: 1 };
+      if (ibAllowed[ib]) {
+        var ibSel = document.getElementById('kf-inbetrieb-wunsch');
+        if (ibSel) ibSel.value = ib;
+      }
       if (window.location.hash === '#kontakt') {
         requestAnimationFrame(function () {
           var el = document.getElementById('kontakt');
@@ -874,8 +890,15 @@
       if (paketSel && paketSel.value && paketSel.options[paketSel.selectedIndex]) {
         paketLabel = paketSel.options[paketSel.selectedIndex].text.replace(/\u00a0/g, ' ');
       }
+      var inbSel = document.getElementById('kf-inbetrieb-wunsch');
+      var inbVal = inbSel && inbSel.value ? inbSel.value : '';
+      var inbLabel = '';
+      if (inbSel && inbSel.value && inbSel.options[inbSel.selectedIndex]) {
+        inbLabel = inbSel.options[inbSel.selectedIndex].text.replace(/\u00a0/g, ' ');
+      }
 
       var anliegenTeile = [];
+      if (inbVal) anliegenTeile.push('Inbetriebnahme: ' + (inbLabel || inbVal));
       if (paketVal) anliegenTeile.push('Abo: ' + (paketLabel || paketVal));
       if (leistungen.length) anliegenTeile.push(leistungen.join(', '));
       if (!anliegenTeile.length) anliegenTeile.push('Allgemeine Anfrage / Erstgespräch');
@@ -894,6 +917,8 @@
         leistungen: leistungen,
         paket_code: paketVal || null,
         paket_label: paketLabel || null,
+        inbetrieb_code: inbVal || null,
+        inbetrieb_label: inbLabel || null,
         oeffnung: oeffnung || null,
         nachricht: msg,
         bild_dateinamen: fileNames,
