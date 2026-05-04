@@ -113,9 +113,12 @@ create index if not exists website_anfragen_created_at_idx
 alter table public.website_anfragen enable row level security;
 
 drop policy if exists "website_anfragen_anon_insert" on public.website_anfragen;
-create policy "website_anfragen_anon_insert"
+drop policy if exists "website_anfragen_authenticated_insert" on public.website_anfragen;
+drop policy if exists "website_anfragen_public_insert" on public.website_anfragen;
+-- Gäste = „anon“; eingeloggte Nutzer (z. B. Mein-Abo-Session auf derselben Seite) = „authenticated“
+create policy "website_anfragen_public_insert"
   on public.website_anfragen for insert
-  to anon
+  to anon, authenticated
   with check (true);
 
 drop policy if exists "website_anfragen_admin_select" on public.website_anfragen;
