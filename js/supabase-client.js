@@ -3,6 +3,10 @@
  * Lädt nach @supabase/supabase-js UMD und js/config.js.
  */
 (function (global) {
+  /** Eine Instanz pro Tab: mehrere createClient-Aufrufe würden sonst parallele Auth-Timer/Listener erzeugen. */
+  var _singleton = null;
+  var _singletonKey = '';
+
   function getLib() {
     if (global.supabase && typeof global.supabase.createClient === 'function') return global.supabase;
     if (typeof supabase !== 'undefined' && supabase && typeof supabase.createClient === 'function') return supabase;
@@ -13,9 +17,12 @@
     var url = (global.DAHOAM_SUPABASE_URL || '').trim();
     var key = (global.DAHOAM_SUPABASE_ANON_KEY || '').trim();
     if (!url || !key) return null;
+    var cacheKey = url + '\0' + key;
+    if (_singleton && _singletonKey === cacheKey) return _singleton;
     var lib = getLib();
     if (!lib) return null;
-    return lib.createClient(url, key, {
+    _singletonKey = cacheKey;
+    _singleton = lib.createClient(url, key, {
       auth: {
         persistSession: true,
         autoRefreshToken: true,
@@ -23,6 +30,14 @@
         storage: global.localStorage,
       },
     });
+    if (typeof document !== 'undefined' && !_singleton._dahoamVisHook) {
+      _singleton._dahoamVisHook = true;
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState !== 'visible' || !_singleton) return;
+        _singleton.auth.getSession().catch(function () {});
+      });
+    }
+    return _singleton;
   }
 
   /** True wenn URL/Key fehlen oder nur Platzhalter aus dem Build. */

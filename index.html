@@ -654,7 +654,7 @@
       okEl.classList.add('hidden');
       if (hp && hp.value) return;
 
-      var client = window.DahoamSupabase && window.DahoamSupabase.getClient ? window.DahoamSupabase.getClient() : null;
+      var client = window.DahoamSupabase ? window.DahoamSupabase.getClient() : null;
       if (!client) {
         errEl.textContent =
           'Die Anfrage kann technisch nicht gesendet werden: Supabase ist nicht konfiguriert (js/config.js oder Cloudflare: DAHOAM_SUPABASE_URL + DAHOAM_SUPABASE_ANON_KEY).';
