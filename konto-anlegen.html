@@ -133,7 +133,13 @@
           options: { emailRedirectTo: confirmUrl },
         });
         if (res.error) {
-          errEl.textContent = res.error.message || 'Registrierung fehlgeschlagen.';
+          var rawErr = res.error.message || 'Registrierung fehlgeschlagen.';
+          if (/rate limit|too many|429|over_email_send_rate/i.test(rawErr)) {
+            errEl.textContent =
+              'Zu viele E-Mails in kurzer Zeit (Supabase-Begrenzung). Bitte einige Minuten warten und es erneut versuchen. Beim Testen: nicht mehrfach hintereinander registrieren, oder in Supabase unter Authentication → Providers → E-Mail die Bestätigung testweise deaktivieren.';
+          } else {
+            errEl.textContent = rawErr;
+          }
           errEl.classList.remove('hidden');
           return;
         }

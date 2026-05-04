@@ -126,7 +126,13 @@
         var redir = redirectToPasswortNeu();
         var res = await client.auth.resetPasswordForEmail(email, { redirectTo: redir });
         if (res.error) {
-          err.textContent = res.error.message || 'Anforderung fehlgeschlagen.';
+          var raw = res.error.message || 'Anforderung fehlgeschlagen.';
+          if (/rate limit|too many|429|over_email_send_rate/i.test(raw)) {
+            err.textContent =
+              'Zu viele E-Mails in kurzer Zeit (Supabase-Begrenzung). Bitte einige Minuten warten und es erneut versuchen.';
+          } else {
+            err.textContent = raw;
+          }
           err.classList.remove('hidden');
           return;
         }
