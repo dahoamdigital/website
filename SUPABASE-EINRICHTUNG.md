@@ -8,16 +8,59 @@ Damit **Anmelden** (Startseite, Team), **Admin**, **Mein Abo** (Kunden) und **Pa
 
 ## 0) Nur Live (Cloudflare Pages) – Login ohne lokale `config.js`
 
-Wenn Sie **nur** die veröffentlichte Website nutzen und **keine** lokale `js/config.js` anlegen wollen:
+Hier steht **nicht** „ein Link in die Website schreiben“. Die Website lädt beim **Build** auf Cloudflare eine **`js/config.js`**, die aus **Umgebungsvariablen** gefüllt wird. Sie tragen also in **Cloudflare** zwei **Namen** (`DAHOAM_SUPABASE_URL` und `DAHOAM_SUPABASE_ANON_KEY`) ein und als **Wert** jeweils das, was Sie in **Supabase** kopieren.
 
-1. **Cloudflare** → **Workers & Pages** → Ihr Website-Projekt → **Settings** → **Environment variables** → **Production** (bei Bedarf auch **Preview**):
-   - **`DAHOAM_SUPABASE_URL`** = die **Project URL** aus Supabase (**Project Settings → API**), exakt in der Form `https://xxxx.supabase.co` — **ohne** `/rest/v1/` am Ende.
-   - **`DAHOAM_SUPABASE_ANON_KEY`** = der **anon public**-Key (derselbe API-Bildschirm).
-   - optional **`DAHOAM_BAUFPLAN_EMAIL_TO`** = E-Mail für Vorbefüllung im Login/Editor.
-2. **Save** → Tab **Deployments** → beim letzten Build **Retry deployment** ausführen **oder** einen neuen Commit auf `main` pushen. Beim Build läuft `npm run build` und schreibt daraus die Live-**`js/config.js`** (die Datei liegt nicht im Git, wird aber auf Pages ausgeliefert).
-3. **Erfolg prüfen:** Live-Seite öffnen → **Anmelden** oder **admin.html** → keine Meldung „Supabase nicht konfiguriert“; mit gültigem User kommt entweder Login oder eine klare Supabase-Fehlermeldung (z. B. falsches Passwort).
+---
 
-**Ohne Schritt 1–2** bleibt `js/config.js` auf dem Build leer → Login geht nicht.
+### A) Werte in Supabase finden und kopieren (nur lesen)
+
+1. Browser öffnen und bei **[supabase.com](https://supabase.com)** anmelden.
+2. Ihr **Projekt** auswählen (Dashboard des Projekts).
+3. Ganz links in der **Seitenleiste** nach unten scrollen → auf das **Zahnrad** **Project Settings** klicken.
+4. Im Untermenü von Project Settings den Punkt **API** anklicken.
+5. **Project URL**  
+   - Dort steht **ein** Textfeld / eine URL, z. B. `https://abcdefghijklmnop.supabase.co`.  
+   - **Genau diese Zeichenkette** kopieren (Button „Copy“ oder markieren und Strg+C).  
+   - **Wichtig:** Das ist **nicht** die lange REST-Adresse mit `/rest/v1/` am Ende. Wenn irgendwo `/rest/v1/` dransteht, **nicht** verwenden – nur die kurze **Project URL** bis `.supabase.co`.
+6. **anon public**-Key  
+   - Auf derselben **API**-Seite weiter nach unten zu **Project API keys**.  
+   - Bei **anon** / **public** (nicht bei **service_role**!) auf **Reveal** / **Anzeigen** klicken und den **langen** Schlüssel kopieren (beginnt oft mit `eyJ…`).  
+   - Den **service_role**-Key **niemals** in Cloudflare oder ins Repo packen – nur **anon public**.
+
+**Merke:** Sie kopieren aus Supabase **zwei getrennte Dinge**: (1) die **URL** und (2) den **anon**-Key. Beides kommt später in Cloudflare – aber unter **zwei verschiedenen Namen** (siehe Teil B).
+
+---
+
+### B) In Cloudflare Pages eintragen (Variable **Name** + **Value**)
+
+1. Browser: **[dash.cloudflare.com](https://dash.cloudflare.com)** → anmelden.
+2. Linkes Menü: **Workers & Pages** anklicken.
+3. Oben den Bereich **Workers & Pages** / **Overview** – dort Ihr **Pages**-Projekt auswählen (der Name, der zu Ihrer Website/GitHub-Repo gehört, **nicht** „Workers“ aus Versehen).
+4. Im Projekt oben die Registerkarte **Settings** öffnen.
+5. In der linken Spalte unter Settings: **Variables and Secrets** wählen (bei älterer Oberfläche kann der Punkt **Environment variables** heißen – gleicher Zweck).
+6. Wenn es **Production** und **Preview** getrennt gibt: zuerst **Production** auswählen (das ist Ihre Live-Website).
+7. **Erste Variable anlegen**  
+   - Button z. B. **Add** / **Add variable** / **Edit variables**.  
+   - **Name** (exakt so, Großbuchstaben und Unterstriche): `DAHOAM_SUPABASE_URL`  
+   - **Value** (Wert): die **Project URL** aus Supabase **einfügen** (Strg+V), z. B. `https://ihr-projekt.supabase.co` — wieder: **ohne** `/rest/v1/`.  
+   - Speichern / hinzufügen.
+8. **Zweite Variable anlegen**  
+   - **Name:** `DAHOAM_SUPABASE_ANON_KEY`  
+   - **Value:** den kopierten **anon public**-Key einfügen.  
+   - Optional können Sie diesen Wert als **Secret** / verschlüsselt speichern, wenn Cloudflare das anbietet – funktional egal, Hauptsache der Key steht unter **diesem** Namen.
+9. **Optional:** weitere Variable **Name:** `DAHOAM_BAUFPLAN_EMAIL_TO` — **Value:** Ihre E-Mail (nur für Vorbefüllung im Login/Editor).
+
+---
+
+### C) Neu bauen (damit die Live-Seite die Werte wirklich nutzt)
+
+1. Im selben Cloudflare-Projekt den Tab **Deployments** öffnen.
+2. Beim **letzten** Deployment **⋯** (Menü) → **Retry deployment** wählen **oder** einen neuen Commit auf `main` pushen.  
+   Beim Build läuft `npm run build` → **`scripts/write-config.js`** schreibt aus den Variablen die ausgelieferte **`js/config.js`** (die Datei liegt **nicht** im Git, existiert aber auf der gebauten Website).
+
+**Erfolg prüfen:** Ihre **öffentliche** Website-URL im Browser öffnen → z. B. `/admin.html` oder Startseite **Anmelden** → es darf **nicht** mehr „Supabase nicht konfiguriert“ / „URL oder Key fehlen“ erscheinen. (Falsches Passwort ist dann schon ein „gutes“ Zeichen: Supabase wird erreicht.)
+
+**Ohne Teil B + C** bleibt die `js/config.js` auf dem Server leer → Login geht nicht.
 
 Danach mindestens noch: **Abschnitt 5** (SQL), **7** (Auth-URLs zur Live-Domain), **8** (Benutzer + Admin-Rolle für Team), bei Kunden **9** (`kunden_pakete`).
 
@@ -59,15 +102,18 @@ Danach mindestens noch: **Abschnitt 5** (SQL), **7** (Auth-URLs zur Live-Domain)
 
 ## 4) Keys auf Cloudflare Pages (Live-Seite)
 
-1. Cloudflare → **Workers & Pages** → Ihr Projekt → **Settings** → **Environment variables**.
-2. Für **Production** (und bei Bedarf **Preview**) anlegen:
-   - `DAHOAM_SUPABASE_URL` = **Project URL** (`https://….supabase.co`, **nicht** `…/rest/v1/`)  
-   - `DAHOAM_SUPABASE_ANON_KEY` = anon public key  
-   - optional `DAHOAM_BAUFPLAN_EMAIL_TO`  
-   - optional `DAHOAM_SITE_ORIGIN` = z. B. `https://www.ihre-domain.at` (wenn die Reset-Mail immer auf die Live-Domain zeigen soll)
-3. **Save** → **Deployments** → letztes Deployment **Retry deployment** (oder leeren Commit pushen).
+**Ausführlich Schritt für Schritt:** siehe **Abschnitt 0** oben (Teil A = Supabase kopieren, Teil B = Cloudflare einfügen, Teil C = Retry deployment).
 
-Ohne diese Variablen schreibt der Build nur einen **leeren Stub** in `js/config.js` – dann schlägt Login mit „Supabase nicht konfiguriert“ fehl.
+Kurz die **Namen** und **Werte**:
+
+| Variable in Cloudflare (Name) | Woher der Wert (Supabase) |
+|--------------------------------|---------------------------|
+| `DAHOAM_SUPABASE_URL` | **Project Settings → API → Project URL** (`https://….supabase.co`, **ohne** `/rest/v1/`) |
+| `DAHOAM_SUPABASE_ANON_KEY` | **Project Settings → API → Project API keys → anon public** |
+| `DAHOAM_BAUFPLAN_EMAIL_TO` (optional) | Beliebige E-Mail-Adresse von Ihnen |
+| `DAHOAM_SITE_ORIGIN` (optional) | Nur nötig, wenn Passwort-Reset immer eine **feste** Basis-URL braucht, z. B. `https://www.ihre-domain.at` |
+
+Ohne die ersten beiden Variablen schreibt der Build nur einen **leeren Stub** in `js/config.js` – dann schlägt Login mit „Supabase nicht konfiguriert“ fehl.
 
 ---
 
