@@ -64,6 +64,7 @@ Ohne diese Variablen erzeugt der Build eine leere `js/config.js` – die Seite l
 | `SUPABASE-EINRICHTUNG.md` | Schritt-für-Schritt: Supabase-Projekt, Keys, SQL, Auth-URLs, Team-Admin, Kunden |
 | `js/supabase-client.js` | Gemeinsamer Supabase-Client + Prüfung `isAppAdminUser` (nach UMD + `config.js`) |
 | `passwort-neu.html` | Passwort-Reset (Redirect-Ziel für Supabase Auth) |
+| `konto-anlegen.html` | Selbstregistrierung für „Mein Abo“ (`signUp`, Redirect siehe SUPABASE-EINRICHTUNG.md) |
 
 ## Kundenportal „Mein Abo“
 

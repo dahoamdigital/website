@@ -62,6 +62,19 @@ Hier steht **nicht** „ein Link in die Website schreiben“. Die Website lädt 
 
 **Ohne Teil B + C** bleibt die `js/config.js` auf dem Server leer → Login geht nicht.
 
+---
+
+### D) Variablen in Cloudflare stehen, trotzdem Fehlermeldung „nicht konfiguriert“
+
+1. Cloudflare Pages → Ihr Projekt → **Settings** → Bereich **Builds** / **Build configuration** (Bezeichnung je nach Oberfläche):
+   - **Build command:** exakt `npm run build`
+   - **Build output directory:** `/` (ein Schrägstrich = Root des Repos, dort liegt `index.html`)
+2. **Warum:** `js/config.js` liegt **nicht** im Git (`.gitignore`). Nur der Build führt `scripts/write-config.js` aus und **schreibt** `js/config.js` mit Ihren Umgebungsvariablen. Ohne `npm run build` bleibt die Seite ohne gültige Keys.
+3. **Prüfen:** Im Browser `https://Ihre-Live-Domain/js/config.js` öffnen. Steht dort `__DAHOAM_BUILD_STUB__ = true` oder sind URL/Key leer, hat der Build die Variablen **nicht** gesehen → Namen exakt `DAHOAM_SUPABASE_URL` und `DAHOAM_SUPABASE_ANON_KEY`, Umgebung **Production**, danach erneut **Retry deployment**.
+4. In den **Build logs** (Deployments → Build-Log) nach `WARN` oder `OK: geschrieben js/config.js` suchen.
+
+**Konto anlegen (Registrierung):** Seite **`konto-anlegen.html`** – in Supabase **Authentication** → **Providers** → **Email** muss die **Registrierung** erlaubt sein („Confirm email“ / Sign-ups je nach Projekt). **Redirect URLs** müssen Ihre Live-Domain und **`…/mein-abo.html`** abdecken (siehe Abschnitt 7).
+
 Danach mindestens noch: **Abschnitt 5** (SQL), **7** (Auth-URLs zur Live-Domain), **8** (Benutzer + Admin-Rolle für Team), bei Kunden **9** (`kunden_pakete`).
 
 ---
@@ -129,7 +142,8 @@ Damit existieren u. a. `bauplan_auftraege` (Kontaktformular/Editor) und `kunde
 ## 6) Authentication – E-Mail & Bestätigung
 
 1. **Authentication** → **Providers** → **Email** sollte **aktiviert** sein.
-2. **Authentication** → **Users**: hier legen Sie Benutzer an (**Add user** → E-Mail + Passwort, optional „Auto Confirm User“ anhaken für erste Tests).
+2. **Selbstregistrierung (Konto anlegen):** Die Seite **`konto-anlegen.html`** nutzt `signUp`. Dafür muss unter **Email** die Registrierung erlaubt sein (je nach Dashboard: Sign-ups / „Enable email confirmations“ – siehe Supabase-Doku zur jeweiligen Version). Nach Sign-up ggf. E-Mail bestätigen, bevor Login klappt.
+3. **Authentication** → **Users**: hier legen Sie Benutzer manuell an (**Add user** → E-Mail + Passwort, optional „Auto Confirm User“ anhaken für erste Tests) – Alternative zur Selbstregistrierung.
 
 **E-Mail-Bestätigung (Confirm sign up):**
 
@@ -159,6 +173,7 @@ Sonst schlagen **Login**, **Magic Links** oder **Passwort zurücksetzen** mit Re
 4. **Passwort-Reset** leitet auf **`passwort-neu.html`** – diese Seite muss unter derselben Origin erreichbar sein, z. B.:  
    `https://www.ihre-domain.at/passwort-neu.html`  
    Diese URL (oder `…/**`) muss in **Redirect URLs** erlaubt sein.
+5. **Konto anlegen** (`konto-anlegen.html`) bestätigt die E-Mail oft mit Weiterleitung zu **`mein-abo.html`** – dieselbe Domain muss in **Redirect URLs** erlaubt sein (z. B. `https://www.ihre-domain.at/**`).
 
 Nach Änderungen an URLs: kurz warten und Seite neu laden; ggf. Browser-Cache leeren.
 

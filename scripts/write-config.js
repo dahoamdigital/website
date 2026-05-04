@@ -25,11 +25,20 @@ if (!url || !key) {
     '→ Cloudflare Pages: Workers & Pages → Ihr Projekt → Settings → Environment variables (Production + Preview).\n' +
     '→ Lokal: js/config.example.js nach js/config.js kopieren (ohne npm run build).';
   if (isHostedCi) {
-    console.warn('WARN (Build läuft trotzdem): ' + msg);
+    console.warn(
+      'WARN (Build läuft trotzdem): ' +
+        msg +
+        ' | Beim Build gesetzt: URL=' +
+        (!!url ? 'ja' : 'nein') +
+        ', ANON_KEY=' +
+        (!!key ? 'ja' : 'nein') +
+        (key ? ' (Key-Länge: ' + key.length + ')' : '')
+    );
     const stub = [
-      '// Platzhalter: Beim Build fehlten DAHOAM_SUPABASE_URL / DAHOAM_SUPABASE_ANON_KEY. In Cloudflare unter Environment variables eintragen und erneut deployen.',
+      '// Platzhalter: Beim Build fehlten DAHOAM_SUPABASE_URL / DAHOAM_SUPABASE_ANON_KEY.',
       'window.DAHOAM_SUPABASE_URL = "";',
       'window.DAHOAM_SUPABASE_ANON_KEY = "";',
+      'window.__DAHOAM_BUILD_STUB__ = true;',
     ];
     if (mail) stub.push('window.DAHOAM_BAUFPLAN_EMAIL_TO = ' + JSON.stringify(mail) + ';');
     stub.push('');
@@ -46,6 +55,7 @@ const lines = [
   '// Automatisch erzeugt von scripts/write-config.js beim Deploy (npm run build).',
   'window.DAHOAM_SUPABASE_URL = ' + JSON.stringify(url) + ';',
   'window.DAHOAM_SUPABASE_ANON_KEY = ' + JSON.stringify(key) + ';',
+  'window.__DAHOAM_BUILD_STUB__ = false;',
 ];
 if (mail) {
   lines.push('window.DAHOAM_BAUFPLAN_EMAIL_TO = ' + JSON.stringify(mail) + ';');

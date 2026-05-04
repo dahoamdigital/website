@@ -14,7 +14,10 @@ Dieser Ordner ist dafür vorbereitet:
 
 Deployment (kurz):
 1) Cloudflare Dashboard → Workers & Pages → Create → Pages → Upload assets ODER Git verbinden.
-2) „Build output / Publish directory“ = dieser Ordner (Root mit index.html).
+2) Build-Einstellungen (wichtig für Supabase-Login):
+     Build command: npm run build
+     Build output directory: /   (= Root mit index.html)
+   Ohne diesen Build wird js/config.js nicht erzeugt – dann funktioniert Anmelden/Admin/Mein Abo nicht, auch wenn Environment variables gesetzt sind.
 3) Eigene Domain anbinden (DNS bei Cloudflare oder CNAME laut Anleitung).
 4) Supabase: Project Settings → Authentication → URL Configuration
    → Site URL = Ihre Live-URL (https://…)
