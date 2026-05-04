@@ -222,12 +222,16 @@
       var emptyHint = document.getElementById('empty-hint');
       var detailPanel = document.getElementById('detail-panel');
       var detailJson = document.getElementById('detail-json');
+      var auftraegeLoadGen = 0;
+      var anfragenLoadGen = 0;
 
       async function loadAuftraege() {
         if (!client) return;
+        var gen = ++auftraegeLoadGen;
         tbody.innerHTML = '';
         detailPanel.classList.add('hidden');
         var res = await client.from('bauplan_auftraege').select('*').order('created_at', { ascending: false });
+        if (gen !== auftraegeLoadGen) return;
         if (res.error) {
           console.error(res.error);
           tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-6 text-center text-red-600">' + (res.error.message || 'Fehler beim Laden') + '</td></tr>';
@@ -385,12 +389,14 @@
 
       async function loadWebAnfragen() {
         if (!client || !tbodyAn) return;
+        var gen = ++anfragenLoadGen;
         tbodyAn.innerHTML = '';
         var filterEl = document.getElementById('anfragen-filter-offen');
         var onlyOpen = filterEl && filterEl.checked;
         var q = client.from('website_anfragen').select('*').order('created_at', { ascending: false });
         if (onlyOpen) q = q.eq('status', 'offen');
         var res = await q;
+        if (gen !== anfragenLoadGen) return;
         if (res.error) {
           console.error(res.error);
           tbodyAn.innerHTML =
