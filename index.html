@@ -78,6 +78,21 @@
       border-color: rgba(45, 90, 39, 0.45);
       background-color: rgba(232, 240, 230, 0.65);
     }
+    @keyframes kf-shake {
+      0%, 100% { transform: translateX(0); }
+      18% { transform: translateX(-10px); }
+      36% { transform: translateX(10px); }
+      54% { transform: translateX(-6px); }
+      72% { transform: translateX(6px); }
+      90% { transform: translateX(-3px); }
+    }
+    #kontakt-form.kf-shake-anim { animation: kf-shake 0.48s ease-in-out; }
+    .input-field.kf-field-error,
+    .textarea-field.kf-field-error,
+    .select-field.kf-field-error {
+      border-color: #dc2626 !important;
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.22);
+    }
   </style>
 </head>
 <body class="font-sans text-stone-800 antialiased bg-stone-50">
@@ -404,13 +419,14 @@
 
           <fieldset class="space-y-3 border-0 p-0">
             <legend class="kf-section-title w-full border-b border-stone-200 pb-2">Bilder vom Hof &amp; Laden <span class="text-xs font-normal text-stone-500">(optional)</span></legend>
-            <p class="text-xs leading-relaxed text-stone-500">Optional Fotos von Außenansicht, Theke oder Produkten auswählen (JPG, PNG, WebP). Die Dateinamen werden mitgeschickt; zum Zusenden der Dateien können Sie uns später per E-Mail schreiben.</p>
+            <p class="text-xs leading-relaxed text-stone-500">Optional Fotos auswählen (JPG, PNG, WebP). Kleine Vorschau erscheint unten; Bilder werden mit Ihrer Anfrage übertragen (verkleinert, damit es zuverlässig funktioniert).</p>
             <label class="flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-stone-300 bg-stone-50/80 px-4 py-8 transition hover:border-steirer/40 hover:bg-steirer-soft/30">
               <span class="text-sm font-semibold text-steirer">Fotos auswählen</span>
               <span class="mt-1 text-xs text-stone-500">Mehrere Dateien möglich · max. sinnvoll ca. 5–10 MB pro Bild</span>
               <input id="kf-files" type="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic" class="sr-only" data-file-hint="kf-file-hint" />
             </label>
             <p id="kf-file-hint" class="text-center text-xs text-stone-500">Noch keine Bilder ausgewählt.</p>
+            <div id="kf-file-previews" class="mt-3 hidden flex flex-wrap justify-center gap-2" aria-live="polite"></div>
           </fieldset>
 
           <button type="submit" id="kf-submit-btn" class="w-full rounded-xl bg-steirer py-3.5 text-sm font-semibold text-white shadow-md shadow-steirer/25 transition hover:bg-steirer-dark hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-70">Anfrage absenden</button>
@@ -644,6 +660,127 @@
         });
       }
     })();
+    function clearKfFieldErrors() {
+      ['kf-name', 'kf-email', 'kf-msg'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.remove('kf-field-error');
+      });
+    }
+
+    function kontaktFormValidateVisual() {
+      var form = document.getElementById('kontakt-form');
+      var checks = [
+        {
+          id: 'kf-name',
+          ok: function (v) {
+            return v.trim().length > 0;
+          },
+        },
+        {
+          id: 'kf-email',
+          ok: function (v) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+          },
+        },
+        {
+          id: 'kf-msg',
+          ok: function (v) {
+            return v.trim().length > 0;
+          },
+        },
+      ];
+      clearKfFieldErrors();
+      var firstBad = null;
+      checks.forEach(function (c) {
+        var el = document.getElementById(c.id);
+        if (!el) return;
+        if (!c.ok(el.value)) {
+          el.classList.add('kf-field-error');
+          if (!firstBad) firstBad = el;
+        }
+      });
+      if (firstBad) {
+        if (form) {
+          form.classList.remove('kf-shake-anim');
+          void form.offsetWidth;
+          form.classList.add('kf-shake-anim');
+        }
+        firstBad.focus({ preventScroll: false });
+        try {
+          firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } catch (e1) {}
+        return false;
+      }
+      return true;
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise(function (resolve, reject) {
+        var fr = new FileReader();
+        fr.onload = function () {
+          resolve(fr.result);
+        };
+        fr.onerror = reject;
+        fr.readAsDataURL(file);
+      });
+    }
+
+    function compressDataUrlToJpeg(dataUrl, maxW, quality) {
+      return new Promise(function (resolve) {
+        var img = new Image();
+        img.onload = function () {
+          var w = img.naturalWidth || img.width;
+          var h = img.naturalHeight || img.height;
+          if (!w || !h) {
+            resolve(null);
+            return;
+          }
+          var scale = Math.min(1, maxW / w);
+          var cw = Math.max(1, Math.round(w * scale));
+          var ch = Math.max(1, Math.round(h * scale));
+          var c = document.createElement('canvas');
+          c.width = cw;
+          c.height = ch;
+          var ctx = c.getContext('2d');
+          if (!ctx) {
+            resolve(null);
+            return;
+          }
+          ctx.drawImage(img, 0, 0, cw, ch);
+          var q = quality;
+          var out = c.toDataURL('image/jpeg', q);
+          var maxLen = 480000;
+          while (out.length > maxLen && q > 0.42) {
+            q -= 0.07;
+            out = c.toDataURL('image/jpeg', q);
+          }
+          if (out.length > 920000) resolve(null);
+          else resolve(out);
+        };
+        img.onerror = function () {
+          resolve(null);
+        };
+        img.src = dataUrl;
+      });
+    }
+
+    async function buildBilderMitAnfrage(fileInput) {
+      var out = [];
+      if (!fileInput || !fileInput.files || !fileInput.files.length) return out;
+      var maxFiles = 6;
+      var n = Math.min(fileInput.files.length, maxFiles);
+      for (var i = 0; i < n; i++) {
+        var f = fileInput.files[i];
+        if (!f.type || f.type.indexOf('image/') !== 0) continue;
+        try {
+          var raw = await readFileAsDataUrl(f);
+          var comp = await compressDataUrlToJpeg(raw, 1100, 0.82);
+          if (comp) out.push({ name: f.name, mime: 'image/jpeg', data_url: comp });
+        } catch (e2) {}
+      }
+      return out;
+    }
+
     document.getElementById('kontakt-form').addEventListener('submit', async function (e) {
       e.preventDefault();
       var errEl = document.getElementById('kf-submit-error');
@@ -659,6 +796,13 @@
         errEl.textContent =
           'Die Anfrage kann technisch nicht gesendet werden: Supabase ist nicht konfiguriert (js/config.js oder Cloudflare: DAHOAM_SUPABASE_URL + DAHOAM_SUPABASE_ANON_KEY).';
         errEl.classList.remove('hidden');
+        return;
+      }
+
+      if (!kontaktFormValidateVisual()) {
+        errEl.textContent = 'Bitte füllen Sie alle mit * markierten Felder aus (Name, E-Mail, Nachricht).';
+        errEl.classList.remove('hidden');
+        errEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         return;
       }
 
@@ -719,11 +863,21 @@
       };
 
       btn.disabled = true;
+      var bilderMit = [];
+      try {
+        bilderMit = await buildBilderMitAnfrage(fileInput);
+      } catch (e3) {}
+      if (bilderMit.length) payload.bilder_mit_anfrage = bilderMit;
+
       var ins = await client.rpc('submit_website_anfrage', { p_payload: payload });
       btn.disabled = false;
 
       if (ins.error) {
         var m = ins.error.message || 'Speichern fehlgeschlagen.';
+        if (/payload|too large|statement timeout|57014/i.test(m)) {
+          m +=
+            ' Tipp: Weniger oder kleinere Bilder wählen (max. ca. 6 Fotos), oder Fotos später per E-Mail nachsenden.';
+        }
         if (m.indexOf('relation') !== -1 || m.indexOf('schema cache') !== -1 || m.indexOf('function') !== -1) {
           m +=
             ' – In Supabase SQL ausführen: supabase/rpc-submit-website-anfrage.sql (und Tabelle website_anfragen aus website-anfragen.sql / schema.sql).';
@@ -756,9 +910,16 @@
       okEl.textContent =
         'Vielen Dank – Ihre Anfrage ist bei uns eingegangen. Wir melden uns bei Ihnen. Sie können diese Seite schließen.';
       okEl.classList.remove('hidden');
+      clearKfFieldErrors();
       document.getElementById('kontakt-form').reset();
       var hint = document.getElementById('kf-file-hint');
       if (hint) hint.textContent = 'Noch keine Bilder ausgewählt.';
+      var prevBox = document.getElementById('kf-file-previews');
+      if (prevBox) {
+        prevBox.innerHTML = '';
+        prevBox.classList.add('hidden');
+      }
+      if (typeof window.__kfRevokePreviews === 'function') window.__kfRevokePreviews();
       okEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     (function () {
@@ -785,19 +946,81 @@
         a.addEventListener('click', closeMobileNav);
       });
     })();
-    document.querySelectorAll('[data-file-hint]').forEach(function (input) {
-      var hintId = input.getAttribute('data-file-hint');
-      var hint = hintId ? document.getElementById(hintId) : null;
-      if (!hint) return;
-      function updateHint() {
+    (function () {
+      var kfPreviewUrls = [];
+      window.__kfRevokePreviews = function () {
+        kfPreviewUrls.forEach(function (u) {
+          try {
+            URL.revokeObjectURL(u);
+          } catch (e4) {}
+        });
+        kfPreviewUrls = [];
+      };
+      function renderKfFilePreviews(input) {
+        var box = document.getElementById('kf-file-previews');
+        if (!box) return;
+        window.__kfRevokePreviews();
+        box.innerHTML = '';
         var files = input.files;
-        if (!files || files.length === 0) { hint.textContent = 'Noch keine Bilder ausgewählt.'; return; }
-        if (files.length === 1) { hint.textContent = '1 Bild: ' + files[0].name; return; }
-        var names = Array.prototype.slice.call(files, 0, 3).map(function (f) { return f.name; }).join(', ');
-        hint.textContent = files.length + ' Bilder' + (files.length > 3 ? ' (u. a. ' + names + ' …)' : ': ' + names);
+        if (!files || !files.length) {
+          box.classList.add('hidden');
+          return;
+        }
+        box.classList.remove('hidden');
+        for (var i = 0; i < files.length; i++) {
+          var f = files[i];
+          if (!f.type || f.type.indexOf('image/') !== 0) continue;
+          var url = URL.createObjectURL(f);
+          kfPreviewUrls.push(url);
+          var fig = document.createElement('figure');
+          fig.className =
+            'relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm sm:h-20 sm:w-20';
+          var img = document.createElement('img');
+          img.src = url;
+          img.alt = f.name || 'Vorschau';
+          img.className = 'h-full w-full object-cover';
+          img.loading = 'lazy';
+          fig.appendChild(img);
+          box.appendChild(fig);
+        }
+        if (!box.children.length) box.classList.add('hidden');
       }
-      input.addEventListener('change', updateHint);
-    });
+      document.querySelectorAll('[data-file-hint]').forEach(function (input) {
+        var hintId = input.getAttribute('data-file-hint');
+        var hint = hintId ? document.getElementById(hintId) : null;
+        if (!hint) return;
+        function updateHint() {
+          var files = input.files;
+          if (!files || files.length === 0) {
+            hint.textContent = 'Noch keine Bilder ausgewählt.';
+            return;
+          }
+          if (files.length === 1) {
+            hint.textContent = '1 Bild ausgewählt · ' + files[0].name;
+            return;
+          }
+          var names = Array.prototype.slice.call(files, 0, 3).map(function (f) { return f.name; }).join(', ');
+          hint.textContent = files.length + ' Bilder' + (files.length > 3 ? ' (u. a. ' + names + ' …)' : ': ' + names);
+        }
+        input.addEventListener('change', function () {
+          updateHint();
+          renderKfFilePreviews(input);
+        });
+      });
+      ['kf-name', 'kf-email', 'kf-msg'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el)
+          el.addEventListener('input', function () {
+            el.classList.remove('kf-field-error');
+          });
+      });
+      var kfForm = document.getElementById('kontakt-form');
+      if (kfForm)
+        kfForm.addEventListener('animationend', function (ev) {
+          if (ev.animationName === 'kf-shake' || (ev.animationName && ev.animationName.indexOf('kf-shake') !== -1))
+            kfForm.classList.remove('kf-shake-anim');
+        });
+    })();
   </script>
 </body>
 </html>
