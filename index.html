@@ -770,11 +770,19 @@
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         toggle.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
       }
+      function closeMobileNav() {
+        setOpen(false);
+      }
       toggle.addEventListener('click', function () {
         setOpen(panel.classList.contains('hidden'));
       });
       panel.querySelectorAll('a').forEach(function (a) {
-        a.addEventListener('click', function () { setOpen(false); });
+        a.addEventListener('click', closeMobileNav);
+      });
+      var mobLogin = document.getElementById('index-mobile-open-login');
+      if (mobLogin) mobLogin.addEventListener('click', closeMobileNav);
+      document.querySelectorAll('a[href="#kontakt"]').forEach(function (a) {
+        a.addEventListener('click', closeMobileNav);
       });
     })();
     document.querySelectorAll('[data-file-hint]').forEach(function (input) {

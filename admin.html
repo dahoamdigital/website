@@ -105,14 +105,21 @@
         <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
             <h2 class="font-display text-lg font-semibold text-stone-900">Website-Anfragen</h2>
-            <p class="text-sm text-stone-600">Kontaktformular Startseite · Klick auf eine Zeile zeigt alle Daten (JSON)</p>
+            <p class="text-sm text-stone-600">Kontaktformular Startseite · Zeile anklicken für Kundendaten, Erledigt oder Löschen</p>
           </div>
-          <button type="button" id="btn-reload-anfragen" class="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium hover:bg-stone-50">Aktualisieren</button>
+          <div class="flex flex-wrap items-center gap-3">
+            <label class="flex cursor-pointer items-center gap-2 text-sm text-stone-700">
+              <input id="anfragen-filter-offen" type="checkbox" class="rounded border-stone-300 text-steirer focus:ring-steirer" />
+              Nur offene
+            </label>
+            <button type="button" id="btn-reload-anfragen" class="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium hover:bg-stone-50">Aktualisieren</button>
+          </div>
         </div>
         <div class="overflow-x-auto rounded-xl border border-stone-200 bg-white shadow-sm">
           <table class="min-w-full divide-y divide-stone-200 text-left text-sm">
             <thead class="bg-stone-50 text-xs font-semibold uppercase tracking-wide text-stone-500">
               <tr>
+                <th class="px-4 py-3">Status</th>
                 <th class="px-4 py-3">Datum</th>
                 <th class="px-4 py-3">Betrieb</th>
                 <th class="px-4 py-3">E-Mail</th>
@@ -124,9 +131,20 @@
           </table>
         </div>
         <p id="empty-anfragen-hint" class="mt-4 hidden text-center text-sm text-stone-500">Noch keine Website-Anfragen.</p>
-        <div id="detail-anfragen-panel" class="mt-8 hidden rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
-          <h3 class="font-semibold text-stone-900">Anfrage (JSON)</h3>
-          <pre id="detail-anfragen-json" class="mt-3 max-h-[480px] overflow-auto rounded-lg bg-stone-900 p-4 text-xs text-emerald-100"></pre>
+        <div id="detail-anfragen-panel" class="mt-8 hidden rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
+          <div class="flex flex-wrap items-start justify-between gap-3 border-b border-stone-100 pb-4">
+            <div>
+              <h3 class="font-display text-lg font-semibold text-stone-900">Anfrage-Details</h3>
+              <p id="detail-anfragen-meta" class="mt-1 text-xs text-stone-500"></p>
+            </div>
+            <span id="detail-anfragen-status-badge" class="inline-flex shrink-0 rounded-full px-3 py-1 text-xs font-semibold"></span>
+          </div>
+          <div id="detail-anfragen-formatted" class="mt-4"></div>
+          <div id="detail-anfragen-actions" class="mt-6 flex flex-wrap gap-2"></div>
+          <details class="mt-6 rounded-lg border border-stone-200 bg-stone-50/80 p-3">
+            <summary class="cursor-pointer text-sm font-medium text-stone-700">Rohdaten (JSON)</summary>
+            <pre id="detail-anfragen-json" class="mt-3 max-h-[280px] overflow-auto rounded-lg bg-stone-900 p-4 text-xs text-emerald-100"></pre>
+          </details>
         </div>
       </div>
     </section>
@@ -248,6 +266,100 @@
       var emptyAnHint = document.getElementById('empty-anfragen-hint');
       var detailAnPanel = document.getElementById('detail-anfragen-panel');
       var detailAnJson = document.getElementById('detail-anfragen-json');
+      var detailAnActions = document.getElementById('detail-anfragen-actions');
+      var selectedAnfrageId = null;
+
+      function fmtArr(v) {
+        if (v == null) return '';
+        if (Array.isArray(v)) return v.map(function (x) { return String(x); }).filter(Boolean).join(', ');
+        return String(v);
+      }
+
+      function fmtPayloadHtml(p) {
+        p = p && typeof p === 'object' ? p : {};
+        var bt =
+          [p.betriebstyp_label, p.betriebstyp_text].filter(Boolean).join(' — ') ||
+          (p.betriebstyp_wert ? String(p.betriebstyp_wert) : '');
+        var rows = [
+          ['Betrieb', p.betrieb_name],
+          ['E-Mail', p.email],
+          ['Telefon', p.telefon],
+          ['Standort', p.standort],
+          ['Betriebstyp', bt || null],
+          ['Produkte / Schwerpunkte', fmtArr(p.produkte) || null],
+          ['Sortiment / Angebot', p.sortiment_text],
+          ['Gewünschte Leistungen', fmtArr(p.leistungen) || null],
+          ['Paket / Abo-Wunsch', p.paket_label || p.paket_code],
+          ['Öffnungszeiten', p.oeffnung],
+          ['Nachricht', p.nachricht],
+          ['Bild-Dateinamen', fmtArr(p.bild_dateinamen) || null],
+          ['Anliegen (Kurz)', p.anliegen_kurz],
+        ];
+        var parts = [];
+        for (var i = 0; i < rows.length; i++) {
+          var label = rows[i][0];
+          var v = rows[i][1];
+          if (v == null || v === '') continue;
+          var s = typeof v === 'object' ? JSON.stringify(v) : String(v);
+          var esc = escapeHtml(s).replace(/\n/g, '<br/>');
+          parts.push(
+            '<div class="py-2.5 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-2">' +
+              '<dt class="text-xs font-semibold uppercase tracking-wide text-stone-500">' +
+              escapeHtml(label) +
+              '</dt>' +
+              '<dd class="mt-0.5 text-sm leading-relaxed text-stone-900 sm:col-span-2 sm:mt-0">' +
+              esc +
+              '</dd></div>'
+          );
+        }
+        if (!parts.length) return '<p class="text-sm text-stone-500">Keine Felder im Payload.</p>';
+        return (
+          '<dl class="divide-y divide-stone-100 rounded-xl border border-stone-200 bg-white px-4 sm:px-5">' +
+          parts.join('') +
+          '</dl>'
+        );
+      }
+
+      function showAnfrageDetail(row) {
+        selectedAnfrageId = row.id;
+        var p = row.payload && typeof row.payload === 'object' ? row.payload : {};
+        var st = row.status === 'erledigt' ? 'erledigt' : 'offen';
+        var badge = document.getElementById('detail-anfragen-status-badge');
+        if (badge) {
+          badge.textContent = st === 'erledigt' ? 'Erledigt' : 'Offen';
+          badge.className =
+            'inline-flex shrink-0 rounded-full px-3 py-1 text-xs font-semibold ' +
+            (st === 'erledigt' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-900');
+        }
+        var meta = document.getElementById('detail-anfragen-meta');
+        if (meta) {
+          var d = row.created_at ? new Date(row.created_at) : null;
+          var ds = d && !isNaN(d.getTime()) ? d.toLocaleString('de-AT') : '–';
+          var done = row.erledigt_am ? new Date(row.erledigt_am).toLocaleString('de-AT') : '';
+          meta.textContent =
+            'Eingang: ' + ds + (done ? ' · Erledigt: ' + done : '') + ' · ID: ' + String(row.id);
+        }
+        var fmtEl = document.getElementById('detail-anfragen-formatted');
+        if (fmtEl) fmtEl.innerHTML = fmtPayloadHtml(p);
+        if (detailAnJson) detailAnJson.textContent = JSON.stringify(row, null, 2);
+        if (detailAnActions) {
+          var btns = '';
+          if (st === 'offen') {
+            btns +=
+              '<button type="button" data-anfrage-action="erledigt" class="rounded-lg bg-steirer px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-steirer-dark">Als erledigt markieren</button>';
+          } else {
+            btns +=
+              '<button type="button" data-anfrage-action="offen" class="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-800 hover:bg-stone-50">Wieder auf offen</button>';
+          }
+          btns +=
+            ' <button type="button" data-anfrage-action="loeschen" class="rounded-lg border border-red-300 bg-white px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50">Endgültig löschen</button>';
+          detailAnActions.innerHTML = btns;
+        }
+        if (detailAnPanel) {
+          detailAnPanel.classList.remove('hidden');
+          detailAnPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
 
       function adminSwitchTab(which) {
         var b = which === 'bauplan';
@@ -274,20 +386,34 @@
       async function loadWebAnfragen() {
         if (!client || !tbodyAn) return;
         tbodyAn.innerHTML = '';
-        if (detailAnPanel) detailAnPanel.classList.add('hidden');
-        var res = await client.from('website_anfragen').select('*').order('created_at', { ascending: false });
+        var filterEl = document.getElementById('anfragen-filter-offen');
+        var onlyOpen = filterEl && filterEl.checked;
+        var q = client.from('website_anfragen').select('*').order('created_at', { ascending: false });
+        if (onlyOpen) q = q.eq('status', 'offen');
+        var res = await q;
         if (res.error) {
           console.error(res.error);
           tbodyAn.innerHTML =
-            '<tr><td colspan="5" class="px-4 py-6 text-center text-red-600">' + escapeHtml(res.error.message || 'Fehler beim Laden') + '</td></tr>';
+            '<tr><td colspan="6" class="px-4 py-6 text-center text-red-600">' +
+            escapeHtml(res.error.message || 'Fehler beim Laden') +
+            '</td></tr>';
           if (emptyAnHint) emptyAnHint.classList.add('hidden');
+          if (detailAnPanel) detailAnPanel.classList.add('hidden');
+          selectedAnfrageId = null;
           return;
         }
         var rows = res.data || [];
         if (emptyAnHint) emptyAnHint.classList.toggle('hidden', rows.length > 0);
+        var keepDetail = !!(selectedAnfrageId && rows.some(function (r) { return r.id === selectedAnfrageId; }));
+        if (!keepDetail && detailAnPanel) {
+          detailAnPanel.classList.add('hidden');
+          selectedAnfrageId = null;
+        }
         rows.forEach(function (row) {
           var tr = document.createElement('tr');
-          tr.className = 'cursor-pointer hover:bg-stone-50';
+          var st = row.status === 'erledigt' ? 'erledigt' : 'offen';
+          tr.className =
+            'cursor-pointer hover:bg-stone-50' + (st === 'erledigt' ? ' bg-stone-50/80 text-stone-500' : '');
           var d = row.created_at ? new Date(row.created_at) : null;
           var dateStr = d && !isNaN(d.getTime()) ? d.toLocaleString('de-AT') : '–';
           var p = row.payload && typeof row.payload === 'object' ? row.payload : {};
@@ -295,17 +421,88 @@
           var em = p.email != null ? String(p.email) : '–';
           var ort = p.standort != null ? String(p.standort) : '–';
           var kurz = p.anliegen_kurz != null ? String(p.anliegen_kurz) : '–';
+          var badge =
+            st === 'erledigt'
+              ? '<span class="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">Erledigt</span>'
+              : '<span class="inline-flex rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-900">Offen</span>';
           tr.innerHTML =
-            '<td class="px-4 py-3 whitespace-nowrap text-stone-600">' + escapeHtml(dateStr) + '</td>' +
-            '<td class="px-4 py-3 font-medium text-stone-900">' + escapeHtml(betrieb) + '</td>' +
-            '<td class="px-4 py-3">' + escapeHtml(em) + '</td>' +
-            '<td class="px-4 py-3 text-stone-600">' + escapeHtml(ort) + '</td>' +
-            '<td class="px-4 py-3 text-xs text-stone-600">' + escapeHtml(kurz) + '</td>';
+            '<td class="px-4 py-3 whitespace-nowrap">' +
+            badge +
+            '</td>' +
+            '<td class="px-4 py-3 whitespace-nowrap text-stone-600">' +
+            escapeHtml(dateStr) +
+            '</td>' +
+            '<td class="px-4 py-3 font-medium text-stone-900">' +
+            escapeHtml(betrieb) +
+            '</td>' +
+            '<td class="px-4 py-3">' +
+            escapeHtml(em) +
+            '</td>' +
+            '<td class="px-4 py-3 text-stone-600">' +
+            escapeHtml(ort) +
+            '</td>' +
+            '<td class="px-4 py-3 text-xs text-stone-600">' +
+            escapeHtml(kurz) +
+            '</td>';
           tr.addEventListener('click', function () {
-            detailAnJson.textContent = JSON.stringify(row, null, 2);
-            detailAnPanel.classList.remove('hidden');
+            showAnfrageDetail(row);
           });
           tbodyAn.appendChild(tr);
+        });
+        if (keepDetail && selectedAnfrageId) {
+          var found = rows.filter(function (r) { return r.id === selectedAnfrageId; })[0];
+          if (found) showAnfrageDetail(found);
+        }
+      }
+
+      if (detailAnActions && !detailAnActions._anfrageBound) {
+        detailAnActions._anfrageBound = true;
+        detailAnActions.addEventListener('click', async function (e) {
+          var btn = e.target.closest('[data-anfrage-action]');
+          if (!btn || !selectedAnfrageId || !client) return;
+          var act = btn.getAttribute('data-anfrage-action');
+          if (act === 'loeschen') {
+            if (!window.confirm('Diese Anfrage unwiderruflich löschen?')) return;
+            var del = await client.from('website_anfragen').delete().eq('id', selectedAnfrageId);
+            if (del.error) {
+              window.alert(del.error.message || 'Löschen fehlgeschlagen.');
+              return;
+            }
+            selectedAnfrageId = null;
+            if (detailAnPanel) detailAnPanel.classList.add('hidden');
+            loadWebAnfragen();
+            return;
+          }
+          if (act === 'erledigt') {
+            var r1 = await client
+              .from('website_anfragen')
+              .update({ status: 'erledigt', erledigt_am: new Date().toISOString() })
+              .eq('id', selectedAnfrageId)
+              .select('*')
+              .maybeSingle();
+            if (r1.error) {
+              window.alert(r1.error.message || 'Speichern fehlgeschlagen.');
+              return;
+            }
+            if (r1.data) showAnfrageDetail(r1.data);
+            loadWebAnfragen();
+            return;
+          }
+          if (act === 'offen') {
+            var r2 = await client
+              .from('website_anfragen')
+              .update({ status: 'offen', erledigt_am: null })
+              .eq('id', selectedAnfrageId)
+              .select('*')
+              .maybeSingle();
+            if (r2.error) {
+              window.alert(r2.error.message || 'Speichern fehlgeschlagen.');
+              return;
+            }
+            if (r2.data) showAnfrageDetail(r2.data);
+            loadWebAnfragen();
+            return;
+          }
         });
       }
 
@@ -318,6 +515,12 @@
       document.getElementById('btn-reload-anfragen').addEventListener('click', function () {
         loadWebAnfragen();
       });
+      var anfragenFilterOffen = document.getElementById('anfragen-filter-offen');
+      if (anfragenFilterOffen) {
+        anfragenFilterOffen.addEventListener('change', function () {
+          loadWebAnfragen();
+        });
+      }
 
       document.getElementById('login-form').addEventListener('submit', async function (e) {
         e.preventDefault();

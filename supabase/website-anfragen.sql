@@ -4,7 +4,9 @@ create table if not exists public.website_anfragen (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
   quelle text not null default 'index_kontakt',
-  payload jsonb not null
+  payload jsonb not null,
+  status text not null default 'offen' check (status in ('offen', 'erledigt')),
+  erledigt_am timestamptz
 );
 
 create index if not exists website_anfragen_created_at_idx
@@ -12,8 +14,8 @@ create index if not exists website_anfragen_created_at_idx
 
 alter table public.website_anfragen enable row level security;
 
-grant insert on public.website_anfragen to anon, authenticated;
-grant select on public.website_anfragen to authenticated;
+grant insert, select, update, delete on public.website_anfragen to authenticated;
+grant insert on public.website_anfragen to anon;
 
 drop policy if exists "website_anfragen_anon_insert" on public.website_anfragen;
 drop policy if exists "website_anfragen_authenticated_insert" on public.website_anfragen;
@@ -32,6 +34,19 @@ create policy "website_anfragen_authenticated_insert"
 drop policy if exists "website_anfragen_admin_select" on public.website_anfragen;
 create policy "website_anfragen_admin_select"
   on public.website_anfragen for select
+  to authenticated
+  using (coalesce((auth.jwt() -> 'app_metadata' ->> 'role'), '') = 'admin');
+
+drop policy if exists "website_anfragen_admin_update" on public.website_anfragen;
+create policy "website_anfragen_admin_update"
+  on public.website_anfragen for update
+  to authenticated
+  using (coalesce((auth.jwt() -> 'app_metadata' ->> 'role'), '') = 'admin')
+  with check (coalesce((auth.jwt() -> 'app_metadata' ->> 'role'), '') = 'admin');
+
+drop policy if exists "website_anfragen_admin_delete" on public.website_anfragen;
+create policy "website_anfragen_admin_delete"
+  on public.website_anfragen for delete
   to authenticated
   using (coalesce((auth.jwt() -> 'app_metadata' ->> 'role'), '') = 'admin');
 
