@@ -16,3 +16,6 @@ create policy "website_anfragen_authenticated_insert"
   on public.website_anfragen for insert
   to authenticated
   with check (true);
+
+-- Kontaktformular: zusätzlich supabase/rpc-submit-website-anfrage.sql ausführen
+-- (ohne RPC schlägt .insert().select('id') an RLS fehl, weil RETURNING wie SELECT wirkt).

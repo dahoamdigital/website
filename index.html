@@ -719,14 +719,14 @@
       };
 
       btn.disabled = true;
-      var ins = await client.from('website_anfragen').insert([{ quelle: 'index_kontakt', payload: payload }]).select('id').maybeSingle();
+      var ins = await client.rpc('submit_website_anfrage', { p_payload: payload });
       btn.disabled = false;
 
       if (ins.error) {
         var m = ins.error.message || 'Speichern fehlgeschlagen.';
-        if (m.indexOf('relation') !== -1 || m.indexOf('schema cache') !== -1) {
+        if (m.indexOf('relation') !== -1 || m.indexOf('schema cache') !== -1 || m.indexOf('function') !== -1) {
           m +=
-            ' – Tabelle „website_anfragen“ fehlt: In Supabase SQL aus supabase/website-anfragen.sql (oder aktuelles schema.sql) ausführen.';
+            ' – In Supabase SQL ausführen: supabase/rpc-submit-website-anfrage.sql (und Tabelle website_anfragen aus website-anfragen.sql / schema.sql).';
         }
         errEl.textContent = m;
         errEl.classList.remove('hidden');
@@ -734,7 +734,7 @@
         return;
       }
 
-      var newId = ins.data && ins.data.id ? ins.data.id : null;
+      var newId = ins.data != null && ins.data !== '' ? ins.data : null;
       if (window.DAHOAM_ANFRAGE_EMAIL_NOTIFY === true && newId) {
         var baseUrl = (window.DAHOAM_SUPABASE_URL || '').replace(/\/$/, '');
         var key = (window.DAHOAM_SUPABASE_ANON_KEY || '').trim();
