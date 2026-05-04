@@ -29,7 +29,7 @@ Damit **Anmelden** (Startseite, Team), **Admin**, **Mein Abo** (Kunden) und **Pa
 
 1. Im Ordner `website/js`: Datei **`config.example.js`** nach **`config.js`** kopieren.
 2. In **`config.js`** eintragen:
-   - `window.DAHOAM_SUPABASE_URL` = Ihre Project URL  
+   - `window.DAHOAM_SUPABASE_URL` = Ihre **Project URL** (z. B. `https://xxxx.supabase.co`) – **ohne** `/rest/v1/` am Ende, sonst schlägt der Login fehl.  
    - `window.DAHOAM_SUPABASE_ANON_KEY` = Ihr anon-Key  
 3. Optional: `window.DAHOAM_BAUFPLAN_EMAIL_TO` = Ihre E-Mail (Vorbefüllung im Login).
 4. Optional: Wenn Ihre **öffentliche** Website-URL von der Adresse abweicht, unter der Sie testen (selten):  

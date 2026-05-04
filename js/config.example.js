@@ -1,6 +1,9 @@
 // Kopieren Sie diese Datei nach js/config.js und tragen Sie Ihre Werte ein.
 // Supabase: Project Settings → API → Project URL + anon public key
 //
+// WICHTIG: DAHOAM_SUPABASE_URL = nur die Project URL, z. B. https://abcdefgh.supabase.co
+//          (ohne /rest/v1/ — der Client ergänzt die Pfade selbst.)
+//
 // Nach dem Live-Deployment (z. B. Cloudflare Pages, Netlify):
 //   Supabase → Authentication → URL Configuration
 //   → „Site URL“ = Ihre öffentliche Basis-URL (https://ihre-domain.at/)
