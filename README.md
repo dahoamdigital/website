@@ -6,12 +6,11 @@ Statische Website (HTML/CSS/JS) mit optionalem Supabase-Login.
 
 Gemeinsamer Browser-Code: **`js/supabase-client.js`** (wird nach `config.js` und der Supabase-UMD-Bibliothek eingebunden) – erzeugt den Client und prüft `app_metadata.role === 'admin'`.
 
-## Erste Schritte (lokal)
+## Erste Schritte
 
-1. `js/config.example.js` nach `js/config.js` kopieren und URL sowie anon-Key eintragen.
-2. `index.html` im Browser öffnen (oder „Live Server“ in VS Code).
+**Nur Live (empfohlen):** Supabase-URL und **anon**-Key in **Cloudflare Pages → Environment variables** (`DAHOAM_SUPABASE_URL`, `DAHOAM_SUPABASE_ANON_KEY`) eintragen, siehe **[SUPABASE-EINRICHTUNG.md](./SUPABASE-EINRICHTUNG.md)** Abschnitt **0** und **4**. Nach **Retry deployment** funktioniert der Login auf der veröffentlichten Seite.
 
-Ohne `js/config.js` fehlen Supabase-URL und Key – Login und Editor-Absenden funktionieren dann nicht.
+**Optional lokal:** `js/config.example.js` nach `js/config.js` kopieren und Werte eintragen (Datei ist in `.gitignore`). Ohne lokale `config.js` und ohne Cloudflare-Variablen schlägt Login lokal fehl – das ist normal, wenn Sie nur live arbeiten.
 
 ## So arbeiten Sie ohne Upload (Git + Cloudflare)
 
