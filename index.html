@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Dahoam-Digital: Webdesign, Hosting, Domain und Ersteinrichtung für steirische Betriebe – dazu auf Wunsch Einrichtung sozialer Medien. Persönlich, übersichtlich, ohne Schnickschnack." />
+  <meta name="description" content="Dahoam-Digital: Webdesign, Hosting, Domain und Ersteinrichtung für steirische Betriebe – moderate Paketpreise, dazu auf Wunsch soziale Medien. Persönlich und übersichtlich." />
   <title>Dahoam-Digital | Websites &amp; soziale Medien für Betriebe in der Steiermark</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <meta name="theme-color" content="#2D5A27" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -30,11 +31,16 @@
   <style>
     html { scroll-behavior: smooth; }
     .hero-mesh {
+      background-color: #f7f6f3;
       background-image:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(250, 249, 247, 0.98) 45%, rgba(245, 243, 239, 1) 100%),
-        radial-gradient(ellipse 90% 70% at 50% -25%, rgba(45, 90, 39, 0.11), transparent 58%),
-        radial-gradient(ellipse 55% 45% at 100% 15%, rgba(201, 162, 39, 0.09), transparent 42%),
-        radial-gradient(ellipse 45% 38% at 0% 85%, rgba(45, 90, 39, 0.05), transparent 48%);
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(252, 251, 248, 0.9) 38%, rgba(247, 246, 243, 0.94) 100%),
+        radial-gradient(ellipse 90% 70% at 50% -25%, rgba(45, 90, 39, 0.1), transparent 58%),
+        radial-gradient(ellipse 55% 45% at 100% 12%, rgba(201, 162, 39, 0.07), transparent 42%),
+        radial-gradient(ellipse 45% 38% at 0% 88%, rgba(45, 90, 39, 0.05), transparent 48%),
+        url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=2000&q=80');
+      background-size: auto, auto, auto, auto, cover;
+      background-position: center, center, center, center, center 42%;
+      background-repeat: no-repeat;
     }
     .noise-overlay {
       pointer-events: none;
@@ -182,10 +188,10 @@
 
   <main>
     <section class="relative overflow-hidden hero-mesh px-4 pb-20 pt-16 sm:px-6 sm:pb-28 sm:pt-24 lg:px-8 lg:pt-28">
-      <div class="noise-overlay absolute inset-0" aria-hidden="true"></div>
-      <div class="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-erde-light blur-3xl sm:-right-12" aria-hidden="true"></div>
-      <div class="pointer-events-none absolute -left-28 bottom-0 h-56 w-56 rounded-full bg-steirer/10 blur-3xl" aria-hidden="true"></div>
-      <div class="relative mx-auto max-w-3xl text-center">
+      <div class="noise-overlay absolute inset-0 z-[1]" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute -right-24 top-10 z-[1] h-72 w-72 rounded-full bg-erde-light/60 blur-3xl sm:-right-12" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute -left-28 bottom-0 z-[1] h-56 w-56 rounded-full bg-steirer/[0.06] blur-3xl" aria-hidden="true"></div>
+      <div class="relative z-10 mx-auto max-w-3xl text-center">
         <p class="section-kicker mb-4 inline-flex items-center gap-2 rounded-full border border-stone-200/90 bg-white/95 px-4 py-2 text-steirer shadow-sm backdrop-blur-sm">
           <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-steirer" aria-hidden="true"></span>
           Für Landwirtschaft, Hofläden &amp; regionale Betriebe
@@ -195,7 +201,7 @@
           <span class="bg-gradient-to-r from-steirer via-steirer to-steirer-dark bg-clip-text text-transparent">regional verwurzelt, professionell umgesetzt</span>
         </h1>
         <p class="mx-auto mt-6 max-w-2xl text-pretty text-base leading-[1.65] text-stone-600 sm:text-lg">
-          Wir machen aus Ihrer Geschichte eine <strong class="font-medium text-stone-800">schöne, verständliche Website</strong> – mit <strong class="font-medium text-stone-800">Design</strong>, <strong class="font-medium text-stone-800">Hosting</strong>, <strong class="font-medium text-stone-800">Domain</strong> und der <strong class="font-medium text-stone-800">Ersteinrichtung</strong>, damit Sie online gut dastehen. Auf Wunsch <strong class="font-medium text-stone-800">richten wir soziale Medien</strong> so ein, dass Sie Beiträge und Fotos <strong class="font-medium text-stone-800">selbst pflegen</strong> können. Klare Pakete, persönlicher Kontakt aus der Region – ohne überzogene Versprechen und ohne IT-Fachchinesisch.
+          Wir machen aus Ihrer Geschichte eine <strong class="font-medium text-stone-800">schöne, verständliche Website</strong> – mit <strong class="font-medium text-stone-800">Design</strong>, <strong class="font-medium text-stone-800">Hosting</strong>, <strong class="font-medium text-stone-800">Domain</strong> und der <strong class="font-medium text-stone-800">Ersteinrichtung</strong>, damit Sie online gut dastehen. Auf Wunsch <strong class="font-medium text-stone-800">richten wir soziale Medien</strong> so ein, dass Sie Beiträge und Fotos <strong class="font-medium text-stone-800">selbst pflegen</strong> können. Klare Pakete (aktuell ab <strong class="font-medium text-stone-800">39&nbsp;€</strong> im Monat – siehe <a href="preise.html" class="font-medium text-steirer underline decoration-steirer/30 underline-offset-2 hover:text-steirer-dark">Preise</a>), persönlicher Kontakt aus der Region – ohne überzogene Versprechen und ohne IT-Fachchinesisch.
         </p>
         <div class="mt-12 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
           <a href="#kontakt" class="inline-flex items-center justify-center rounded-full bg-steirer px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-steirer/25 transition hover:-translate-y-0.5 hover:bg-steirer-dark hover:shadow-xl">Beratungsgespräch anfragen</a>
@@ -205,7 +211,7 @@
           Sitz in Weiz · Südoststeiermark &amp; Umgebung · Persönliche Rückmeldung – ohne feste Reaktionsfrist, dafür ohne Hetze
         </p>
       </div>
-      <div class="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-steirer/15 to-transparent" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-px bg-gradient-to-r from-transparent via-steirer/15 to-transparent" aria-hidden="true"></div>
     </section>
 
     <section id="vorteile" class="scroll-mt-24 border-t border-stone-200/50 bg-gradient-to-b from-[#f3f1ed] to-[#f7f6f3] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
@@ -254,23 +260,23 @@
         <div class="mx-auto max-w-2xl text-center">
           <p class="section-kicker text-steirer/90">Leistungsspektrum</p>
           <h2 class="font-display mt-3 text-balance text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">Von der Idee bis schön online</h2>
-          <p class="mt-4 text-pretty text-stone-600 sm:text-lg">Im Mittelpunkt stehen <strong class="font-medium text-stone-800">Design</strong>, <strong class="font-medium text-stone-800">Hosting</strong>, <strong class="font-medium text-stone-800">Domain</strong> und die <strong class="font-medium text-stone-800">Ersteinrichtung</strong>. Soziale Medien und Sonderwünsche klären wir mit Ihnen – ehrlich und ohne versteckte Posten.</p>
+          <p class="mt-4 text-pretty text-stone-600 sm:text-lg">Im Mittelpunkt stehen <strong class="font-medium text-stone-800">Design</strong>, <strong class="font-medium text-stone-800">Hosting</strong>, <strong class="font-medium text-stone-800">Domain</strong> und die <strong class="font-medium text-stone-800">Ersteinrichtung</strong>. Die <strong class="font-medium text-stone-800">Monats- und Zusatzpreise</strong> haben wir zuletzt <strong class="font-medium text-stone-800">gesenkt</strong> – Details unter <a href="preise.html" class="font-medium text-steirer underline decoration-steirer/30 underline-offset-2 transition hover:text-steirer-dark">Preise</a>. Soziale Medien und Sonderwünsche klären wir mit Ihnen – ehrlich und ohne versteckte Posten.</p>
         </div>
         <ul class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <li class="card-lift relative flex flex-col rounded-2xl border border-stone-200/90 bg-gradient-to-br from-white to-stone-50/90 p-6 shadow-sm ring-1 ring-stone-900/[0.03] sm:p-7">
             <span class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl border border-steirer/20 bg-steirer-soft text-sm font-bold tabular-nums text-steirer">01</span>
             <h3 class="font-display text-lg font-semibold text-stone-900">Website und Landingpage</h3>
-            <p class="mt-2 flex-1 text-sm leading-relaxed text-stone-600">Wir strukturieren Ihre Inhalte, bereiten Texte und Bildmaterial auf und binden Standort- und Kontaktinformationen ein – damit sich Besucherinnen und Besucher zurechtfinden und Sie unkompliziert erreichen können.</p>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-stone-600">Wir strukturieren Ihre Inhalte, bereiten Texte und Bildmaterial auf und binden Standort- und Kontaktinformationen ein – damit sich Besucherinnen und Besucher zurechtfinden und Sie unkompliziert erreichen können. Aufwand und Layout stimmen mit Ihrem Budget überein.</p>
           </li>
           <li class="card-lift relative flex flex-col rounded-2xl border border-stone-200/90 bg-gradient-to-br from-white to-stone-50/90 p-6 shadow-sm ring-1 ring-stone-900/[0.03] sm:p-7">
             <span class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl border border-erde/25 bg-erde-sand text-sm font-bold tabular-nums text-erde">02</span>
             <h3 class="font-display text-lg font-semibold text-stone-900">Soziale Medien &amp; Kanäle</h3>
-            <p class="mt-2 flex-1 text-sm leading-relaxed text-stone-600">Wir richten für Sie passende Kanäle ein (z. B. Facebook- oder Instagram-Seite), stimmen Profiltexte und Verknüpfungen mit Ihrer Website ab und dokumentieren die wichtigsten Schritte. Sie bleiben Betreiber:in und pflegen Inhalte eigenständig; Rückfragen nach der Einrichtung klären wir gern – in Ruhe und nach Absprache.</p>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-stone-600">Wir richten passende Kanäle ein (z. B. Facebook- oder Instagram-Seite), stimmen Profiltexte und Verknüpfungen mit Ihrer Website ab und dokumentieren die wichtigsten Schritte. Sie bleiben Betreiber:in und pflegen Inhalte eigenständig; die Einrichtung erfolgt zu einem <strong class="font-medium text-stone-800">moderaten Festpreis</strong> (siehe Zusatzleistungen). Rückfragen danach klären wir gern in Ruhe und nach Absprache.</p>
           </li>
           <li class="card-lift relative flex flex-col rounded-2xl border border-steirer/15 bg-gradient-to-br from-white to-steirer-soft/35 p-6 shadow-sm ring-1 ring-steirer/10 sm:p-7">
             <span class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl border border-steirer-dark/30 bg-steirer-dark text-sm font-bold tabular-nums text-white">03</span>
             <h3 class="font-display text-lg font-semibold text-stone-900">Hosting, Domain &amp; online stellen</h3>
-            <p class="mt-2 flex-1 text-sm leading-relaxed text-stone-600">Ihre Seite liegt auf unserem <strong class="font-medium text-stone-800">Hosting</strong>, die <strong class="font-medium text-stone-800">Domain</strong> zeigt dorthin – wir sorgen dafür, dass alles <strong class="font-medium text-stone-800">sichtbar und erreichbar</strong> ist. Größere Umbauten oder regelmäßige Inhaltspflege besprechen wir separat, damit es für beide Seiten entspannt bleibt.</p>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-stone-600">Ihre Seite liegt auf unserem <strong class="font-medium text-stone-800">Hosting</strong>, die <strong class="font-medium text-stone-800">Domain</strong> zeigt dorthin – wir sorgen dafür, dass alles <strong class="font-medium text-stone-800">sichtbar und erreichbar</strong> ist. <strong class="font-medium text-stone-800">Hosting und Domain</strong> sind im Monatsabo enthalten; größere Umbauten oder laufende Inhaltspflege besprechen wir separat, damit es entspannt bleibt.</p>
           </li>
         </ul>
       </div>
@@ -431,9 +437,9 @@
               <label for="kf-paket-wunsch" class="block text-sm font-medium text-stone-700">Gewünschtes Website-Abo <span class="text-xs font-normal text-stone-500">(optional)</span></label>
               <select id="kf-paket-wunsch" name="paket" class="select-field mt-1 max-w-md">
                 <option value="">Noch unentschieden / nur Beratung</option>
-                <option value="starter">Starter (49&nbsp;€ / Monat)</option>
-                <option value="standard">Standard (89&nbsp;€ / Monat)</option>
-                <option value="premium">Premium (149&nbsp;€ / Monat)</option>
+                <option value="starter">Starter (39&nbsp;€ / Monat)</option>
+                <option value="standard">Standard (69&nbsp;€ / Monat)</option>
+                <option value="premium">Premium (119&nbsp;€ / Monat)</option>
                 <option value="zusatz">Nur Zusatzleistung (ohne neues Abo)</option>
               </select>
             </div>

@@ -238,7 +238,7 @@ values (
   'HIER-DIE-UUID-DES-USERS'::uuid,
   'standard',
   'Standard',
-  89.00,
+  69.00,
   'aktiv',
   current_date
 );
