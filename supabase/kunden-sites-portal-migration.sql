@@ -99,8 +99,10 @@ create table if not exists public.site_aenderungen_log (
   meta jsonb not null default '{}'::jsonb
 );
 
-create index if not exists site_aenderungen_log_user_monat_idx
-  on public.site_aenderungen_log (user_id, (date_trunc('month', created_at)));
+-- Kein Index auf date_trunc(month, timestamptz): in PG nicht IMMUTABLE → 42P17.
+-- Stattdessen (user_id, created_at): reicht für „diesen Monat“-Filter in den RPCs.
+create index if not exists site_aenderungen_log_user_created_idx
+  on public.site_aenderungen_log (user_id, created_at desc);
 
 alter table public.site_aenderungen_log enable row level security;
 
