@@ -91,12 +91,11 @@
       }
 
       if (!client) {
-        var stub = window.__DAHOAM_BUILD_STUB__ === true;
-        showCfg(
-          stub
-            ? 'Die Website wurde ohne Supabase-Keys im Build erzeugt. In Cloudflare: Environment variables (Production) prüfen und Build command „npm run build“ mit Ausgabe „/“ – dann Retry deployment. Siehe HOSTING.txt.'
-            : 'Supabase ist nicht erreichbar (js/config.js fehlt oder leer). Prüfen Sie das Hosting-Setup.'
-        );
+        var hint =
+          window.DahoamSupabase && typeof window.DahoamSupabase.explainWhyNoClient === 'function'
+            ? window.DahoamSupabase.explainWhyNoClient()
+            : 'Konfiguration fehlt. Siehe HOSTING.txt.';
+        showCfg(hint || 'Konfiguration fehlt. Siehe HOSTING.txt.');
         return;
       }
 

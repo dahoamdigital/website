@@ -97,7 +97,6 @@
         <a href="#kontakt" class="rounded-lg px-1 py-0.5 transition hover:bg-steirer-soft hover:text-steirer">Kontakt</a>
       </nav>
       <div class="flex shrink-0 items-center gap-1.5 sm:gap-3">
-        <a href="konto-anlegen.html" class="inline-flex max-w-[7.5rem] truncate rounded-full border border-stone-200 bg-white px-2.5 py-2 text-xs font-medium text-stone-700 shadow-sm transition hover:border-steirer/40 hover:bg-steirer-soft/50 hover:text-steirer sm:max-w-none sm:px-4 sm:text-sm" title="Kundenkonto für Mein Abo">Registrieren</a>
         <button type="button" id="index-open-login" class="rounded-full border border-stone-200 bg-white px-3 py-2 text-sm font-medium text-stone-700 shadow-sm transition hover:border-steirer/40 hover:bg-steirer-soft/50 hover:text-steirer sm:px-4">Anmelden</button>
         <div id="index-auth-session" class="hidden items-center gap-2">
           <a href="mein-abo.html" class="inline-flex items-center rounded-full border border-stone-200 bg-white px-3 py-2 text-sm font-medium text-stone-700 shadow-sm transition hover:border-steirer/40 hover:text-steirer" title="Kundenportal">Mein Abo</a>
@@ -144,12 +143,11 @@
         </div>
         <p id="index-login-error" class="hidden text-sm text-red-600"></p>
         <button type="submit" class="w-full rounded-xl bg-steirer py-3 text-sm font-semibold text-white transition hover:bg-steirer-dark">Einloggen</button>
-        <p class="mt-4 text-center text-sm text-stone-600">
-          <a href="konto-anlegen.html" class="font-medium text-steirer underline-offset-2 hover:underline">Konto anlegen</a>
-          <span class="text-stone-400"> · </span>
-          <a href="passwort-neu.html" class="font-medium text-steirer underline-offset-2 hover:underline">Passwort vergessen?</a>
-        </p>
       </form>
+      <a href="konto-anlegen.html" id="index-modal-register" class="mt-3 flex w-full items-center justify-center rounded-xl border-2 border-steirer/35 bg-steirer-soft/40 px-4 py-3 text-sm font-semibold text-steirer transition hover:border-steirer hover:bg-steirer-soft">Registrieren</a>
+      <p class="mt-4 text-center text-sm text-stone-600">
+        <a href="passwort-neu.html" class="font-medium text-steirer underline-offset-2 hover:underline">Passwort vergessen?</a>
+      </p>
     </div>
   </div>
 
@@ -448,14 +446,9 @@
         errEl.classList.toggle('hidden', !msg);
       }
       function supabaseMissingMessage() {
-        if (window.__DAHOAM_BUILD_STUB__ === true) {
-          return (
-            'Die Live-Seite wurde ohne Supabase-Keys gebaut (Platzhalter). In Cloudflare Pages: 1) Environment variables unter Production: DAHOAM_SUPABASE_URL und DAHOAM_SUPABASE_ANON_KEY exakt so benennen. 2) Build-Konfiguration: Build command = npm run build, Build output directory = / (Root). 3) Retry deployment. Tipp: Wenn der anon-Key als Secret nicht greift, testweise als Plaintext anlegen.'
-          );
-        }
-        return (
-          'Supabase ist nicht konfiguriert. Prüfen Sie in Cloudflare unter Settings → Environment variables die Werte DAHOAM_SUPABASE_URL und DAHOAM_SUPABASE_ANON_KEY, und ob der Build „npm run build“ läuft (siehe HOSTING.txt).'
-        );
+        return window.DahoamSupabase && typeof window.DahoamSupabase.explainWhyNoClient === 'function'
+          ? window.DahoamSupabase.explainWhyNoClient()
+          : 'Supabase-Konfiguration fehlt. Siehe HOSTING.txt und SUPABASE-EINRICHTUNG.md.';
       }
       function setHeaderAuth(session) {
         var ok = !!(session && session.user && isAdmin(session.user));
@@ -477,6 +470,15 @@
       }
       function closeModal() { modal.classList.add('hidden'); modal.classList.remove('flex'); }
       if (btnOpen) btnOpen.addEventListener('click', openModal);
+      var regLink = document.getElementById('index-modal-register');
+      if (regLink) {
+        regLink.addEventListener('click', function () {
+          if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+          }
+        });
+      }
       var mOpen = document.getElementById('index-mobile-open-login');
       if (mOpen) {
         mOpen.addEventListener('click', function () {
@@ -501,7 +503,12 @@
         var pass = document.getElementById('index-login-pass').value;
         var res = await client.auth.signInWithPassword({ email: email, password: pass });
         if (res.error) {
-          showError(res.error.message || 'Login fehlgeschlagen.');
+          var em = res.error.message || 'Login fehlgeschlagen.';
+          if (/fetch|network|failed to fetch|load failed|nicht erreichbar/i.test(em)) {
+            em +=
+              ' (Hinweis: Das betrifft oft die Verbindung aus dem Browser ins Netz oder blockierte Skripte – weniger oft Supabase selbst. Konfiguration prüfen: …/js/config.js)';
+          }
+          showError(em);
           return;
         }
         if (res.data && res.data.user && !isAdmin(res.data.user)) {
