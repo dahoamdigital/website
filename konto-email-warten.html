@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="E-Mail bestätigen – Dahoam-Digital Kundenportal." />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>E-Mail bestätigen | Dahoam-Digital</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#2D5A27" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { steirer: { DEFAULT: '#2D5A27', dark: '#1f3f1b', soft: '#e8f0e6' } },
+          fontFamily: { display: ['Fraunces', 'Georgia', 'serif'], sans: ['DM Sans', 'system-ui', 'sans-serif'] },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-stone-100 to-stone-200/80 font-sans text-stone-800">
+  <header class="border-b border-stone-200/90 bg-white/95 shadow-sm backdrop-blur-md">
+    <div class="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
+      <a href="index.html" class="font-display text-lg font-semibold text-steirer">← Dahoam-Digital</a>
+      <nav class="flex flex-wrap items-center gap-4 text-sm font-medium text-stone-600">
+        <a href="mein-abo.html" class="hover:text-steirer">Mein Abo</a>
+        <a href="preise.html" class="hover:text-steirer">Preise</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-md px-4 py-10 sm:px-6 sm:py-14">
+    <p id="wait-config-error" class="hidden rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950"></p>
+
+    <section id="state-wait" class="mt-6 rounded-2xl border border-stone-200/90 bg-white p-8 shadow-lg ring-1 ring-stone-900/[0.04]">
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-steirer-soft text-2xl" aria-hidden="true">✉️</div>
+      <h1 class="mt-5 text-center font-display text-xl font-semibold text-stone-900">Bitte E-Mail bestätigen</h1>
+      <p class="mt-3 text-center text-sm text-stone-600">
+        Wir haben eine Nachricht an <strong id="wait-email-display" class="text-stone-900">Ihre E-Mail-Adresse</strong> geschickt. Öffnen Sie den Link in der E-Mail – diese Seite <strong>aktualisiert sich automatisch</strong>, sobald die Bestätigung durch ist (auch wenn der Link in einem <strong>anderen Tab</strong> oder am Handy geöffnet wird).
+      </p>
+      <p class="mt-4 text-center text-xs text-stone-500">Keine Mail? Spam-Ordner prüfen. Dieses Fenster können Sie offen lassen.</p>
+      <p id="wait-pulse" class="mt-6 flex items-center justify-center gap-2 text-xs font-medium text-steirer">
+        <span class="relative flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-steirer opacity-40"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-steirer"></span>
+        </span>
+        Warte auf Bestätigung …
+      </p>
+    </section>
+
+    <section id="state-done" class="mt-6 hidden rounded-2xl border border-stone-200/90 bg-white p-8 shadow-lg ring-1 ring-stone-900/[0.04]">
+      <p class="text-center text-4xl" aria-hidden="true">✓</p>
+      <h1 class="mt-4 text-center font-display text-xl font-semibold text-stone-900">E-Mail bestätigt</h1>
+      <p class="mt-3 text-center text-sm text-stone-600">
+        Sie sind angemeldet. Unter <strong>Mein Abo</strong> sehen Sie Ihr Paket, sobald es bei uns hinterlegt ist.
+      </p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+        <a id="done-btn-now" href="mein-abo.html" class="inline-flex justify-center rounded-full bg-steirer px-6 py-2.5 text-center text-sm font-semibold text-white shadow-md transition hover:bg-steirer-dark">Zu Mein Abo</a>
+        <a href="index.html" class="inline-flex justify-center rounded-full border border-stone-300 px-6 py-2.5 text-center text-sm font-medium text-stone-700 transition hover:bg-stone-50">Startseite</a>
+      </div>
+      <p id="done-redirect-hint" class="mt-6 text-center text-xs text-stone-500"></p>
+    </section>
+
+    <section id="state-longwait" class="mt-6 hidden rounded-2xl border border-amber-100 bg-amber-50/90 p-6 text-sm text-amber-950">
+      <p class="font-medium">Lange keine Änderung?</p>
+      <p class="mt-2 text-amber-900/95">
+        Wenn Sie den Link in der E-Mail schon geklickt haben, probieren Sie <a href="mein-abo.html" class="font-semibold text-steirer underline">Mein Abo</a> – oder melden Sie sich dort neu an.
+      </p>
+    </section>
+  </main>
+
+  <script src="js/config.defaults.js"></script>
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script>
+    (function () {
+      var REDIRECT_SEC = 5;
+      var POLL_MS = 3000;
+      var LONGWAIT_HINT_AFTER = 100;
+      var waitEl = document.getElementById('state-wait');
+      var doneEl = document.getElementById('state-done');
+      var longEl = document.getElementById('state-longwait');
+      var cfgErr = document.getElementById('wait-config-error');
+      var emailDisplay = document.getElementById('wait-email-display');
+      var hintDone = document.getElementById('done-redirect-hint');
+      var pulseEl = document.getElementById('wait-pulse');
+      var client = window.DahoamSupabase ? window.DahoamSupabase.getClient() : null;
+      var pollTimer = null;
+      var redirectTimer = null;
+      var countdownIv = null;
+      var pollCount = 0;
+      var finished = false;
+
+      function showCfg(msg) {
+        cfgErr.textContent = msg;
+        cfgErr.classList.remove('hidden');
+        waitEl.classList.add('hidden');
+      }
+
+      function stopPoll() {
+        if (pollTimer) clearInterval(pollTimer);
+        pollTimer = null;
+      }
+
+      function clearRedirect() {
+        if (redirectTimer) clearTimeout(redirectTimer);
+        redirectTimer = null;
+        if (countdownIv) clearInterval(countdownIv);
+        countdownIv = null;
+        hintDone.textContent = '';
+      }
+
+      if (!client) {
+        var hint =
+          window.DahoamSupabase && typeof window.DahoamSupabase.explainWhyNoClient === 'function'
+            ? window.DahoamSupabase.explainWhyNoClient()
+            : 'Konfiguration fehlt.';
+        showCfg(hint || 'Konfiguration fehlt.');
+        return;
+      }
+
+      try {
+        var q = new URLSearchParams(window.location.search).get('email');
+        if (q) emailDisplay.textContent = decodeURIComponent(q).trim();
+      } catch (e) {}
+
+      function showDone(session) {
+        if (finished) return;
+        finished = true;
+        stopPoll();
+        waitEl.classList.add('hidden');
+        longEl.classList.add('hidden');
+        doneEl.classList.remove('hidden');
+        var em = session && session.user && session.user.email;
+        if (em) {
+          hintDone.textContent = 'Angemeldet als ' + em + '.';
+        }
+        var left = REDIRECT_SEC;
+        function tick() {
+          hintDone.textContent =
+            (em ? 'Angemeldet als ' + em + '. ' : '') +
+            (left > 0 ? 'Weiterleitung zu Mein Abo in ' + left + ' s …' : '');
+          left -= 1;
+        }
+        tick();
+        countdownIv = setInterval(tick, 1000);
+        redirectTimer = setTimeout(function () {
+          window.location.replace('mein-abo.html');
+        }, REDIRECT_SEC * 1000);
+      }
+
+      document.getElementById('done-btn-now').addEventListener('click', function () {
+        clearRedirect();
+      });
+
+      async function checkSession() {
+        if (finished) return;
+        var res = await client.auth.getSession();
+        var s = res.data && res.data.session ? res.data.session : null;
+        if (s && s.user) showDone(s);
+      }
+
+      client.auth.onAuthStateChange(function (event, session) {
+        if (finished) return;
+        if (session && session.user && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED')) {
+          if (event === 'TOKEN_REFRESHED' && finished) return;
+          showDone(session);
+        }
+      });
+
+      checkSession();
+
+      pollTimer = setInterval(async function () {
+        if (finished) return;
+        pollCount += 1;
+        if (pollCount === LONGWAIT_HINT_AFTER) longEl.classList.remove('hidden');
+        await checkSession();
+      }, POLL_MS);
+
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible') checkSession();
+      });
+
+      window.addEventListener('storage', function (e) {
+        if (!e.key) return;
+        if (e.key.indexOf('sb-') === 0 && e.key.indexOf('auth') !== -1) checkSession();
+      });
+    })();
+  </script>
+</body>
+</html>
