@@ -41,6 +41,10 @@
         <div>
           <label for="abo-email" class="block text-sm font-medium text-stone-700">E-Mail</label>
           <input id="abo-email" type="email" autocomplete="email" required placeholder="ihre@email.at" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-900 shadow-sm placeholder:text-stone-400 focus:border-steirer focus:outline-none focus:ring-1 focus:ring-steirer" />
+          <div id="abo-email-hint" class="mt-2 hidden rounded-lg border border-stone-200 bg-stone-50 px-3 py-2 text-left" role="status" aria-live="polite">
+            <p class="text-xs text-stone-600">Für diese E-Mail ist <strong class="font-medium text-stone-800">kein Konto</strong> registriert.</p>
+            <a id="abo-email-hint-link" href="konto-anlegen.html" class="mt-1.5 inline-block text-sm font-medium text-steirer underline underline-offset-2 hover:text-steirer-dark">Zur Registrierung</a>
+          </div>
         </div>
         <div>
           <label for="abo-pass" class="block text-sm font-medium text-stone-700">Passwort</label>
@@ -139,6 +143,27 @@
         return s || '–';
       }
 
+      var aboEmailInput = document.getElementById('abo-email');
+      var aboEmailHintWrap = document.getElementById('abo-email-hint');
+      var aboEmailHintLink = document.getElementById('abo-email-hint-link');
+      var aboEmailHintTimer = null;
+      var aboEmailHintSeq = 0;
+      function emailRoughlyComplete(value) {
+        var s = (value || '').trim();
+        if (s.length < 6 || s.indexOf('@') < 1) return false;
+        var parts = s.split('@');
+        if (parts.length !== 2) return false;
+        var dom = parts[1];
+        return dom.length >= 3 && dom.indexOf('.') !== -1;
+      }
+      function setAboEmailHintVisible(on) {
+        if (aboEmailHintWrap) aboEmailHintWrap.classList.toggle('hidden', !on);
+      }
+      function clearAboEmailHintTimers() {
+        if (aboEmailHintTimer) clearTimeout(aboEmailHintTimer);
+        aboEmailHintTimer = null;
+        aboEmailHintSeq += 1;
+      }
       var loginSection = document.getElementById('abo-login-section');
       var dashboard = document.getElementById('abo-dashboard');
       var btnLogout = document.getElementById('abo-btn-logout');
@@ -223,6 +248,34 @@
         if (r.error) return null;
         return !!r.data;
       }
+      function scheduleAboEmailHint() {
+        if (!client || !aboEmailInput) return;
+        if (aboEmailHintTimer) clearTimeout(aboEmailHintTimer);
+        aboEmailHintTimer = setTimeout(async function () {
+          aboEmailHintTimer = null;
+          var email = aboEmailInput.value.trim();
+          if (!emailRoughlyComplete(email)) {
+            setAboEmailHintVisible(false);
+            return;
+          }
+          var mySeq = ++aboEmailHintSeq;
+          var exists = await authEmailRegistered(email);
+          if (mySeq !== aboEmailHintSeq) return;
+          if (exists === false && aboEmailHintLink) {
+            aboEmailHintLink.href = 'konto-anlegen.html?email=' + encodeURIComponent(email);
+            setAboEmailHintVisible(true);
+          } else {
+            setAboEmailHintVisible(false);
+          }
+        }, 420);
+      }
+      if (aboEmailInput) {
+        aboEmailInput.addEventListener('input', function () {
+          setAboEmailHintVisible(false);
+          scheduleAboEmailHint();
+        });
+        aboEmailInput.addEventListener('blur', scheduleAboEmailHint);
+      }
       document.getElementById('abo-login-form').addEventListener('submit', async function (e) {
         e.preventDefault();
         showLoginErr('');
@@ -247,6 +300,8 @@
       });
 
       btnLogout.addEventListener('click', async function () {
+        setAboEmailHintVisible(false);
+        clearAboEmailHintTimers();
         if (client) await client.auth.signOut();
       });
 

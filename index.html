@@ -133,6 +133,10 @@
         <div>
           <label for="index-login-email" class="block text-sm font-medium text-stone-700">E-Mail</label>
           <input id="index-login-email" type="email" required autocomplete="username" placeholder="team@ihre-domain.at" class="input-field mt-1 placeholder:text-stone-400" />
+          <div id="index-login-email-hint" class="mt-2 hidden rounded-lg border border-stone-200 bg-stone-50 px-3 py-2 text-left" role="status" aria-live="polite">
+            <p class="text-xs text-stone-600">Für diese E-Mail ist <strong class="font-medium text-stone-800">kein Konto</strong> registriert.</p>
+            <a id="index-login-email-hint-link" href="konto-anlegen.html" class="mt-1.5 inline-block text-sm font-medium text-steirer underline underline-offset-2 hover:text-steirer-dark">Zur Registrierung</a>
+          </div>
         </div>
         <div>
           <label for="index-login-pass" class="block text-sm font-medium text-stone-700">Passwort</label>
@@ -441,6 +445,27 @@
       var modal = document.getElementById('index-login-modal');
       var form = document.getElementById('index-login-form');
       var errEl = document.getElementById('index-login-error');
+      var loginEmailInput = document.getElementById('index-login-email');
+      var emailHintWrap = document.getElementById('index-login-email-hint');
+      var emailHintLink = document.getElementById('index-login-email-hint-link');
+      var emailHintTimer = null;
+      var emailHintSeq = 0;
+      function emailRoughlyComplete(value) {
+        var s = (value || '').trim();
+        if (s.length < 6 || s.indexOf('@') < 1) return false;
+        var parts = s.split('@');
+        if (parts.length !== 2) return false;
+        var dom = parts[1];
+        return dom.length >= 3 && dom.indexOf('.') !== -1;
+      }
+      function setEmailHintVisible(on) {
+        if (emailHintWrap) emailHintWrap.classList.toggle('hidden', !on);
+      }
+      function clearEmailHintTimers() {
+        if (emailHintTimer) clearTimeout(emailHintTimer);
+        emailHintTimer = null;
+        emailHintSeq += 1;
+      }
       function showError(msg) {
         errEl.textContent = msg || '';
         errEl.classList.toggle('hidden', !msg);
@@ -466,13 +491,26 @@
           return;
         }
         showError('');
+        setEmailHintVisible(false);
+        clearEmailHintTimers();
         modal.classList.remove('hidden'); modal.classList.add('flex');
       }
-      function closeModal() { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+      function closeModal() {
+        setEmailHintVisible(false);
+        clearEmailHintTimers();
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
       if (btnOpen) btnOpen.addEventListener('click', openModal);
       var regLink = document.getElementById('index-modal-register');
       if (regLink) {
         regLink.addEventListener('click', function () {
+          var ev = document.getElementById('index-login-email');
+          var raw = ev && ev.value ? ev.value.trim() : '';
+          regLink.href =
+            raw && emailRoughlyComplete(raw)
+              ? 'konto-anlegen.html?email=' + encodeURIComponent(raw)
+              : 'konto-anlegen.html';
           if (modal) {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
@@ -496,6 +534,34 @@
         var r = await client.rpc('auth_email_registered', { p_email: email });
         if (r.error) return null;
         return !!r.data;
+      }
+      function scheduleLoginEmailHint() {
+        if (!client || !loginEmailInput) return;
+        if (emailHintTimer) clearTimeout(emailHintTimer);
+        emailHintTimer = setTimeout(async function () {
+          emailHintTimer = null;
+          var email = loginEmailInput.value.trim();
+          if (!emailRoughlyComplete(email)) {
+            setEmailHintVisible(false);
+            return;
+          }
+          var mySeq = ++emailHintSeq;
+          var exists = await authEmailRegistered(email);
+          if (mySeq !== emailHintSeq) return;
+          if (exists === false && emailHintLink) {
+            emailHintLink.href = 'konto-anlegen.html?email=' + encodeURIComponent(email);
+            setEmailHintVisible(true);
+          } else {
+            setEmailHintVisible(false);
+          }
+        }, 420);
+      }
+      if (loginEmailInput) {
+        loginEmailInput.addEventListener('input', function () {
+          setEmailHintVisible(false);
+          scheduleLoginEmailHint();
+        });
+        loginEmailInput.addEventListener('blur', scheduleLoginEmailHint);
       }
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
