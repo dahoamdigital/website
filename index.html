@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Dahoam-Digital: Websites und Onlineshops für steirische Traditionsbetriebe und Hofläden – fair, regional, mit Handschlagqualität." />
-  <title>Dahoam-Digital | Ihre digitale Heimat</title>
+  <meta name="description" content="Dahoam-Digital: Professionelle Websites und Onlineshops für steirische Land- und Regionalbetriebe, Hofläden sowie Handwerk – transparente Pakete, persönliche Betreuung." />
+  <title>Dahoam-Digital | Websites für Betriebe in der Steiermark</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <meta name="theme-color" content="#2D5A27" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,17 +31,24 @@
     html { scroll-behavior: smooth; }
     .hero-mesh {
       background-image:
-        radial-gradient(ellipse 100% 80% at 50% -30%, rgba(45, 90, 39, 0.14), transparent 55%),
-        radial-gradient(ellipse 60% 50% at 100% 20%, rgba(201, 162, 39, 0.12), transparent 45%),
-        radial-gradient(ellipse 50% 40% at 0% 80%, rgba(45, 90, 39, 0.06), transparent 50%);
+        linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(250, 249, 247, 0.98) 45%, rgba(245, 243, 239, 1) 100%),
+        radial-gradient(ellipse 90% 70% at 50% -25%, rgba(45, 90, 39, 0.11), transparent 58%),
+        radial-gradient(ellipse 55% 45% at 100% 15%, rgba(201, 162, 39, 0.09), transparent 42%),
+        radial-gradient(ellipse 45% 38% at 0% 85%, rgba(45, 90, 39, 0.05), transparent 48%);
     }
     .noise-overlay {
       pointer-events: none;
       opacity: 0.035;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
-    .card-lift { transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
-    .card-lift:hover { transform: translateY(-2px); box-shadow: 0 12px 40px -12px rgba(28, 25, 23, 0.12); }
+    .card-lift { transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease; }
+    .card-lift:hover { transform: translateY(-3px); box-shadow: 0 16px 48px -14px rgba(28, 25, 23, 0.1); }
+    .section-kicker {
+      letter-spacing: 0.14em;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
     .input-field, .textarea-field, .select-field {
       width: 100%; border-radius: 0.75rem; border: 1px solid #e7e5e4;
       background-color: rgba(250, 250, 249, 0.5); padding: 0.75rem 1rem;
@@ -95,17 +102,20 @@
     }
   </style>
 </head>
-<body class="font-sans text-stone-800 antialiased bg-stone-50">
-  <header class="sticky top-0 z-40 border-b border-stone-200/90 bg-white/90 shadow-sm backdrop-blur-md">
+<body class="font-sans text-stone-800 antialiased bg-[#f7f6f3]">
+  <header class="sticky top-0 z-40 border-b border-stone-200/80 bg-white/95 shadow-[0_1px_0_rgba(28,25,23,0.04)] backdrop-blur-md">
     <div class="mx-auto flex max-w-6xl min-h-[3.25rem] items-center justify-between gap-2 px-4 py-2.5 sm:gap-3 sm:px-6 lg:px-8">
-      <a href="index.html" class="group font-display relative shrink-0 text-lg font-semibold tracking-tight text-steirer sm:text-xl">
-        <span class="relative z-10">Dahoam-Digital</span>
-        <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-steirer transition-all duration-300 group-hover:w-full" aria-hidden="true"></span>
-      </a>
+      <div class="flex min-w-0 flex-col gap-0.5">
+        <a href="index.html" class="group font-display relative shrink-0 text-lg font-semibold tracking-tight text-steirer sm:text-xl">
+          <span class="relative z-10">Dahoam-Digital</span>
+          <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-steirer transition-all duration-300 group-hover:w-full" aria-hidden="true"></span>
+        </a>
+        <span class="hidden text-[0.65rem] font-medium uppercase tracking-[0.16em] text-stone-500 sm:block">Websites · Steiermark</span>
+      </div>
       <nav class="hidden min-w-0 flex-1 justify-center gap-x-3 gap-y-0 text-[0.8125rem] font-medium leading-none text-stone-600 lg:gap-x-5 lg:text-sm xl:gap-x-6 min-[1100px]:flex" aria-label="Hauptnavigation">
         <a href="#vorteile" class="whitespace-nowrap rounded-md px-1.5 py-2 transition hover:bg-steirer-soft hover:text-steirer">Vorteile</a>
         <a href="#leistungen" class="whitespace-nowrap rounded-md px-1.5 py-2 transition hover:bg-steirer-soft hover:text-steirer">Leistungen</a>
-        <a href="beispiele.html" class="whitespace-nowrap rounded-md px-1.5 py-2 transition hover:bg-steirer-soft hover:text-steirer" title="Beispielwebsiten">Beispiele</a>
+        <a href="beispiele.html" class="whitespace-nowrap rounded-md px-1.5 py-2 transition hover:bg-steirer-soft hover:text-steirer" title="Referenzprojekte">Referenzen</a>
         <a href="preise.html" class="whitespace-nowrap rounded-md px-1.5 py-2 transition hover:bg-steirer-soft hover:text-steirer">Preise</a>
         <a href="mein-abo.html" class="whitespace-nowrap rounded-md px-1.5 py-2 transition hover:bg-steirer-soft hover:text-steirer">Mein Abo</a>
         <a href="konto-anlegen.html" class="whitespace-nowrap rounded-md px-1.5 py-2 transition hover:bg-steirer-soft hover:text-steirer" title="Konto anlegen (Mein Abo)">Registrieren</a>
@@ -119,7 +129,7 @@
           <button type="button" id="index-btn-logout" class="rounded-full px-2 py-2 text-sm font-medium text-stone-600 hover:text-steirer sm:px-3">Abmelden</button>
         </div>
         <a href="#kontakt" class="rounded-full bg-steirer px-4 py-2 text-sm font-semibold text-white shadow-md shadow-steirer/25 transition hover:bg-steirer-dark sm:hidden">Anfrage</a>
-        <a href="#kontakt" class="hidden rounded-full bg-steirer px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-steirer/25 transition hover:bg-steirer-dark sm:inline-flex">Unverbindlich anfragen</a>
+        <a href="#kontakt" class="hidden rounded-full bg-steirer px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-steirer/25 transition hover:bg-steirer-dark sm:inline-flex">Anfrage stellen</a>
         <button type="button" id="index-menu-toggle" class="rounded-lg border border-stone-200 p-2 text-stone-700 transition hover:border-steirer/30 hover:bg-steirer-soft/40 min-[1100px]:hidden" aria-expanded="false" aria-controls="index-mobile-nav" aria-label="Menü">
           <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
@@ -129,7 +139,7 @@
       <nav class="flex flex-col gap-1 text-sm font-medium text-stone-700" aria-label="Mobile Navigation">
         <a href="#vorteile" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Vorteile</a>
         <a href="#leistungen" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Leistungen</a>
-        <a href="beispiele.html" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Beispielwebsiten</a>
+        <a href="beispiele.html" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Referenzen</a>
         <a href="preise.html" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Preise</a>
         <a href="mein-abo.html" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Mein Abo</a>
         <a href="konto-anlegen.html" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Registrieren</a>
@@ -142,8 +152,8 @@
   <div id="index-login-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-stone-900/55 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="index-login-title">
     <div class="relative w-full max-w-md rounded-2xl border border-stone-200/80 bg-white p-6 shadow-2xl shadow-stone-900/10 ring-1 ring-stone-900/5">
       <button type="button" id="index-login-close" class="absolute right-4 top-4 rounded-lg p-1 text-stone-500 hover:bg-stone-100 hover:text-stone-800" aria-label="Schließen">✕</button>
-      <h2 id="index-login-title" class="font-display text-lg font-semibold text-stone-900">Anmelden</h2>
-      <p class="mt-2 text-sm text-stone-600">Zugang für Ihr Team: dieselben Zugangsdaten wie in Supabase unter <strong>Authentication</strong> (kein anonymes Demo-Konto).</p>
+      <h2 id="index-login-title" class="font-display text-lg font-semibold text-stone-900">Anmeldung</h2>
+      <p class="mt-2 text-sm leading-relaxed text-stone-600">Zugang für registrierte Teamkonten. Bitte verwenden Sie die bei der Einrichtung mitgeteilten Zugangsdaten (E-Mail und Passwort).</p>
       <form id="index-login-form" class="mt-5 space-y-4">
         <div>
           <label for="index-login-email" class="block text-sm font-medium text-stone-700">E-Mail</label>
@@ -171,120 +181,140 @@
   </div>
 
   <main>
-    <section class="relative overflow-hidden hero-mesh bg-gradient-to-b from-white via-steirer-soft/50 to-white px-4 pb-20 pt-14 sm:px-6 sm:pb-28 sm:pt-20 lg:px-8 lg:pt-24">
+    <section class="relative overflow-hidden hero-mesh px-4 pb-20 pt-16 sm:px-6 sm:pb-28 sm:pt-24 lg:px-8 lg:pt-28">
       <div class="noise-overlay absolute inset-0" aria-hidden="true"></div>
       <div class="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-erde-light blur-3xl sm:-right-12" aria-hidden="true"></div>
       <div class="pointer-events-none absolute -left-28 bottom-0 h-56 w-56 rounded-full bg-steirer/10 blur-3xl" aria-hidden="true"></div>
       <div class="relative mx-auto max-w-3xl text-center">
-        <p class="mb-5 inline-flex items-center gap-2 rounded-full border border-steirer/25 bg-white/90 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-steirer shadow-sm backdrop-blur-sm sm:text-[0.8125rem] sm:normal-case sm:tracking-normal">
-          <span class="relative flex h-2 w-2" aria-hidden="true"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-steirer opacity-40"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-steirer"></span></span>
-          Weiz &amp; Südoststeiermark
+        <p class="section-kicker mb-4 inline-flex items-center gap-2 rounded-full border border-stone-200/90 bg-white/95 px-4 py-2 text-steirer shadow-sm backdrop-blur-sm">
+          <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-steirer" aria-hidden="true"></span>
+          Für Landwirtschaft, Hofläden &amp; regionale Betriebe
         </p>
-        <h1 class="font-display text-[1.65rem] font-semibold leading-[1.15] tracking-tight text-stone-900 sm:text-4xl sm:leading-tight lg:text-[2.75rem] lg:leading-[1.12]">
-          Ihre digitale Heimat<span class="text-stone-400"> –</span><br class="hidden sm:inline" />
-          <span class="bg-gradient-to-r from-steirer to-steirer-dark bg-clip-text text-transparent">Einfach. Regional. Persönlich.</span>
+        <h1 class="font-display text-balance text-[1.7rem] font-semibold leading-[1.18] tracking-tight text-stone-900 sm:text-4xl sm:leading-[1.15] lg:text-[2.65rem] lg:leading-[1.12]">
+          Ihr Auftritt im Internet:<br class="hidden sm:inline" />
+          <span class="bg-gradient-to-r from-steirer via-steirer to-steirer-dark bg-clip-text text-transparent">regional verwurzelt, professionell umgesetzt</span>
         </h1>
-        <p class="mx-auto mt-6 max-w-xl text-base leading-relaxed text-stone-600 sm:text-lg sm:leading-relaxed">
-          Wir bringen steirische Traditionsbetriebe ins Netz – ohne hohe Einmalkosten, mit Handschlagqualität.
+        <p class="mx-auto mt-6 max-w-2xl text-pretty text-base leading-[1.65] text-stone-600 sm:text-lg">
+          Wir begleiten steirische Familienbetriebe und Kleinunternehmen bei der Planung und dem Betrieb moderner Websites sowie optionaler Onlineshops. Sie erhalten verlässliche Technik, nachvollziehbare Pakete und eine Betreuung auf Augenhöhe – ohne überhöhte Einmalinvestitionen.
         </p>
-        <div class="mt-11 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
-          <a href="#kontakt" class="inline-flex items-center justify-center rounded-full bg-steirer px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-steirer/30 transition hover:-translate-y-0.5 hover:bg-steirer-dark hover:shadow-xl hover:shadow-steirer/25">Kurz Bescheid geben</a>
-          <a href="beispiele.html" class="inline-flex items-center justify-center rounded-full border-2 border-stone-300/90 bg-white/80 px-8 py-3.5 text-base font-semibold text-stone-800 shadow-sm backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-steirer hover:bg-white hover:text-steirer hover:shadow-md">Beispiele ansehen</a>
+        <div class="mt-12 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
+          <a href="#kontakt" class="inline-flex items-center justify-center rounded-full bg-steirer px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-steirer/25 transition hover:-translate-y-0.5 hover:bg-steirer-dark hover:shadow-xl">Beratungsgespräch anfragen</a>
+          <a href="beispiele.html" class="inline-flex items-center justify-center rounded-full border border-stone-300/95 bg-white px-8 py-3.5 text-base font-semibold text-stone-800 shadow-sm transition hover:-translate-y-0.5 hover:border-steirer/50 hover:bg-stone-50 hover:text-steirer hover:shadow-md">Referenzen ansehen</a>
         </div>
+        <p class="mx-auto mt-8 max-w-lg text-center text-xs leading-relaxed text-stone-500 sm:text-sm">
+          Sitz in Weiz · Betreuung in der Südoststeiermark und Umgebung · Antwort in der Regel innerhalb von zwei Werktagen
+        </p>
       </div>
-      <div class="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-steirer/20 to-transparent" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-steirer/15 to-transparent" aria-hidden="true"></div>
     </section>
 
-    <section id="vorteile" class="scroll-mt-24 border-t border-stone-200/60 bg-gradient-to-b from-erde-sand/50 to-stone-50/80 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+    <section id="vorteile" class="scroll-mt-24 border-t border-stone-200/50 bg-gradient-to-b from-[#f3f1ed] to-[#f7f6f3] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
       <div class="mx-auto max-w-6xl">
         <div class="mx-auto max-w-2xl text-center">
-          <p class="text-xs font-semibold uppercase tracking-widest text-erde">Vorteile</p>
-          <h2 class="font-display mt-2 text-2xl font-semibold text-stone-900 sm:text-3xl">Warum mit uns?</h2>
-          <p class="mt-3 text-stone-600">Vier gute Gründe – klar gesagt, ohne Schnickschnack.</p>
+          <p class="section-kicker text-erde">Ihre Vorteile</p>
+          <h2 class="font-display mt-3 text-balance text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">Planbar, regional, verlässlich</h2>
+          <p class="mt-4 text-pretty text-stone-600 sm:text-lg">Wir richten uns nach den Anforderungen von Direktvermarktern, Handwerk und stationärem Einzelhandel – mit klaren Absprachen und ohne versteckte Kosten.</p>
         </div>
-        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-          <article class="group card-lift relative flex flex-col overflow-hidden rounded-2xl border border-stone-200/90 bg-white p-6 shadow-sm ring-1 ring-stone-900/[0.03] before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-steirer before:to-steirer-dark before:opacity-0 before:transition-opacity before:duration-300 hover:border-steirer/35 hover:before:opacity-100">
-            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-steirer-soft text-steirer">
+        <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-7">
+          <article class="group card-lift relative flex flex-col overflow-hidden rounded-2xl border border-stone-200/90 bg-white p-6 shadow-sm ring-1 ring-stone-900/[0.025] before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-steirer before:to-steirer-dark before:opacity-0 before:transition-opacity before:duration-300 hover:border-steirer/30 hover:before:opacity-100">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-steirer-soft text-steirer ring-1 ring-steirer/15">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
-            <h3 class="font-display text-lg font-semibold text-stone-900">Website als Dauerleistung</h3>
-            <p class="mt-1 text-xs font-medium uppercase tracking-wide text-erde">Was andere „Abo-Modell“ nennen</p>
-            <p class="mt-3 flex-1 text-sm leading-relaxed text-stone-600">Faires monatliches Paket statt einer hohen Rechnung am Anfang. Sie planen sicher – wir kümmern uns um Betrieb und Updates.</p>
+            <h3 class="font-display text-lg font-semibold text-stone-900">Monatliche Pakete statt hoher Startinvestition</h3>
+            <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-erde/90">Budget sicher im Blick</p>
+            <p class="mt-3 flex-1 text-sm leading-relaxed text-stone-600">Ihre Website wird als fortlaufende Dienstleistung betrieben: Hosting, Sicherheit und Updates sind eingeplant. Sie behalten die Kostenplanung im Griff – ohne unvorhergesehene Einmalposten.</p>
           </article>
-          <article class="card-lift flex flex-col rounded-2xl border border-stone-200/90 bg-white p-6 shadow-sm ring-1 ring-stone-900/[0.03] transition hover:border-steirer/30">
-            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-steirer-soft text-steirer">
+          <article class="group card-lift relative flex flex-col overflow-hidden rounded-2xl border border-stone-200/90 bg-white p-6 shadow-sm ring-1 ring-stone-900/[0.025] before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-steirer before:to-steirer-dark before:opacity-0 before:transition-opacity before:duration-300 hover:border-steirer/30 hover:before:opacity-100">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-steirer-soft text-steirer ring-1 ring-steirer/15">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
             </div>
-            <h3 class="font-display text-lg font-semibold text-stone-900">Regional verwurzelt</h3>
-            <p class="mt-3 flex-1 text-sm leading-relaxed text-stone-600">Wir sprechen Ihre Sprache – und die Ihrer Gäste. Texte, Fotos und Tonfall passen zur Steiermark.</p>
+            <h3 class="font-display text-lg font-semibold text-stone-900">Sprache und Bildsprache aus der Region</h3>
+            <p class="mt-3 flex-1 text-sm leading-relaxed text-stone-600">Wir formulieren Inhalte so, dass sie zu Ihrem Betrieb und zu Ihren Kundinnen und Kunden passen – respektvoll, verständlich und passend zum ländlichen Umfeld.</p>
           </article>
-          <article class="card-lift flex flex-col rounded-2xl border border-stone-200/90 bg-white p-6 shadow-sm ring-1 ring-stone-900/[0.03] transition hover:border-steirer/30">
-            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-steirer-soft text-steirer">
+          <article class="group card-lift relative flex flex-col overflow-hidden rounded-2xl border border-stone-200/90 bg-white p-6 shadow-sm ring-1 ring-stone-900/[0.025] before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-steirer before:to-steirer-dark before:opacity-0 before:transition-opacity before:duration-300 hover:border-steirer/30 hover:before:opacity-100">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-steirer-soft text-steirer ring-1 ring-steirer/15">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
             </div>
-            <h3 class="font-display text-lg font-semibold text-stone-900">Technik in guten Händen</h3>
-            <p class="mt-3 flex-1 text-sm leading-relaxed text-stone-600">SSL, Backups, Updates – Sie müssen sich nicht auskennen. Wir halten die Seite fit und erreichbar.</p>
+            <h3 class="font-display text-lg font-semibold text-stone-900">Technische Betreuung aus einer Hand</h3>
+            <p class="mt-3 flex-1 text-sm leading-relaxed text-stone-600">Verschlüsselte Verbindung (SSL), Datensicherung und regelmäßige Wartung sind fester Bestandteil unserer Arbeit. Sie benötigen keine eigene IT-Abteilung.</p>
           </article>
-          <article class="card-lift flex flex-col rounded-2xl border border-stone-200/90 bg-white p-6 shadow-sm ring-1 ring-stone-900/[0.03] transition hover:border-steirer/30">
-            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-steirer-soft text-steirer">
+          <article class="group card-lift relative flex flex-col overflow-hidden rounded-2xl border border-stone-200/90 bg-white p-6 shadow-sm ring-1 ring-stone-900/[0.025] before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-steirer before:to-steirer-dark before:opacity-0 before:transition-opacity before:duration-300 hover:border-steirer/30 hover:before:opacity-100">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-steirer-soft text-steirer ring-1 ring-steirer/15">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
             </div>
-            <h3 class="font-display text-lg font-semibold text-stone-900">Persönlicher Kontakt</h3>
-            <p class="mt-3 flex-1 text-sm leading-relaxed text-stone-600">Kein anonymes Ticket-System. Sie erreichen uns – und wir melden uns zurück.</p>
+            <h3 class="font-display text-lg font-semibold text-stone-900">Direkter Ansprechpartner</h3>
+            <p class="mt-3 flex-1 text-sm leading-relaxed text-stone-600">Bei Rückfragen erreichen Sie uns persönlich. Wir dokumentieren Vereinbarungen nachvollziehbar und halten Sie über den Fortschritt auf dem Laufenden.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="leistungen" class="scroll-mt-24 bg-white px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+    <section id="leistungen" class="scroll-mt-24 border-t border-stone-200/40 bg-white px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
       <div class="mx-auto max-w-6xl">
         <div class="mx-auto max-w-2xl text-center">
-          <p class="text-xs font-semibold uppercase tracking-widest text-steirer/80">Leistungen</p>
-          <h2 class="font-display mt-2 text-2xl font-semibold text-stone-900 sm:text-3xl">Was wir für Sie tun</h2>
-          <p class="mt-3 text-stone-600">Von der ersten Idee bis zur laufenden Website – modular buchbar.</p>
+          <p class="section-kicker text-steirer/90">Leistungsspektrum</p>
+          <h2 class="font-display mt-3 text-balance text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">Von der Konzeption bis zum laufenden Betrieb</h2>
+          <p class="mt-4 text-pretty text-stone-600 sm:text-lg">Die einzelnen Module können Sie je nach Bedarf kombinieren – wir beraten Sie vorab sachlich und transparent.</p>
         </div>
-        <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          <li class="card-lift relative flex flex-col rounded-2xl border border-stone-200 bg-gradient-to-br from-white to-stone-50/80 p-6 shadow-sm ring-1 ring-stone-900/[0.04] sm:p-7">
-            <span class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-steirer text-sm font-bold text-white">01</span>
-            <h3 class="font-display text-lg font-semibold text-stone-900">Website &amp; Landingpage</h3>
-            <p class="mt-2 flex-1 text-sm leading-relaxed text-stone-600">Struktur, Texte, Bilder, Google-Maps – alles, was Besucher brauchen.</p>
+        <ul class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <li class="card-lift relative flex flex-col rounded-2xl border border-stone-200/90 bg-gradient-to-br from-white to-stone-50/90 p-6 shadow-sm ring-1 ring-stone-900/[0.03] sm:p-7">
+            <span class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl border border-steirer/20 bg-steirer-soft text-sm font-bold tabular-nums text-steirer">01</span>
+            <h3 class="font-display text-lg font-semibold text-stone-900">Website und Landingpage</h3>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-stone-600">Wir strukturieren Ihre Inhalte, bereiten Texte und Bildmaterial auf und binden Standort- und Kontaktinformationen ein – damit sich Besucherinnen und Besucher zurechtfinden und Sie unkompliziert erreichen können.</p>
           </li>
-          <li class="card-lift relative flex flex-col rounded-2xl border border-stone-200 bg-gradient-to-br from-white to-stone-50/80 p-6 shadow-sm ring-1 ring-stone-900/[0.04] sm:p-7">
-            <span class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-erde text-sm font-bold text-white">02</span>
+          <li class="card-lift relative flex flex-col rounded-2xl border border-stone-200/90 bg-gradient-to-br from-white to-stone-50/90 p-6 shadow-sm ring-1 ring-stone-900/[0.03] sm:p-7">
+            <span class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl border border-erde/25 bg-erde-sand text-sm font-bold tabular-nums text-erde">02</span>
             <h3 class="font-display text-lg font-semibold text-stone-900">Onlineshop (optional)</h3>
-            <p class="mt-2 flex-1 text-sm leading-relaxed text-stone-600">Produkte, Zahlung, Versand – wenn Sie verkaufen möchten, nicht nur informieren.</p>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-stone-600">Auf Wunsch ergänzen wir Ihre Präsenz um einen Shop mit Artikelübersicht, Bestellabwicklung und gängigen Zahlungsarten – abgestimmt auf Ihre Produktpalette und Ihre logistischen Abläufe.</p>
           </li>
-          <li class="card-lift relative flex flex-col rounded-2xl border border-stone-200 bg-gradient-to-br from-white to-steirer-soft/30 p-6 shadow-sm ring-1 ring-steirer/10 sm:p-7">
-            <span class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-steirer-dark text-sm font-bold text-steirer-soft">03</span>
-            <h3 class="font-display text-lg font-semibold text-stone-900">Pflege &amp; Hosting</h3>
-            <p class="mt-2 flex-1 text-sm leading-relaxed text-stone-600">Domain, E-Mail-Weiterleitung, kleine Änderungen – aus einer Hand.</p>
+          <li class="card-lift relative flex flex-col rounded-2xl border border-steirer/15 bg-gradient-to-br from-white to-steirer-soft/35 p-6 shadow-sm ring-1 ring-steirer/10 sm:p-7">
+            <span class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl border border-steirer-dark/30 bg-steirer-dark text-sm font-bold tabular-nums text-white">03</span>
+            <h3 class="font-display text-lg font-semibold text-stone-900">Hosting, Domain und laufende Pflege</h3>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-stone-600">Technischer Betrieb, Sicherheitsupdates und kleinere inhaltliche Anpassungen gehören zu unserem Auftrag. Sie erhalten eine zentrale Anlaufstelle – ohne zusätzliche Providerverwaltung.</p>
           </li>
         </ul>
       </div>
     </section>
 
-    <section id="kontakt" class="scroll-mt-24 border-t border-stone-200/80 bg-gradient-to-b from-stone-100/90 to-stone-50 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+    <section class="border-y border-stone-200/60 bg-white/80 px-4 py-12 sm:px-6 sm:py-14" aria-label="Vertrauen">
+      <div class="mx-auto grid max-w-6xl gap-8 text-center sm:grid-cols-3 sm:gap-6 sm:text-left">
+        <div class="rounded-xl border border-stone-100 bg-stone-50/80 px-5 py-5">
+          <p class="text-xs font-semibold uppercase tracking-wider text-steirer">Nachvollziehbarkeit</p>
+          <p class="mt-2 text-sm leading-relaxed text-stone-600">Anfragen und Vereinbarungen werden dokumentiert. Sie wissen jederzeit, welcher Stand Ihres Projekts gilt.</p>
+        </div>
+        <div class="rounded-xl border border-stone-100 bg-stone-50/80 px-5 py-5">
+          <p class="text-xs font-semibold uppercase tracking-wider text-steirer">Verträge &amp; Pakete</p>
+          <p class="mt-2 text-sm leading-relaxed text-stone-600">Leistungen und Entgelte erläutern wir in verständlicher Sprache – ohne unnötige Fachbegriffe.</p>
+        </div>
+        <div class="rounded-xl border border-stone-100 bg-stone-50/80 px-5 py-5">
+          <p class="text-xs font-semibold uppercase tracking-wider text-steirer">Branchenerfahrung</p>
+          <p class="mt-2 text-sm leading-relaxed text-stone-600">Wir kennen die Besonderheiten von Direktvermarktung, Handwerk und stationärem Fachhandel in ländlichen Räumen.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="kontakt" class="scroll-mt-24 border-t border-stone-200/70 bg-gradient-to-b from-[#ebe8e2]/80 to-[#f7f6f3] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
       <div class="mx-auto grid max-w-5xl gap-10 lg:grid-cols-5 lg:gap-12">
         <div class="text-center lg:col-span-2 lg:text-left">
-          <p class="text-xs font-semibold uppercase tracking-widest text-steirer">Anfrage</p>
-          <h2 class="font-display mt-2 text-2xl font-semibold text-stone-900 sm:text-3xl">Website für Ihren Hofladen</h2>
-          <p class="mt-3 text-sm leading-relaxed text-stone-600">
-            Ob Hofkäserei, Obsthof oder gemischter Dorfladen – wir strukturieren Ihre Anfrage so, dass wir Ihr Sortiment und Ihren Betrieb rasch erfassen. Anschließend melden wir uns persönlich bei Ihnen.
+          <p class="section-kicker text-steirer">Kontakt &amp; Anfrage</p>
+          <h2 class="font-display mt-3 text-balance text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">Unverbindliche Erstinformation</h2>
+          <p class="mt-4 text-pretty text-sm leading-relaxed text-stone-600 sm:text-base">
+            Nutzen Sie das nachstehende Formular, um uns Ihren Betrieb und Ihr Anliegen sachlich darzustellen. Wir prüfen Ihre Angaben intern und melden uns in der Regel innerhalb von zwei Werktagen bei Ihnen – telefonisch oder per E-Mail, wie Sie es im Freitextfeld wünschen.
           </p>
-          <div class="mt-8 hidden rounded-2xl border border-stone-200/80 bg-white/90 p-5 text-left text-sm text-stone-600 shadow-sm backdrop-blur-sm lg:block">
-            <a href="index.html" class="font-semibold text-stone-800 transition hover:text-steirer">Dahoam-Digital</a>
-            <p class="mt-2 text-stone-600">Spezialisiert auf <strong class="font-medium text-stone-800">regionale Betriebe</strong> und Hofläden in der Südoststeiermark.</p>
-            <ul class="mt-4 list-inside list-disc space-y-1 text-xs text-stone-500">
-              <li>Fotos vom Hof &amp; der Theke helfen uns beim ersten Eindruck.</li>
-              <li>Optional Bilder im Formular auswählen – Dateinamen werden übermittelt; Anhänge können Sie bei Bedarf später per E-Mail nachsenden.</li>
+          <div class="mt-8 hidden rounded-2xl border border-stone-200/90 bg-white p-6 text-left text-sm leading-relaxed text-stone-600 shadow-md ring-1 ring-stone-900/[0.03] lg:block">
+            <a href="index.html" class="font-display text-base font-semibold text-stone-900 transition hover:text-steirer">Dahoam-Digital</a>
+            <p class="mt-2 text-stone-600">Schwerpunkt: <strong class="font-medium text-stone-800">Websites und Onlineshops</strong> für land- und forstwirtschaftliche Betriebe, Hofläden sowie handwerkliche und regionale Unternehmen in der Steiermark.</p>
+            <ul class="mt-4 space-y-2 border-t border-stone-100 pt-4 text-xs text-stone-500">
+              <li class="flex gap-2"><span class="text-steirer" aria-hidden="true">●</span> Bildmaterial unterstützt die fachliche Einschätzung Ihres Auftritts.</li>
+              <li class="flex gap-2"><span class="text-steirer" aria-hidden="true">●</span> Im Formular können Sie optional Fotos anhängen (automatisch verkleinert zur Übertragung).</li>
             </ul>
           </div>
         </div>
-        <form id="kontakt-form" class="lg:col-span-3 space-y-8 rounded-2xl border border-stone-200/90 bg-white p-6 shadow-lg shadow-stone-900/5 ring-1 ring-stone-900/[0.04] sm:p-8" action="#" method="get">
+        <form id="kontakt-form" class="lg:col-span-3 space-y-8 rounded-2xl border border-stone-200/90 bg-white p-6 shadow-[0_20px_50px_-24px_rgba(28,25,23,0.12)] ring-1 ring-stone-900/[0.04] sm:p-8" action="#" method="get">
           <p id="kf-submit-error" class="hidden rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert"></p>
           <p id="kf-submit-success" class="hidden rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900" role="status"></p>
-          <div class="rounded-xl border border-steirer/15 bg-steirer-soft/40 px-4 py-3 text-sm text-stone-700">
-            <strong class="text-steirer">Hinweis:</strong> Pflichtfelder sind mit <span class="text-red-600">*</span> markiert. Die Anfrage wird <strong>direkt über die Website</strong> an uns geschickt (kein E-Mail-Programm nötig). Bilder unten optional – die Dateinamen werden übernommen; Fotos können Sie bei Bedarf später per E-Mail nachsenden.
+          <div class="rounded-xl border border-steirer/20 bg-steirer-soft/35 px-4 py-3.5 text-sm leading-relaxed text-stone-700">
+            <strong class="text-steirer">Hinweis:</strong> Mit <span class="text-red-600">*</span> gekennzeichnete Felder sind auszufüllen. Ihre Nachricht wird verschlüsselt übermittelt; ein separates E-Mail-Programm ist nicht erforderlich. Bilder können Sie optional beifügen (siehe unten).
           </div>
           <input id="kf-hp-url" type="text" name="website" autocomplete="off" tabindex="-1" class="sr-only" aria-hidden="true" />
 
@@ -292,16 +322,16 @@
             <legend class="kf-section-title w-full border-b border-stone-200 pb-2">Betrieb &amp; Erreichbarkeit</legend>
             <div class="grid gap-4 sm:grid-cols-2">
               <div class="sm:col-span-2">
-                <label for="kf-name" class="block text-sm font-medium text-stone-700">Hofname / Ladenname <span class="text-red-600">*</span></label>
-                <input id="kf-name" name="name" type="text" class="input-field mt-1" required autocomplete="organization" placeholder="z. B. Biohof Müller, Dorfladen …" />
+                <label for="kf-name" class="block text-sm font-medium text-stone-700">Betriebsbezeichnung <span class="text-red-600">*</span></label>
+                <input id="kf-name" name="name" type="text" class="input-field mt-1" required autocomplete="organization" placeholder="z. B. Familie Muster, Biohof, Dorfladen …" />
               </div>
               <div>
                 <label for="kf-email" class="block text-sm font-medium text-stone-700">E-Mail <span class="text-red-600">*</span></label>
                 <input id="kf-email" name="email" type="email" class="input-field mt-1" required autocomplete="email" />
               </div>
               <div>
-                <label for="kf-tel" class="block text-sm font-medium text-stone-700">Telefon</label>
-                <input id="kf-tel" name="tel" type="tel" class="input-field mt-1" autocomplete="tel" placeholder="Für Rückfragen" />
+                <label for="kf-tel" class="block text-sm font-medium text-stone-700">Telefon (optional)</label>
+                <input id="kf-tel" name="tel" type="tel" class="input-field mt-1" autocomplete="tel" placeholder="für Rückfragen, z. B. Mobilnummer" />
               </div>
               <div class="sm:col-span-2">
                 <label for="kf-ort" class="block text-sm font-medium text-stone-700">Standort (Gemeinde / PLZ)</label>
@@ -412,8 +442,8 @@
               <input id="kf-oeffnung" type="text" class="input-field mt-1" placeholder="z. B. Fr–So 9–17, nach Vereinbarung …" />
             </div>
             <div>
-              <label for="kf-msg" class="block text-sm font-medium text-stone-700">Ihre Nachricht an uns <span class="text-red-600">*</span></label>
-              <textarea id="kf-msg" name="message" class="textarea-field mt-1" rows="4" required placeholder="Was ist Ihnen wichtig? Gibt es bereits eine Website, Fotos vom Team, besondere Wünsche …"></textarea>
+              <label for="kf-msg" class="block text-sm font-medium text-stone-700">Ihr Anliegen <span class="text-red-600">*</span></label>
+              <textarea id="kf-msg" name="message" class="textarea-field mt-1" rows="4" required placeholder="Bitte schildern Sie kurz Ihr Vorhaben, den gewünschten Zeitrahmen und ob bereits eine Website besteht."></textarea>
             </div>
           </fieldset>
 
@@ -429,23 +459,24 @@
             <div id="kf-file-previews" class="mt-3 hidden flex flex-wrap justify-center gap-2" aria-live="polite"></div>
           </fieldset>
 
-          <button type="submit" id="kf-submit-btn" class="w-full rounded-xl bg-steirer py-3.5 text-sm font-semibold text-white shadow-md shadow-steirer/25 transition hover:bg-steirer-dark hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-70">Anfrage absenden</button>
+          <button type="submit" id="kf-submit-btn" class="w-full rounded-xl bg-steirer py-3.5 text-sm font-semibold text-white shadow-md shadow-steirer/25 transition hover:bg-steirer-dark hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-70">Nachricht absenden</button>
         </form>
       </div>
     </section>
   </main>
 
-  <footer class="border-t border-steirer-dark/20 bg-steirer-dark px-4 py-12 text-stone-300 sm:px-6">
-    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 sm:flex-row sm:items-start">
-      <div class="text-center sm:text-left">
+  <footer class="border-t border-steirer-dark/30 bg-gradient-to-b from-steirer-dark to-[#1a3316] px-4 py-14 text-stone-300 sm:px-6">
+    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 sm:flex-row sm:items-start">
+      <div class="max-w-sm text-center sm:text-left">
         <a href="index.html" class="font-display text-lg font-semibold text-white transition hover:text-steirer-soft">Dahoam-Digital</a>
-        <p class="mt-1 text-sm text-stone-400">© <span id="y"></span> · Weiz &amp; Südoststeiermark</p>
+        <p class="mt-2 text-sm leading-relaxed text-stone-400">Webdesign und Onlineshops für Betriebe in der Steiermark.</p>
+        <p class="mt-3 text-xs text-stone-500">© <span id="y"></span> · Weiz · Österreich</p>
       </div>
-      <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm sm:justify-end">
-        <a href="beispiele.html" class="text-stone-300 transition hover:text-white">Beispielwebsiten</a>
-        <a href="preise.html" class="text-stone-300 transition hover:text-white">Preise</a>
-        <a href="mein-abo.html" class="text-stone-300 transition hover:text-white">Mein Abo</a>
-        <a href="admin.html" class="text-stone-300 transition hover:text-white">Admin</a>
+      <div class="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm sm:justify-end">
+        <a href="beispiele.html" class="text-stone-300 transition hover:text-white">Referenzen</a>
+        <a href="preise.html" class="text-stone-300 transition hover:text-white">Preise &amp; Pakete</a>
+        <a href="mein-abo.html" class="text-stone-300 transition hover:text-white">Kundenportal</a>
+        <a href="admin.html" class="text-stone-300 transition hover:text-white">Aufträge</a>
         <a href="#kontakt" class="text-stone-300 transition hover:text-white">Kontakt</a>
       </div>
     </div>
@@ -794,13 +825,14 @@
       var client = window.DahoamSupabase ? window.DahoamSupabase.getClient() : null;
       if (!client) {
         errEl.textContent =
-          'Die Anfrage kann technisch nicht gesendet werden: Supabase ist nicht konfiguriert (js/config.js oder Cloudflare: DAHOAM_SUPABASE_URL + DAHOAM_SUPABASE_ANON_KEY).';
+          'Ihre Nachricht kann derzeit nicht übermittelt werden: Die technische Anbindung ist nicht eingerichtet (Konfiguration js/config.js bzw. Umgebungsvariablen DAHOAM_SUPABASE_URL und DAHOAM_SUPABASE_ANON_KEY).';
         errEl.classList.remove('hidden');
         return;
       }
 
       if (!kontaktFormValidateVisual()) {
-        errEl.textContent = 'Bitte füllen Sie alle mit * markierten Felder aus (Name, E-Mail, Nachricht).';
+        errEl.textContent =
+          'Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus (Betriebsbezeichnung, E-Mail-Adresse, Ihr Anliegen).';
         errEl.classList.remove('hidden');
         errEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         return;
@@ -908,7 +940,7 @@
       }
 
       okEl.textContent =
-        'Vielen Dank – Ihre Anfrage ist bei uns eingegangen. Wir melden uns bei Ihnen. Sie können diese Seite schließen.';
+        'Wir danken Ihnen: Ihre Nachricht ist bei uns eingegangen. Sie erhalten in der Regel innerhalb von zwei Werktagen eine Rückmeldung. Diese Seite können Sie schließen.';
       okEl.classList.remove('hidden');
       clearKfFieldErrors();
       document.getElementById('kontakt-form').reset();
