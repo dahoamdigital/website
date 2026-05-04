@@ -425,19 +425,11 @@
   <script src="js/config.defaults.js"></script>
   <script src="js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
   <script>
     (function () {
-      function getClient() {
-        var url = (window.DAHOAM_SUPABASE_URL || '').trim();
-        var key = (window.DAHOAM_SUPABASE_ANON_KEY || '').trim();
-        if (!url || !key) return null;
-        var lib = typeof window.supabase !== 'undefined' ? window.supabase : typeof supabase !== 'undefined' ? supabase : null;
-        if (!lib || typeof lib.createClient !== 'function') return null;
-        return lib.createClient(url, key, {
-          auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage },
-        });
-      }
-      var client = getClient();
+      var client = window.DahoamSupabase ? window.DahoamSupabase.getClient() : null;
+      var isAdmin = window.DahoamSupabase ? window.DahoamSupabase.isAppAdminUser : function () { return false; };
       var btnOpen = document.getElementById('index-open-login');
       var barSession = document.getElementById('index-auth-session');
       var modal = document.getElementById('index-login-modal');
@@ -448,7 +440,7 @@
         errEl.classList.toggle('hidden', !msg);
       }
       function setHeaderAuth(session) {
-        var ok = !!(session && session.user);
+        var ok = !!(session && session.user && isAdmin(session.user));
         if (btnOpen) btnOpen.classList.toggle('hidden', ok);
         if (barSession) { barSession.classList.toggle('hidden', !ok); barSession.classList.toggle('flex', ok); }
         if (ok) {
@@ -484,7 +476,14 @@
         var email = document.getElementById('index-login-email').value.trim();
         var pass = document.getElementById('index-login-pass').value;
         var res = await client.auth.signInWithPassword({ email: email, password: pass });
-        if (res.error) { showError(res.error.message || 'Login fehlgeschlagen.'); return; }
+        if (res.error) {
+          showError(res.error.message || 'Login fehlgeschlagen.');
+          return;
+        }
+        if (res.data && res.data.user && !isAdmin(res.data.user)) {
+          showError('Dieses Konto ist kein Team-Admin. Für Ihr Website-Abo nutzen Sie den Menüpunkt „Mein Abo“.');
+          return;
+        }
       });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) closeModal(); });
       var em = document.getElementById('index-login-email');

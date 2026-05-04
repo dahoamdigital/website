@@ -1,6 +1,8 @@
 # Supabase einrichten – Schritt für Schritt
 
-Damit **Anmelden** (Startseite, Admin), **Mein Abo** und **Passwort zurücksetzen** funktionieren, brauchen Sie ein Supabase-Projekt, die **anon**-Keys in der Website und passende **Auth-URLs**. Arbeiten Sie die Schritte der Reihe nach ab.
+Damit **Anmelden** (Startseite, Team), **Admin**, **Mein Abo** (Kunden) und **Passwort zurücksetzen** funktionieren, brauchen Sie ein Supabase-Projekt, die **anon**-Keys in der Website und passende **Auth-URLs**. Arbeiten Sie die Schritte der Reihe nach ab.
+
+**Bestehendes Projekt (Upgrade):** Wenn `schema.sql` schon einmal lief, führen Sie die **aktuellen** `drop policy` / `create policy`-Blöcke für `bauplan_auftraege` aus `supabase/schema.sql` erneut aus und setzen Sie die **Admin-Rolle** (Schritt 8b), sonst können Team-Konten keine Aufträge mehr lesen oder speichern.
 
 ---
 
@@ -99,19 +101,51 @@ Nach Änderungen an URLs: kurz warten und Seite neu laden; ggf. Browser-Cache le
 
 ---
 
-## 8) Team-Admin für „Aufträge“ (admin.html)
+## 8) Zwei Arten von Konten (Überblick)
 
-1. **Authentication** → **Users** → **Add user**.
-2. E-Mail + Passwort vergeben → bei Tests **Auto Confirm User** anhaken.
-3. Mit diesen Daten auf **admin.html** oder über **Anmelden** auf der Startseite einloggen.
+| Bereich | Seite | Wer meldet sich an? |
+|--------|--------|----------------------|
+| Team / intern | **admin.html**, **Anmelden** auf der Startseite (Editor-Zugang) | Nur Nutzer mit **Admin-Rolle** in Supabase (Schritt 8b) |
+| Kunden | **mein-abo.html** | Jeder bestätigte Auth-User mit Zeile in **`kunden_pakete`** |
 
-Hinweis: Die RLS-Policy für `bauplan_auftraege` erlaubt allen **eingeloggten** Nutzern das Lesen der Aufträge. Nutzen Sie für Kunden **separate** E-Mail/Passwort-Konten nur für **Mein Abo**, nicht dieselben Zugänge wie das Team.
+Technisch sind das **dieselbe** Supabase-**Authentication** (E-Mail + Passwort), getrennt über **App Metadata** (`role: admin`) und **Row Level Security** auf `bauplan_auftraege`. Kundenkonten haben **keine** Admin-Rolle und sehen keine Aufträge.
+
+---
+
+## 8a) Team-Benutzer anlegen (E-Mail + Passwort)
+
+1. In Supabase: **Authentication** → **Users** → **Add user**.
+2. **E-Mail** und **Passwort** eintragen.
+3. Für erste Tests: **Auto Confirm User** anhaken (sonst E-Mail bestätigen, siehe Schritt 6).
+4. **Woran Sie Erfolg erkennen:** Der User erscheint in der Liste; Login mit diesen Daten auf **mein-abo.html** ist möglich (ohne Paket-Zeile erscheint der Hinweis „noch kein Abo verknüpft“ – das ist normal, bis Schritt 9 erledigt ist).
+
+---
+
+## 8b) Team-Admin-Rolle setzen (Pflicht für Admin & Startseiten-Login)
+
+Ohne diese Rolle blockiert die Datenbank **Lesen** und **Schreiben** von `bauplan_auftraege` für eingeloggte Nicht-Admins.
+
+**Variante A – SQL (empfohlen)**
+
+1. Datei **`supabase/set-admin-role.sql`** im Repo öffnen.
+2. Die Platzhalter-E-Mail durch die **Team-E-Mail** ersetzen (derselbe User wie in 8a).
+3. In Supabase: **SQL** → **New query** → Inhalt einfügen → **Run**.
+4. **Woran Sie Erfolg erkennen:** Abfrage `select email, raw_app_meta_data from auth.users where lower(email) = lower('ihre@team-mail.at');` zeigt in `raw_app_meta_data` den Eintrag `"role":"admin"`.
+
+**Variante B – Dashboard**
+
+1. **Authentication** → **Users** → gewünschten User öffnen.
+2. Unter **User Management** / Metadaten: **App Metadata** (raw) um `"role":"admin"` ergänzen (JSON-Objekt, Kommas beachten) und speichern – je nach UI-Version heißt das Feld z. B. **App metadata** oder **raw_app_meta_data** in SQL.
+
+**Danach:** Einmal **abmelden** und neu einloggen (oder kurz warten), damit der JWT die neue Rolle enthält.
+
+**Test:** **admin.html** öffnen → mit Team-Konto einloggen → Tabelle „Aufträge“ lädt ohne RLS-Fehler. Mit einem **reinen Kundenkonto** (ohne `role: admin`) darf **admin.html** keinen Inhalt der Aufträge zeigen.
 
 ---
 
 ## 9) Kundenkonto für „Mein Abo“
 
-1. **Authentication** → **Users** → **Add user** (eigene E-Mail des Kunden, eigenes Passwort, bestätigen wie oben).
+1. **Authentication** → **Users** → **Add user** (eigene E-Mail des Kunden, eigenes Passwort, bestätigen wie oben). **Keine** Admin-Rolle setzen (Kunde soll nur `kunden_pakete` sehen).
 2. User-ID kopieren: In der Benutzerliste auf den User klicken → UUID steht in der URL oder in den User-Details.
 3. **SQL Editor** – eine Zeile einfügen (Platzhalter ersetzen):
 
@@ -135,7 +169,7 @@ values (
 
 1. Auf **passwort-neu.html** (oder Link „Passwort vergessen“ auf Login-Seiten) E-Mail eingeben → **Link anfordern**.
 2. E-Mail-Postfach prüfen (auch Spam) → Link klicken.
-3. Neues Passwort setzen → anschließend unter **mein-abo.html** / **admin.html** einloggen.
+3. Neues Passwort setzen → die Seite leitet **Kunden** zu **mein-abo.html** und **Team-Admins** zu **admin.html** weiter.
 
 Funktioniert der Link nicht: Redirect URLs und Site URL prüfen (Schritt 7).
 
@@ -150,16 +184,19 @@ Funktioniert der Link nicht: Redirect URLs und Site URL prüfen (Schritt 7).
 | Redirect / URL-Fehler nach E-Mail-Link | **Redirect URLs** in Supabase unvollständig; **Site URL** falsch. |
 | „Mein Abo“: kein Paket sichtbar | Keine Zeile in `kunden_pakete` für diese `user_id`; oder SQL aus `schema.sql` nicht ausgeführt. |
 | Tabelle existiert nicht | `schema.sql` nicht ausgeführt oder falscher Supabase-Projekt-Tab. |
+| Admin: „permission denied“ / RLS / keine Zeilen | Policies aus aktuellem `schema.sql` ausführen; **Admin-Rolle** (Schritt 8b) setzen und **neu einloggen**. |
+| Editor: Speichern in DB schlägt fehl | Als **Team-Admin** auf der Startseite anmelden **oder** abmelden (dann anonymes `INSERT` wie Gast). |
 
 ---
 
 ## 12) Kurz-Checkliste vor Go-Live
 
-- [ ] `schema.sql` im Supabase SQL Editor ausgeführt  
+- [ ] `schema.sql` im Supabase SQL Editor ausgeführt (Policies aktuell)  
 - [ ] `DAHOAM_SUPABASE_URL` + `DAHOAM_SUPABASE_ANON_KEY` auf Cloudflare gesetzt, Deploy neu  
 - [ ] **Site URL** = Produktions-URL  
 - [ ] **Redirect URLs** inkl. `https://ihre-domain.at/**` und `…/passwort-neu.html`  
-- [ ] Admin-User + mindestens ein Test-Kunde mit `kunden_pakete`-Zeile  
+- [ ] **Team:** User angelegt **und** `role: admin` gesetzt (`set-admin-role.sql` oder Dashboard)  
+- [ ] **Kunde:** User ohne Admin-Rolle + Zeile in `kunden_pakete`  
 - [ ] Passwort-Reset einmal durchklicken  
 
 Bei Bedarf später: **Custom SMTP** unter Project Settings → Auth, damit Absender und Zustellrate professioneller werden.

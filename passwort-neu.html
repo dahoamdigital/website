@@ -69,23 +69,14 @@
   <script src="js/config.defaults.js"></script>
   <script src="js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
   <script>
     (function () {
-      function getClient() {
-        var url = (window.DAHOAM_SUPABASE_URL || '').trim();
-        var key = (window.DAHOAM_SUPABASE_ANON_KEY || '').trim();
-        if (!url || !key) return null;
-        var lib = typeof window.supabase !== 'undefined' ? window.supabase : typeof supabase !== 'undefined' ? supabase : null;
-        if (!lib || typeof lib.createClient !== 'function') return null;
-        return lib.createClient(url, key, {
-          auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage },
-        });
-      }
       function redirectToPasswortNeu() {
         return new URL('passwort-neu.html', window.location.href).href.replace(/#.*$/, '');
       }
 
-      var client = getClient();
+      var client = window.DahoamSupabase ? window.DahoamSupabase.getClient() : null;
       var cfgErr = document.getElementById('pw-config-error');
       var setSection = document.getElementById('pw-set-section');
       var requestSection = document.getElementById('pw-request-section');
@@ -172,7 +163,9 @@
         ok.textContent = 'Passwort gespeichert. Sie werden weitergeleitet …';
         ok.classList.remove('hidden');
         setTimeout(function () {
-          window.location.href = 'mein-abo.html';
+          var u = res.data && res.data.user;
+          var admin = window.DahoamSupabase && u && window.DahoamSupabase.isAppAdminUser(u);
+          window.location.href = admin ? 'admin.html' : 'mein-abo.html';
         }, 1200);
       });
     })();

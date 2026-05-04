@@ -764,6 +764,7 @@
   <script src="js/config.defaults.js"></script>
   <script src="js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
   <script>
     (function () {
       var LS_ACC = 'dahoam_editor_accounts';
@@ -788,17 +789,8 @@
 
       var localSess = null;
 
-      function getClient() {
-        var url = (window.DAHOAM_SUPABASE_URL || '').trim();
-        var key = (window.DAHOAM_SUPABASE_ANON_KEY || '').trim();
-        if (!url || !key) return null;
-        var lib = typeof window.supabase !== 'undefined' ? window.supabase : typeof supabase !== 'undefined' ? supabase : null;
-        if (!lib || typeof lib.createClient !== 'function') return null;
-        return lib.createClient(url, key, {
-          auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage },
-        });
-      }
-      var supaClient = getClient();
+      var supaClient = window.DahoamSupabase ? window.DahoamSupabase.getClient() : null;
+      var isAppAdmin = window.DahoamSupabase ? window.DahoamSupabase.isAppAdminUser : function () { return false; };
 
       var PLACEHOLDER_HERO =
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 480'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23c4d4b8'/%3E%3Cstop offset='55%25' stop-color='%238a9a7e'/%3E%3Cstop offset='100%25' stop-color='%235a6b52'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='1200' height='480'/%3E%3Ctext x='50%25' y='46%25' dominant-baseline='middle' text-anchor='middle' fill='%23f5f5f4' font-family='Georgia,serif' font-size='32' opacity='0.95'%3EHof %26 Region%3C/text%3E%3Ctext x='50%25' y='58%25' dominant-baseline='middle' text-anchor='middle' fill='%23e7e5e4' font-family='sans-serif' font-size='15'%3EPlatzhalter – Ihr Foto hier%3C/text%3E%3C/svg%3E";
@@ -1735,7 +1727,12 @@
         };
         supaClient.from('bauplan_auftraege').insert([row]).select('id').then(function (res) {
           if (res.error) {
-            errEl.textContent = res.error.message || 'Speichern fehlgeschlagen.';
+            var m = res.error.message || 'Speichern fehlgeschlagen.';
+            if (/permission|policy|row-level|rls/i.test(m)) {
+              m +=
+                ' Tipp: Aufträge in die Datenbank speichern geht als Team-Admin (Startseite anmelden) oder abgemeldet (anonymer Insert).';
+            }
+            errEl.textContent = m;
             errEl.classList.remove('hidden');
             return;
           }
@@ -1778,15 +1775,16 @@
 
       var linkAuf = document.getElementById('header-link-auftraege');
       if (supaClient) {
-        supaClient.auth.getSession().then(function (r) {
-          var ok = r.data && r.data.session && r.data.session.user;
-          linkAuf.classList.toggle('hidden', !ok);
-          if (ok) linkAuf.classList.add('inline-flex');
-        });
-        supaClient.auth.onAuthStateChange(function (_e, session) {
-          var ok = session && session.user;
+        function syncAuftraegeLink(session) {
+          var ok = session && session.user && isAppAdmin(session.user);
           linkAuf.classList.toggle('hidden', !ok);
           linkAuf.classList.toggle('inline-flex', !!ok);
+        }
+        supaClient.auth.getSession().then(function (r) {
+          syncAuftraegeLink(r.data && r.data.session ? r.data.session : null);
+        });
+        supaClient.auth.onAuthStateChange(function (_e, session) {
+          syncAuftraegeLink(session);
         });
       }
     })();

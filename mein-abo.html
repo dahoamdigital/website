@@ -107,18 +107,10 @@
   <script src="js/config.defaults.js"></script>
   <script src="js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
   <script>
     (function () {
-      function getClient() {
-        var url = (window.DAHOAM_SUPABASE_URL || '').trim();
-        var key = (window.DAHOAM_SUPABASE_ANON_KEY || '').trim();
-        if (!url || !key) return null;
-        var lib = typeof window.supabase !== 'undefined' ? window.supabase : typeof supabase !== 'undefined' ? supabase : null;
-        if (!lib || typeof lib.createClient !== 'function') return null;
-        return lib.createClient(url, key, {
-          auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage },
-        });
-      }
+      var client = window.DahoamSupabase ? window.DahoamSupabase.getClient() : null;
       function endeNaechsterKalendermonat() {
         var d = new Date();
         var last = new Date(d.getFullYear(), d.getMonth() + 2, 0);
@@ -143,7 +135,6 @@
         return s || '–';
       }
 
-      var client = getClient();
       var loginSection = document.getElementById('abo-login-section');
       var dashboard = document.getElementById('abo-dashboard');
       var btnLogout = document.getElementById('abo-btn-logout');

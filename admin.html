@@ -95,20 +95,11 @@
   <script src="js/config.defaults.js"></script>
   <script src="js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
   <script>
     (function () {
-      function getClient() {
-        var url = (window.DAHOAM_SUPABASE_URL || '').trim();
-        var key = (window.DAHOAM_SUPABASE_ANON_KEY || '').trim();
-        if (!url || !key) return null;
-        var lib = typeof window.supabase !== 'undefined' ? window.supabase : typeof supabase !== 'undefined' ? supabase : null;
-        if (!lib || typeof lib.createClient !== 'function') return null;
-        return lib.createClient(url, key, {
-          auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage },
-        });
-      }
-
-      var client = getClient();
+      var client = window.DahoamSupabase ? window.DahoamSupabase.getClient() : null;
+      var isAdmin = window.DahoamSupabase ? window.DahoamSupabase.isAppAdminUser : function () { return false; };
       var loginSection = document.getElementById('login-section');
       var adminSection = document.getElementById('admin-section');
       var btnLogout = document.getElementById('btn-logout');
@@ -136,10 +127,33 @@
         }
         var first = await client.auth.getSession();
         if (first.error) console.warn('Supabase getSession', first.error.message);
-        setLoggedInUi(first.data && first.data.session ? first.data.session : null);
+        var sess = first.data && first.data.session ? first.data.session : null;
+        if (sess && sess.user && !isAdmin(sess.user)) {
+          showLoginError(
+            'Kein Team-Admin-Zugang. Nutzen Sie „Mein Abo“ für Kundenkonten. Zum Admin-Login: Abmelden (falls Sie mit einem anderen Konto angemeldet sind), dann hier mit dem Team-Konto einloggen.'
+          );
+          setLoggedInUi(null);
+        } else {
+          setLoggedInUi(sess);
+        }
         client.auth.onAuthStateChange(function (event, session) {
-          if (session && session.user) { setLoggedInUi(session); return; }
-          if (event === 'SIGNED_OUT') { setLoggedInUi(null); return; }
+          if (session && session.user) {
+            if (!isAdmin(session.user)) {
+              showLoginError(
+                'Kein Team-Admin-Zugang. Kundenkonten: „Mein Abo“. Zum Wechseln zuerst abmelden, dann mit Team-Konto einloggen.'
+              );
+              setLoggedInUi(null);
+              return;
+            }
+            showLoginError('');
+            setLoggedInUi(session);
+            return;
+          }
+          if (event === 'SIGNED_OUT') {
+            showLoginError('');
+            setLoggedInUi(null);
+            return;
+          }
         });
       }
 
@@ -194,7 +208,14 @@
         var email = document.getElementById('admin-email').value.trim();
         var pass = document.getElementById('admin-pass').value;
         var res = await client.auth.signInWithPassword({ email: email, password: pass });
-        if (res.error) { showLoginError(res.error.message || 'Login fehlgeschlagen.'); return; }
+        if (res.error) {
+          showLoginError(res.error.message || 'Login fehlgeschlagen.');
+          return;
+        }
+        if (res.data && res.data.user && !isAdmin(res.data.user)) {
+          await client.auth.signOut();
+          showLoginError('Dieses Konto ist kein Team-Admin. Kunden-Login: „Mein Abo“. Für den Admin-Bereich nutzen Sie die Team-E-Mail mit gesetzter Rolle (siehe SUPABASE-EINRICHTUNG.md).');
+        }
       });
 
       document.getElementById('btn-logout').addEventListener('click', async function () {

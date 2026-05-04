@@ -1,10 +1,11 @@
 -- In Supabase: SQL → New query → ausführen
 --
 -- Anschließend:
--- 1) Authentication → Users: Admin-Benutzer anlegen (E-Mail + Passwort) oder „Add user“.
---    Bei „Confirm email“: Nutzer bestätigen, sonst schlägt Login fehl (oder E-Mail-Bestätigung in Auth-Settings deaktivieren nur für Tests).
--- 2) Project Settings → API: Project URL + anon public key in js/config.js eintragen (wie in js/config.example.js).
--- 3) Website per HTTPS ausliefern (oder lokal testen); Editor und admin.html gleiche Origin für Cookies.
+-- 1) Authentication → Users: Benutzer anlegen (Team + Kunden, jeweils E-Mail + Passwort).
+-- 2) Team-Admin: Rolle setzen (sonst kein Zugriff auf admin.html / Aufträge / Editor-Speichern als Admin):
+--    Datei supabase/set-admin-role.sql ausführen (E-Mail anpassen) oder im Dashboard unter User → App Metadata role = admin.
+-- 3) Project Settings → API: Project URL + anon public key in js/config.js eintragen (wie in js/config.example.js).
+-- 4) Website per HTTPS ausliefern (oder lokal testen); gleiche Origin für Cookies.
 
 create table if not exists public.bauplan_auftraege (
   id uuid primary key default gen_random_uuid(),
@@ -34,11 +35,18 @@ create policy "oeffentlich_einfgen"
   to anon
   with check (true);
 
+-- Eingeloggtes Team: Auftrag speichern (Editor) – nur wenn app_metadata.role = 'admin'
+drop policy if exists "admin_einfgen" on public.bauplan_auftraege;
+create policy "admin_einfgen"
+  on public.bauplan_auftraege for insert
+  to authenticated
+  with check (coalesce((auth.jwt() -> 'app_metadata' ->> 'role'), '') = 'admin');
+
 drop policy if exists "admin_lesen" on public.bauplan_auftraege;
 create policy "admin_lesen"
   on public.bauplan_auftraege for select
   to authenticated
-  using (true);
+  using (coalesce((auth.jwt() -> 'app_metadata' ->> 'role'), '') = 'admin');
 
 -- Kunden-Abo (mein-abo.html): eine Zeile pro Auth-User.
 -- Zeilen legen Sie in Supabase SQL (als postgres) oder mit service_role an – nicht öffentlich per insert.

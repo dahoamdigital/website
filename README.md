@@ -2,7 +2,9 @@
 
 Statische Website (HTML/CSS/JS) mit optionalem Supabase-Login.
 
-**Supabase Schritt für Schritt:** siehe **[SUPABASE-EINRICHTUNG.md](./SUPABASE-EINRICHTUNG.md)** (Projekt, Keys, SQL, Auth-URLs, Benutzer, „Mein Abo“, Passwort-Reset).
+**Supabase Schritt für Schritt:** siehe **[SUPABASE-EINRICHTUNG.md](./SUPABASE-EINRICHTUNG.md)** (Projekt, Keys, SQL, Auth-URLs, **Team-Admin-Rolle**, Kundenkonto „Mein Abo“, Passwort-Reset).
+
+Gemeinsamer Browser-Code: **`js/supabase-client.js`** (wird nach `config.js` und der Supabase-UMD-Bibliothek eingebunden) – erzeugt den Client und prüft `app_metadata.role === 'admin'`.
 
 ## Erste Schritte (lokal)
 
@@ -60,7 +62,8 @@ Ohne diese Variablen erzeugt der Build eine leere `js/config.js` – die Seite l
 | `vercel.json` | Header für Vercel |
 | `netlify.toml` | Netlify Publish-Root |
 | `.htaccess` | nur Apache (z. B. InfinityFree) |
-| `SUPABASE-EINRICHTUNG.md` | Schritt-für-Schritt: Supabase-Projekt, Keys, SQL, Auth-URLs, Accounts |
+| `SUPABASE-EINRICHTUNG.md` | Schritt-für-Schritt: Supabase-Projekt, Keys, SQL, Auth-URLs, Team-Admin, Kunden |
+| `js/supabase-client.js` | Gemeinsamer Supabase-Client + Prüfung `isAppAdminUser` (nach UMD + `config.js`) |
 | `passwort-neu.html` | Passwort-Reset (Redirect-Ziel für Supabase Auth) |
 
 ## Kundenportal „Mein Abo“
