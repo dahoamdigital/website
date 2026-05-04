@@ -442,7 +442,7 @@
       <details class="editor-details rounded-xl border border-stone-300 bg-white shadow-sm" open>
         <summary class="px-4 py-3 text-sm font-semibold text-stone-900">Sichtbare Bereiche</summary>
         <div class="space-y-2 border-t border-stone-100 px-4 pb-4 pt-3 text-xs text-stone-700">
-          <label class="flex items-center gap-2"><input type="checkbox" id="sec-meta" class="rounded border-stone-300 text-steirer" checked /> Obere Infoliste (Tel. / E-Mail / Shop)</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="sec-meta" class="rounded border-stone-300 text-steirer" checked /> Obere Infoliste (Tel. / E-Mail / optionaler Kurzlink)</label>
           <label class="flex items-center gap-2"><input type="checkbox" id="sec-nav" class="rounded border-stone-300 text-steirer" checked /> Menü-Reiter in der Kopfzeile</label>
           <label class="flex items-center gap-2"><input type="checkbox" id="sec-intro" class="rounded border-stone-300 text-steirer" checked /> Einleitung unter Hero</label>
           <label class="flex items-center gap-2"><input type="checkbox" id="sec-prod" class="rounded border-stone-300 text-steirer" checked /> Produkt-Teaser (3 Karten)</label>
@@ -460,7 +460,7 @@
           <p class="leading-snug">Struktur wie bei einem modernen Hofladen (z. B. <a href="https://hofladen-muhr.at/" class="text-steirer underline hover:no-underline" target="_blank" rel="noopener noreferrer">Referenz</a>). Ziele: <code class="rounded bg-stone-100 px-1">#demo-start</code>, <code class="rounded bg-stone-100 px-1">#demo-produkte</code>, <code class="rounded bg-stone-100 px-1">#demo-section-intro</code>, <code class="rounded bg-stone-100 px-1">#kontakt</code> …</p>
           <div class="editor-nav-rows mt-2 max-h-52 space-y-1.5 overflow-y-auto pr-0.5">
             <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1 font-semibold text-stone-500"><span>Text</span><span>Ziel (URL / #)</span></div>
-            <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-0-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" placeholder="z. B. Shop" /><input id="nav-0-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" placeholder="#demo-produkte" /></div>
+            <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-0-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" placeholder="z. B. Sortiment" /><input id="nav-0-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" placeholder="#demo-produkte" /></div>
             <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-1-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" /><input id="nav-1-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" /></div>
             <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-2-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" /><input id="nav-2-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" /></div>
             <div class="grid grid-cols-[1fr_minmax(0,1.1fr)] gap-1"><input id="nav-3-t" type="text" class="rounded border border-stone-200 px-1 py-0.5" /><input id="nav-3-u" type="text" class="rounded border border-stone-200 px-1 py-0.5 font-mono text-[10px]" /></div>
@@ -479,9 +479,9 @@
           <input id="demo-meta-phone" type="text" class="w-full rounded border border-stone-300 px-2 py-1" placeholder="+43 …" />
           <label class="text-stone-500">E-Mail (Anzeige)</label>
           <input id="demo-meta-email" type="text" class="w-full rounded border border-stone-300 px-2 py-1" placeholder="info@…" />
-          <label class="text-stone-500">Shop-Link Text</label>
+          <label class="text-stone-500">Kurzlink-Text (Kopfzeile)</label>
           <input id="demo-meta-shop-t" type="text" class="w-full rounded border border-stone-300 px-2 py-1" placeholder="z. B. Sortiment" />
-          <label class="text-stone-500">Shop-Link Ziel</label>
+          <label class="text-stone-500">Kurzlink-Ziel (URL oder Anker)</label>
           <input id="demo-meta-shop-u" type="text" class="w-full rounded border border-stone-300 px-2 py-1 font-mono text-[10px]" placeholder="#demo-produkte" />
         </div>
       </details>
@@ -515,7 +515,7 @@
           <input id="demo-prod-sec-sub" type="text" class="w-full rounded border border-stone-200 px-2 py-1" placeholder="Unterzeile" />
           <div class="grid grid-cols-2 gap-1">
             <input id="demo-prod-all-t" type="text" class="rounded border px-1 py-0.5" placeholder="Link „alle“" />
-            <input id="demo-prod-all-u" type="text" class="rounded border px-1 py-0.5 font-mono text-[10px]" placeholder="# oder Shop-URL" />
+            <input id="demo-prod-all-u" type="text" class="rounded border px-1 py-0.5 font-mono text-[10px]" placeholder="# oder externe URL" />
           </div>
           <p class="font-semibold text-stone-700">Karte 1–3 (Titel, Kurztext, Preiszeile, Link-Text, URL)</p>
           <div class="space-y-2 rounded border border-stone-100 p-2">
@@ -832,7 +832,7 @@
 
       function defaultNavItems() {
         return [
-          { t: 'Shop', u: '#demo-produkte' },
+          { t: 'Sortiment', u: '#demo-produkte' },
           { t: 'Über uns', u: '#demo-section-intro' },
           { t: 'Sortiment', u: '#demo-section-usp' },
           { t: 'Gastronomie', u: '#demo-section-hi' },
@@ -871,7 +871,7 @@
           navItems: defaultNavItems(),
           metaPhone: '+43 664 000 00 00',
           metaEmail: 'info@musterhofladen.at',
-          metaShopT: 'Shop',
+          metaShopT: 'Sortiment',
           metaShopU: '#demo-produkte',
           heroKicker: 'Willkommen',
           heroBadge: '',
@@ -881,15 +881,15 @@
           title: 'im Musterhofladen',
           sub: 'Tradition, Qualität und Regionalität – Säfte, Marmeladen und mehr aus eigener Erzeugung.',
           intro:
-            'Auf Streuobstwiesen und mit kurzen Wegen vom Baum bis ins Glas setzen viele Höfe auf naturbelassenen Genuss. Diese Vorschau zeigt den Aufbau einer modernen Hofladen-Startseite (angelehnt an bewährte Shop-Strukturen) – Texte und Bilder passen Sie hier an und übernehmen die Konfiguration später in Ihre echte Website.',
+            'Auf Streuobstwiesen und mit kurzen Wegen vom Baum bis ins Glas setzen viele Höfe auf naturbelassenen Genuss. Diese Vorschau zeigt den Aufbau einer modernen Hofladen-Startseite mit übersichtlicher Struktur – Texte und Bilder passen Sie hier an und übernehmen die Konfiguration später in Ihre echte Website.',
           quote: '„Qualität, die man schmeckt – und die Gäste wiederkommen lässt.“',
           quoteAuthor: '— Beispiel aus der Gastronomie',
           usp1t: 'Aus eigener Erzeugung',
           usp1x: 'Fruchtsäfte, Marmeladen und Spezialitäten – klar deklariert und frisch.',
           usp2t: 'Für Gastronomie & Handel',
           usp2x: 'Maßgeschneiderte Gebinde, zuverlässige Lieferung und persönliche Ansprechpartner.',
-          usp3t: 'Ab Hof & Online',
-          usp3x: 'Persönliche Beratung vor Ort oder bequem bestellen – Sie entscheiden.',
+          usp3t: 'Ab Hof & digital sichtbar',
+          usp3x: 'Persönliche Beratung vor Ort; ergänzend erreichen Sie Kundinnen und Kunden auch online und in sozialen Medien.',
           hi1t: 'Qualität für Ihren Betrieb',
           hi1x: 'Ob Schankanlage oder Einzelverkauf: klare Sortimente und Lieferrhythmen, die zu Ihrem Alltag passen.',
           hi2t: 'Wiederverkauf & Hofbesuch',
@@ -915,8 +915,8 @@
           p3lu: '#demo-produkte',
           l1t: 'Ab-Hof & Führungen',
           l1x: 'Öffnungszeiten, Hofbesuche und Verkostungen – übersichtlich gebündelt.',
-          l2t: 'Onlineshop',
-          l2x: 'Bestellablauf, Versandregionen und Zahlungsarten für Ihre Kundschaft.',
+          l2t: 'Soziale Medien',
+          l2x: 'Einrichtung von Kanälen, Abstimmung mit Ihrer Website und Einweisung, damit Sie Beiträge und Termine selbst pflegen können.',
           l3t: 'Gastronomie-Pakete',
           l3x: 'Gebindegrößen und Konditionen für Betriebe – transparent dargestellt.',
           hoursT: 'Öffnungszeiten',
