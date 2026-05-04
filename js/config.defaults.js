@@ -3,4 +3,5 @@
   if (typeof window.DAHOAM_SUPABASE_URL === 'undefined') window.DAHOAM_SUPABASE_URL = '';
   if (typeof window.DAHOAM_SUPABASE_ANON_KEY === 'undefined') window.DAHOAM_SUPABASE_ANON_KEY = '';
   if (typeof window.DAHOAM_SITE_ORIGIN === 'undefined') window.DAHOAM_SITE_ORIGIN = '';
+  if (typeof window.DAHOAM_ANFRAGE_EMAIL_NOTIFY === 'undefined') window.DAHOAM_ANFRAGE_EMAIL_NOTIFY = false;
 })();

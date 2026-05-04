@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Admin – Bauplan-Aufträge | Dahoam-Digital</title>
+  <title>Admin – Aufträge &amp; Anfragen | Dahoam-Digital</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <meta name="theme-color" content="#2D5A27" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,7 +27,7 @@
     <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
       <div>
         <h1 class="font-display text-xl font-semibold text-steirer">Dahoam-Digital · Admin</h1>
-        <p class="text-sm text-stone-500">Bauplan-Aufträge aus der Datenbank</p>
+        <p class="text-sm text-stone-500">Bauplan-Aufträge &amp; Website-Anfragen</p>
       </div>
       <div class="flex flex-wrap items-center gap-3">
         <a href="index.html" class="text-sm font-medium text-stone-600 hover:text-steirer">Zur Website</a>
@@ -63,31 +63,71 @@
     </section>
 
     <section id="admin-section" class="hidden">
-      <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h2 class="font-display text-lg font-semibold text-stone-900">Aufträge</h2>
-          <p class="text-sm text-stone-600">Neueste zuerst · Klick auf eine Zeile öffnet den Bauplan (JSON)</p>
+      <div class="mb-6 flex flex-wrap gap-2 border-b border-stone-200">
+        <button type="button" id="admin-tab-bauplan" class="rounded-t-lg border border-b-0 border-steirer bg-white px-4 py-2 text-sm font-semibold text-steirer">
+          Bauplan-Aufträge
+        </button>
+        <button type="button" id="admin-tab-anfragen" class="rounded-t-lg border border-transparent border-b-0 px-4 py-2 text-sm font-medium text-stone-600 hover:bg-stone-50">
+          Website-Anfragen
+        </button>
+      </div>
+
+      <div id="admin-panel-bauplan">
+        <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 class="font-display text-lg font-semibold text-stone-900">Bauplan-Aufträge</h2>
+            <p class="text-sm text-stone-600">Neueste zuerst · Klick auf eine Zeile öffnet den Bauplan (JSON)</p>
+          </div>
+          <button type="button" id="btn-reload" class="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium hover:bg-stone-50">Aktualisieren</button>
         </div>
-        <button type="button" id="btn-reload" class="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium hover:bg-stone-50">Aktualisieren</button>
+        <div class="overflow-x-auto rounded-xl border border-stone-200 bg-white shadow-sm">
+          <table class="min-w-full divide-y divide-stone-200 text-left text-sm">
+            <thead class="bg-stone-50 text-xs font-semibold uppercase tracking-wide text-stone-500">
+              <tr>
+                <th class="px-4 py-3">Datum</th>
+                <th class="px-4 py-3">Betrieb</th>
+                <th class="px-4 py-3">Kontakt</th>
+                <th class="px-4 py-3">Region</th>
+                <th class="px-4 py-3">Editor-Konto</th>
+              </tr>
+            </thead>
+            <tbody id="auftraege-body" class="divide-y divide-stone-100"></tbody>
+          </table>
+        </div>
+        <p id="empty-hint" class="mt-4 hidden text-center text-sm text-stone-500">Noch keine Einträge.</p>
+        <div id="detail-panel" class="mt-8 hidden rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+          <h3 class="font-semibold text-stone-900">Bauplan (JSON)</h3>
+          <pre id="detail-json" class="mt-3 max-h-[480px] overflow-auto rounded-lg bg-stone-900 p-4 text-xs text-emerald-100"></pre>
+        </div>
       </div>
-      <div class="overflow-x-auto rounded-xl border border-stone-200 bg-white shadow-sm">
-        <table class="min-w-full divide-y divide-stone-200 text-left text-sm">
-          <thead class="bg-stone-50 text-xs font-semibold uppercase tracking-wide text-stone-500">
-            <tr>
-              <th class="px-4 py-3">Datum</th>
-              <th class="px-4 py-3">Betrieb</th>
-              <th class="px-4 py-3">Kontakt</th>
-              <th class="px-4 py-3">Region</th>
-              <th class="px-4 py-3">Editor-Konto</th>
-            </tr>
-          </thead>
-          <tbody id="auftraege-body" class="divide-y divide-stone-100"></tbody>
-        </table>
-      </div>
-      <p id="empty-hint" class="mt-4 hidden text-center text-sm text-stone-500">Noch keine Einträge.</p>
-      <div id="detail-panel" class="mt-8 hidden rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
-        <h3 class="font-semibold text-stone-900">Bauplan (JSON)</h3>
-        <pre id="detail-json" class="mt-3 max-h-[480px] overflow-auto rounded-lg bg-stone-900 p-4 text-xs text-emerald-100"></pre>
+
+      <div id="admin-panel-anfragen" class="hidden">
+        <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 class="font-display text-lg font-semibold text-stone-900">Website-Anfragen</h2>
+            <p class="text-sm text-stone-600">Kontaktformular Startseite · Klick auf eine Zeile zeigt alle Daten (JSON)</p>
+          </div>
+          <button type="button" id="btn-reload-anfragen" class="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium hover:bg-stone-50">Aktualisieren</button>
+        </div>
+        <div class="overflow-x-auto rounded-xl border border-stone-200 bg-white shadow-sm">
+          <table class="min-w-full divide-y divide-stone-200 text-left text-sm">
+            <thead class="bg-stone-50 text-xs font-semibold uppercase tracking-wide text-stone-500">
+              <tr>
+                <th class="px-4 py-3">Datum</th>
+                <th class="px-4 py-3">Betrieb</th>
+                <th class="px-4 py-3">E-Mail</th>
+                <th class="px-4 py-3">Ort</th>
+                <th class="px-4 py-3">Anliegen</th>
+              </tr>
+            </thead>
+            <tbody id="anfragen-body" class="divide-y divide-stone-100"></tbody>
+          </table>
+        </div>
+        <p id="empty-anfragen-hint" class="mt-4 hidden text-center text-sm text-stone-500">Noch keine Website-Anfragen.</p>
+        <div id="detail-anfragen-panel" class="mt-8 hidden rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+          <h3 class="font-semibold text-stone-900">Anfrage (JSON)</h3>
+          <pre id="detail-anfragen-json" class="mt-3 max-h-[480px] overflow-auto rounded-lg bg-stone-900 p-4 text-xs text-emerald-100"></pre>
+        </div>
       </div>
     </section>
   </main>
@@ -115,7 +155,10 @@
         loginSection.classList.toggle('hidden', ok);
         adminSection.classList.toggle('hidden', !ok);
         btnLogout.classList.toggle('hidden', !ok);
-        if (ok) loadAuftraege();
+        if (ok) {
+          loadAuftraege();
+          loadWebAnfragen();
+        }
       }
 
       async function initSession() {
@@ -200,6 +243,81 @@
         d.textContent = s;
         return d.innerHTML;
       }
+
+      var tbodyAn = document.getElementById('anfragen-body');
+      var emptyAnHint = document.getElementById('empty-anfragen-hint');
+      var detailAnPanel = document.getElementById('detail-anfragen-panel');
+      var detailAnJson = document.getElementById('detail-anfragen-json');
+
+      function adminSwitchTab(which) {
+        var b = which === 'bauplan';
+        document.getElementById('admin-panel-bauplan').classList.toggle('hidden', !b);
+        document.getElementById('admin-panel-anfragen').classList.toggle('hidden', b);
+        var tb = document.getElementById('admin-tab-bauplan');
+        var ta = document.getElementById('admin-tab-anfragen');
+        tb.classList.toggle('border-steirer', b);
+        tb.classList.toggle('bg-white', b);
+        tb.classList.toggle('font-semibold', b);
+        tb.classList.toggle('text-steirer', b);
+        tb.classList.toggle('border-transparent', !b);
+        tb.classList.toggle('font-medium', !b);
+        tb.classList.toggle('text-stone-600', !b);
+        ta.classList.toggle('border-steirer', !b);
+        ta.classList.toggle('bg-white', !b);
+        ta.classList.toggle('font-semibold', !b);
+        ta.classList.toggle('text-steirer', !b);
+        ta.classList.toggle('border-transparent', b);
+        ta.classList.toggle('font-medium', b);
+        ta.classList.toggle('text-stone-600', b);
+      }
+
+      async function loadWebAnfragen() {
+        if (!client || !tbodyAn) return;
+        tbodyAn.innerHTML = '';
+        if (detailAnPanel) detailAnPanel.classList.add('hidden');
+        var res = await client.from('website_anfragen').select('*').order('created_at', { ascending: false });
+        if (res.error) {
+          console.error(res.error);
+          tbodyAn.innerHTML =
+            '<tr><td colspan="5" class="px-4 py-6 text-center text-red-600">' + escapeHtml(res.error.message || 'Fehler beim Laden') + '</td></tr>';
+          if (emptyAnHint) emptyAnHint.classList.add('hidden');
+          return;
+        }
+        var rows = res.data || [];
+        if (emptyAnHint) emptyAnHint.classList.toggle('hidden', rows.length > 0);
+        rows.forEach(function (row) {
+          var tr = document.createElement('tr');
+          tr.className = 'cursor-pointer hover:bg-stone-50';
+          var d = row.created_at ? new Date(row.created_at) : null;
+          var dateStr = d && !isNaN(d.getTime()) ? d.toLocaleString('de-AT') : '–';
+          var p = row.payload && typeof row.payload === 'object' ? row.payload : {};
+          var betrieb = p.betrieb_name != null ? String(p.betrieb_name) : '–';
+          var em = p.email != null ? String(p.email) : '–';
+          var ort = p.standort != null ? String(p.standort) : '–';
+          var kurz = p.anliegen_kurz != null ? String(p.anliegen_kurz) : '–';
+          tr.innerHTML =
+            '<td class="px-4 py-3 whitespace-nowrap text-stone-600">' + escapeHtml(dateStr) + '</td>' +
+            '<td class="px-4 py-3 font-medium text-stone-900">' + escapeHtml(betrieb) + '</td>' +
+            '<td class="px-4 py-3">' + escapeHtml(em) + '</td>' +
+            '<td class="px-4 py-3 text-stone-600">' + escapeHtml(ort) + '</td>' +
+            '<td class="px-4 py-3 text-xs text-stone-600">' + escapeHtml(kurz) + '</td>';
+          tr.addEventListener('click', function () {
+            detailAnJson.textContent = JSON.stringify(row, null, 2);
+            detailAnPanel.classList.remove('hidden');
+          });
+          tbodyAn.appendChild(tr);
+        });
+      }
+
+      document.getElementById('admin-tab-bauplan').addEventListener('click', function () {
+        adminSwitchTab('bauplan');
+      });
+      document.getElementById('admin-tab-anfragen').addEventListener('click', function () {
+        adminSwitchTab('anfragen');
+      });
+      document.getElementById('btn-reload-anfragen').addEventListener('click', function () {
+        loadWebAnfragen();
+      });
 
       document.getElementById('login-form').addEventListener('submit', async function (e) {
         e.preventDefault();

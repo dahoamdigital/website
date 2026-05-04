@@ -18,3 +18,6 @@ window.DAHOAM_BAUFPLAN_EMAIL_TO = 'ihre@email.at';
 
 // Optional: feste öffentliche Basis-URL (https://www.ihre-domain.at) – nur in Sonderfällen
 // window.DAHOAM_SITE_ORIGIN = 'https://www.ihre-domain.at';
+
+// Optional: nach Kontaktformular E-Mail an Admin (Edge Function notify-anfrage + Resend; siehe supabase/functions/notify-anfrage/README.txt)
+// window.DAHOAM_ANFRAGE_EMAIL_NOTIFY = true;

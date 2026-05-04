@@ -261,14 +261,17 @@
             <p class="mt-2 text-stone-600">Spezialisiert auf <strong class="font-medium text-stone-800">regionale Betriebe</strong> und Hofläden in der Südoststeiermark.</p>
             <ul class="mt-4 list-inside list-disc space-y-1 text-xs text-stone-500">
               <li>Fotos vom Hof &amp; der Theke helfen uns beim ersten Eindruck.</li>
-              <li>Nach dem Klick öffnet sich Ihr E-Mail-Programm – Bilder bitte dort <strong class="text-stone-700">manuell anhängen</strong> (technische Grenze von Browser &amp; E-Mail).</li>
+              <li>Optional Bilder im Formular auswählen – Dateinamen werden übermittelt; Anhänge können Sie bei Bedarf später per E-Mail nachsenden.</li>
             </ul>
           </div>
         </div>
         <form id="kontakt-form" class="lg:col-span-3 space-y-8 rounded-2xl border border-stone-200/90 bg-white p-6 shadow-lg shadow-stone-900/5 ring-1 ring-stone-900/[0.04] sm:p-8" action="#" method="get">
+          <p id="kf-submit-error" class="hidden rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert"></p>
+          <p id="kf-submit-success" class="hidden rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900" role="status"></p>
           <div class="rounded-xl border border-steirer/15 bg-steirer-soft/40 px-4 py-3 text-sm text-stone-700">
-            <strong class="text-steirer">Hinweis:</strong> Pflichtfelder sind mit <span class="text-red-600">*</span> markiert. Bilder wählen Sie unten aus – beim Versand per E-Mail müssen Sie sie im Anhang noch einmal bestätigen bzw. anhängen.
+            <strong class="text-steirer">Hinweis:</strong> Pflichtfelder sind mit <span class="text-red-600">*</span> markiert. Die Anfrage wird <strong>direkt über die Website</strong> an uns geschickt (kein E-Mail-Programm nötig). Bilder unten optional – die Dateinamen werden übernommen; Fotos können Sie bei Bedarf später per E-Mail nachsenden.
           </div>
+          <input id="kf-hp-url" type="text" name="website" autocomplete="off" tabindex="-1" class="sr-only" aria-hidden="true" />
 
           <fieldset class="space-y-4 border-0 p-0">
             <legend class="kf-section-title w-full border-b border-stone-200 pb-2">Betrieb &amp; Erreichbarkeit</legend>
@@ -401,7 +404,7 @@
 
           <fieldset class="space-y-3 border-0 p-0">
             <legend class="kf-section-title w-full border-b border-stone-200 pb-2">Bilder vom Hof &amp; Laden <span class="text-xs font-normal text-stone-500">(optional)</span></legend>
-            <p class="text-xs leading-relaxed text-stone-500">Laden Sie hier Fotos von Außenansicht, Theke oder Produkten hoch (JPG, PNG, WebP). Nach dem Klick auf den Button bitte dieselben Dateien in Ihrem E-Mail-Programm als <strong class="text-stone-700">Anhang</strong> hinzufügen – sonst können wir sie nicht einsehen.</p>
+            <p class="text-xs leading-relaxed text-stone-500">Optional Fotos von Außenansicht, Theke oder Produkten auswählen (JPG, PNG, WebP). Die Dateinamen werden mitgeschickt; zum Zusenden der Dateien können Sie uns später per E-Mail schreiben.</p>
             <label class="flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-stone-300 bg-stone-50/80 px-4 py-8 transition hover:border-steirer/40 hover:bg-steirer-soft/30">
               <span class="text-sm font-semibold text-steirer">Fotos auswählen</span>
               <span class="mt-1 text-xs text-stone-500">Mehrere Dateien möglich · max. sinnvoll ca. 5–10 MB pro Bild</span>
@@ -410,7 +413,7 @@
             <p id="kf-file-hint" class="text-center text-xs text-stone-500">Noch keine Bilder ausgewählt.</p>
           </fieldset>
 
-          <button type="submit" class="w-full rounded-xl bg-steirer py-3.5 text-sm font-semibold text-white shadow-md shadow-steirer/25 transition hover:bg-steirer-dark hover:shadow-lg">Anfrage per E-Mail öffnen</button>
+          <button type="submit" id="kf-submit-btn" class="w-full rounded-xl bg-steirer py-3.5 text-sm font-semibold text-white shadow-md shadow-steirer/25 transition hover:bg-steirer-dark hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-70">Anfrage absenden</button>
         </form>
       </div>
     </section>
@@ -641,8 +644,24 @@
         });
       }
     })();
-    document.getElementById('kontakt-form').addEventListener('submit', function (e) {
+    document.getElementById('kontakt-form').addEventListener('submit', async function (e) {
       e.preventDefault();
+      var errEl = document.getElementById('kf-submit-error');
+      var okEl = document.getElementById('kf-submit-success');
+      var btn = document.getElementById('kf-submit-btn');
+      var hp = document.getElementById('kf-hp-url');
+      errEl.classList.add('hidden');
+      okEl.classList.add('hidden');
+      if (hp && hp.value) return;
+
+      var client = window.DahoamSupabase && window.DahoamSupabase.getClient ? window.DahoamSupabase.getClient() : null;
+      if (!client) {
+        errEl.textContent =
+          'Die Anfrage kann technisch nicht gesendet werden: Supabase ist nicht konfiguriert (js/config.js oder Cloudflare: DAHOAM_SUPABASE_URL + DAHOAM_SUPABASE_ANON_KEY).';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
       var name = document.getElementById('kf-name').value.trim();
       var email = document.getElementById('kf-email').value.trim();
       var tel = document.getElementById('kf-tel').value.trim();
@@ -652,10 +671,14 @@
       var typVal = typSel.value;
       var typText = document.getElementById('kf-betriebstyp-text').value.trim();
       var produkte = [];
-      document.querySelectorAll('input[name="kf-produkt"]:checked').forEach(function (cb) { produkte.push(cb.value); });
+      document.querySelectorAll('input[name="kf-produkt"]:checked').forEach(function (cb) {
+        produkte.push(cb.value);
+      });
       var sortiment = document.getElementById('kf-sortiment-text').value.trim();
       var leistungen = [];
-      document.querySelectorAll('input[name="kf-leistung"]:checked').forEach(function (cb) { leistungen.push(cb.value); });
+      document.querySelectorAll('input[name="kf-leistung"]:checked').forEach(function (cb) {
+        leistungen.push(cb.value);
+      });
       var oeffnung = document.getElementById('kf-oeffnung').value.trim();
       var msg = document.getElementById('kf-msg').value.trim();
       var fileInput = document.getElementById('kf-files');
@@ -663,42 +686,80 @@
       if (fileInput && fileInput.files && fileInput.files.length) {
         for (var i = 0; i < fileInput.files.length; i++) fileNames.push(fileInput.files[i].name);
       }
-      var lines = [];
-      lines.push('=== Anfrage Hofladen / regionaler Betrieb (Dahoam-Digital) ===');
-      lines.push('');
-      lines.push('HOF / LADEN: ' + name);
-      lines.push('E-Mail: ' + email);
-      lines.push('Telefon: ' + (tel || '–'));
-      lines.push('Standort: ' + (ort || '–'));
-      lines.push('');
-      lines.push('--- Art des Betriebs ---');
-      lines.push(typVal ? (typLabel + (typText ? ' – ' + typText : '')) : (typText || 'nicht angegeben'));
-      lines.push('');
-      lines.push('--- Sortiment / Waren ---');
-      lines.push(produkte.length ? produkte.join(', ') : '(keine Kategorie angehakt)');
-      if (sortiment) lines.push('Ergänzung: ' + sortiment);
-      lines.push('');
-      lines.push('--- Leistungswunsch ---');
-      lines.push(leistungen.length ? leistungen.join(', ') : 'nicht angegeben');
       var paketSel = document.getElementById('kf-paket-wunsch');
-      if (paketSel && paketSel.value) {
-        var paketOpt = paketSel.options[paketSel.selectedIndex];
-        lines.push('Gewünschtes Abo: ' + (paketOpt ? paketOpt.text.replace(/\u00a0/g, ' ') : paketSel.value) + ' (Code: ' + paketSel.value + ')');
+      var paketVal = paketSel && paketSel.value ? paketSel.value : '';
+      var paketLabel = '';
+      if (paketSel && paketSel.value && paketSel.options[paketSel.selectedIndex]) {
+        paketLabel = paketSel.options[paketSel.selectedIndex].text.replace(/\u00a0/g, ' ');
       }
-      if (oeffnung) lines.push('Öffnungs-/Verkaufszeiten: ' + oeffnung);
-      lines.push('');
-      lines.push('--- Nachricht ---');
-      lines.push(msg);
-      lines.push('');
-      if (fileNames.length) {
-        lines.push('--- Bilder (bitte im E-Mail-Programm manuell anhängen) ---');
-        lines.push(fileNames.join(', '));
-      } else {
-        lines.push('(Keine Bilder ausgewählt – optional später nachreichen.)');
+
+      var anliegenTeile = [];
+      if (paketVal) anliegenTeile.push('Abo: ' + (paketLabel || paketVal));
+      if (leistungen.length) anliegenTeile.push(leistungen.join(', '));
+      if (!anliegenTeile.length) anliegenTeile.push('Allgemeine Anfrage / Erstgespräch');
+      var anliegen_kurz = anliegenTeile.join(' · ');
+
+      var payload = {
+        betrieb_name: name,
+        email: email,
+        telefon: tel || null,
+        standort: ort || null,
+        betriebstyp_wert: typVal || null,
+        betriebstyp_label: typVal ? typLabel : null,
+        betriebstyp_text: typText || null,
+        produkte: produkte,
+        sortiment_text: sortiment || null,
+        leistungen: leistungen,
+        paket_code: paketVal || null,
+        paket_label: paketLabel || null,
+        oeffnung: oeffnung || null,
+        nachricht: msg,
+        bild_dateinamen: fileNames,
+        anliegen_kurz: anliegen_kurz,
+      };
+
+      btn.disabled = true;
+      var ins = await client.from('website_anfragen').insert([{ quelle: 'index_kontakt', payload: payload }]).select('id').maybeSingle();
+      btn.disabled = false;
+
+      if (ins.error) {
+        var m = ins.error.message || 'Speichern fehlgeschlagen.';
+        if (m.indexOf('relation') !== -1 || m.indexOf('schema cache') !== -1) {
+          m +=
+            ' – Tabelle „website_anfragen“ fehlt: In Supabase SQL aus supabase/website-anfragen.sql (oder aktuelles schema.sql) ausführen.';
+        }
+        errEl.textContent = m;
+        errEl.classList.remove('hidden');
+        errEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
       }
-      var body = encodeURIComponent(lines.join('\n'));
-      var subject = encodeURIComponent('Anfrage Website – ' + name);
-      window.location.href = 'mailto:info@dahoam-digital.at?subject=' + subject + '&body=' + body;
+
+      var newId = ins.data && ins.data.id ? ins.data.id : null;
+      if (window.DAHOAM_ANFRAGE_EMAIL_NOTIFY === true && newId) {
+        var baseUrl = (window.DAHOAM_SUPABASE_URL || '').replace(/\/$/, '');
+        var key = (window.DAHOAM_SUPABASE_ANON_KEY || '').trim();
+        if (baseUrl && key) {
+          try {
+            await fetch(baseUrl + '/functions/v1/notify-anfrage', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + key,
+                apikey: key,
+              },
+              body: JSON.stringify({ id: newId }),
+            });
+          } catch (e2) {}
+        }
+      }
+
+      okEl.textContent =
+        'Vielen Dank – Ihre Anfrage ist bei uns eingegangen. Wir melden uns bei Ihnen. Sie können diese Seite schließen.';
+      okEl.classList.remove('hidden');
+      document.getElementById('kontakt-form').reset();
+      var hint = document.getElementById('kf-file-hint');
+      if (hint) hint.textContent = 'Noch keine Bilder ausgewählt.';
+      okEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     (function () {
       var toggle = document.getElementById('index-menu-toggle');
