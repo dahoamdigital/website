@@ -142,6 +142,13 @@ Ohne die ersten beiden Variablen schreibt der Build nur einen **leeren Stub** in
 
 Damit existieren u. a. `bauplan_auftraege` (Kontaktformular/Editor) und `kunden_pakete` (Mein Abo) inklusive **Row Level Security**.
 
+### 5a) Kundenportal: eigene Website & Demo-Zahlungen
+
+1. Im **SQL Editor** zusätzlich **`supabase/kunden-sites-portal-migration.sql`** einfügen und **Run** ausführen (idempotent; kann nach jedem `schema.sql`-Deploy nachgezogen werden).
+2. **Woran Sie Erfolg erkennen:** Tabellen `paket_kontingente`, `kunden_sites`, `site_aenderungen_log`, `demo_zahlungen` existieren; in `paket_kontingente` stehen drei Zeilen (`starter`, `standard`, `premium`) mit Freikontingenten für Bild-/Text-Änderungen pro Monat.
+3. **Kunden-UI:** Seite **`kunde-website.html`** (nach Login mit Kundenkonto). Unter **Authentication → URL Configuration → Redirect URLs** die URL dieser Seite erlauben (z. B. `https://www.ihre-domain.at/kunde-website.html` oder `https://www.ihre-domain.at/**`).
+4. **GitHub / Cloudflare (noch manuell oder per eigenem Skript):** In `kunden_sites` gibt es Felder wie `github_repo_owner`, `github_repo_name`, `cloudflare_pages_project`, `live_url` – Platzhalter für eine spätere **Edge Function** mit Secrets (GitHub App, Cloudflare API), die Repo anlegt und Pages verbindet. Bis dahin: Repo/Deploy wie bisher von Hand pflegen und URLs in der Tabelle setzen (z. B. per SQL als `postgres`).
+
 ---
 
 ## 6) Authentication – E-Mail & Bestätigung

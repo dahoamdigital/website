@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Eigene Website bearbeiten: Texte und Bilder in Blöcken anpassen, Kontingente einsehen. Dahoam-Digital Kundenportal." />
+  <title>Meine Website | Dahoam-Digital</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#2D5A27" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { steirer: { DEFAULT: '#2D5A27', dark: '#1f3f1b', soft: '#e8f0e6' } },
+          fontFamily: { display: ['Fraunces', 'Georgia', 'serif'], sans: ['DM Sans', 'system-ui', 'sans-serif'] },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-stone-100 to-stone-200/80 font-sans text-stone-800">
+  <header class="border-b border-stone-200/90 bg-white/95 shadow-sm backdrop-blur-md">
+    <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
+      <a href="mein-abo.html" class="font-display text-lg font-semibold text-steirer">← Mein Abo</a>
+      <nav class="flex flex-wrap items-center gap-3 text-sm font-medium text-stone-600">
+        <a href="preise.html" class="hover:text-steirer">Preise</a>
+        <button type="button" id="kw-btn-logout" class="hidden rounded-lg border border-stone-300 px-3 py-1.5 hover:bg-stone-50">Abmelden</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
+    <section id="kw-login" class="rounded-2xl border border-stone-200/90 bg-white p-8 shadow-lg">
+      <h1 class="font-display text-xl font-semibold text-stone-900">Meine Website</h1>
+      <p class="mt-2 text-sm text-stone-600">Bitte melden Sie sich mit Ihrem <strong>Kundenkonto</strong> an (gleiche Daten wie bei „Mein Abo“).</p>
+      <form id="kw-login-form" class="mt-6 max-w-md space-y-4">
+        <div>
+          <label for="kw-email" class="block text-sm font-medium text-stone-700">E-Mail</label>
+          <input id="kw-email" type="email" required autocomplete="email" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-steirer focus:outline-none focus:ring-1 focus:ring-steirer" />
+        </div>
+        <div>
+          <label for="kw-pass" class="block text-sm font-medium text-stone-700">Passwort</label>
+          <input id="kw-pass" type="password" required autocomplete="current-password" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-steirer focus:outline-none focus:ring-1 focus:ring-steirer" />
+        </div>
+        <p id="kw-login-err" class="hidden text-sm text-red-600"></p>
+        <button type="submit" class="w-full rounded-full bg-steirer py-2.5 text-sm font-semibold text-white shadow hover:bg-steirer-dark">Anmelden</button>
+      </form>
+    </section>
+
+    <section id="kw-app" class="hidden space-y-8">
+      <div>
+        <h1 class="font-display text-2xl font-semibold text-stone-900">Inhalte bearbeiten</h1>
+        <p class="mt-2 text-sm text-stone-600">
+          Ihre Seite ist in <strong>Blöcke</strong> unterteilt (Hero, Einleitung, Kontakt, Galerie). Beim Speichern zählen wir <strong>Bild-</strong> und <strong>Textänderungen</strong> – im <strong>großen Paket</strong> sind monatlich z.&nbsp;B. zehn Bildwechsel im Kontingent (siehe Anzeige unten). Änderungen außerhalb des Kontingents werden später in Rechnung gestellt (Richtwerte wie auf der Preisseite).
+        </p>
+        <p class="mt-2 text-xs text-stone-500">
+          <strong>Automatisierung:</strong> Eigenes Git-Repo und Cloudflare Pages pro Kunde sind vorbereitet (Felder in der Datenbank); die technische Anbindung (GitHub-App, Deploy-Hooks) erfolgt als nächster Schritt außerhalb dieser statischen Seite.
+        </p>
+      </div>
+
+      <div id="kw-kontingent" class="rounded-2xl border border-steirer/25 bg-steirer-soft/50 p-5 text-sm shadow-sm">
+        <h2 class="font-display text-lg font-semibold text-steirer-dark">Freikontingent diesen Monat</h2>
+        <p id="kw-kontingent-body" class="mt-2 text-stone-700">Lade …</p>
+      </div>
+
+      <div id="kw-no-site" class="hidden rounded-2xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-950">
+        <p class="font-medium">Noch keine Website-Zeile für Ihr Konto.</p>
+        <p class="mt-2">Nach dem Einrichten durch Dahoam-Digital oder zum Testen können Sie hier eine <strong>Entwurfs-Website</strong> anlegen.</p>
+        <button type="button" id="kw-create-site" class="mt-4 rounded-full bg-steirer px-5 py-2 text-sm font-semibold text-white hover:bg-steirer-dark">Entwurf anlegen (Demo)</button>
+        <p id="kw-create-err" class="mt-2 hidden text-sm text-red-700"></p>
+      </div>
+
+      <div id="kw-editor" class="hidden space-y-8">
+        <div class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+          <h2 class="font-display text-lg font-semibold text-stone-900">Vorschau (grob)</h2>
+          <p class="mt-1 text-xs text-stone-500">Nur Darstellung aus den Feldern unten – die Live-Seite kommt aus Ihrem Projekt-Repo nach Deploy.</p>
+          <div id="kw-preview" class="mt-4 overflow-hidden rounded-xl border border-stone-200 bg-stone-50 p-4 text-left text-sm"></div>
+        </div>
+
+        <div class="grid gap-8 lg:grid-cols-2">
+          <fieldset class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+            <legend class="font-display text-lg font-semibold text-stone-900">Block: Hero</legend>
+            <label class="mt-4 block text-xs font-medium text-stone-500">Überschrift</label>
+            <input id="kw-hero-title" type="text" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" />
+            <label class="mt-3 block text-xs font-medium text-stone-500">Untertitel</label>
+            <input id="kw-hero-sub" type="text" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" />
+            <label class="mt-3 block text-xs font-medium text-stone-500">Hero-Bild (URL)</label>
+            <input id="kw-hero-img" type="url" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 font-mono text-xs" placeholder="https://…" />
+          </fieldset>
+
+          <fieldset class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+            <legend class="font-display text-lg font-semibold text-stone-900">Block: Einleitung</legend>
+            <label class="mt-4 block text-xs font-medium text-stone-500">Text (ein Absatz)</label>
+            <textarea id="kw-intro" rows="6" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm"></textarea>
+          </fieldset>
+
+          <fieldset class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+            <legend class="font-display text-lg font-semibold text-stone-900">Block: Kontakt</legend>
+            <label class="mt-4 block text-xs font-medium text-stone-500">Telefon</label>
+            <input id="kw-tel" type="text" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" />
+            <label class="mt-3 block text-xs font-medium text-stone-500">E-Mail</label>
+            <input id="kw-mail" type="email" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" />
+          </fieldset>
+
+          <fieldset class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+            <legend class="font-display text-lg font-semibold text-stone-900">Block: Galerie (3 Bilder)</legend>
+            <label class="mt-4 block text-xs font-medium text-stone-500">Bild 1 URL</label>
+            <input id="kw-g1" type="url" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 font-mono text-xs" />
+            <label class="mt-3 block text-xs font-medium text-stone-500">Bild 2 URL</label>
+            <input id="kw-g2" type="url" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 font-mono text-xs" />
+            <label class="mt-3 block text-xs font-medium text-stone-500">Bild 3 URL</label>
+            <input id="kw-g3" type="url" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 font-mono text-xs" />
+          </fieldset>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <button type="button" id="kw-save" class="rounded-full bg-steirer px-6 py-2.5 text-sm font-semibold text-white shadow hover:bg-steirer-dark">Speichern &amp; Änderungen verbuchen</button>
+          <a href="preise.html#zusatz-title" class="text-sm font-medium text-steirer underline-offset-2 hover:underline">Zusatzpreise</a>
+        </div>
+        <p id="kw-save-msg" class="hidden text-sm"></p>
+
+        <div class="rounded-2xl border border-dashed border-stone-300 bg-white/80 p-6">
+          <h2 class="font-display text-lg font-semibold text-stone-900">Demo-Zahlung</h2>
+          <p class="mt-2 text-sm text-stone-600">Kein echtes Kartenterminal – nur ein Eintrag in der Datenbank zu Testzwecken.</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <button type="button" class="kw-demo-pay rounded-full border border-stone-300 bg-stone-50 px-4 py-2 text-sm font-medium hover:bg-white" data-cent="100">1,00 € testen</button>
+            <button type="button" class="kw-demo-pay rounded-full border border-stone-300 bg-stone-50 px-4 py-2 text-sm font-medium hover:bg-white" data-cent="500">5,00 € testen</button>
+          </div>
+          <p id="kw-demo-msg" class="mt-3 hidden text-sm text-steirer-dark"></p>
+        </div>
+
+        <div class="rounded-2xl border border-stone-200 bg-white p-6 text-xs text-stone-500 shadow-sm">
+          <p><strong>Technik:</strong> <span id="kw-site-meta">–</span></p>
+        </div>
+      </div>
+
+      <p id="kw-global-err" class="hidden rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"></p>
+    </section>
+  </main>
+
+  <script src="js/config.defaults.js"></script>
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script>
+    (function () {
+      var client = window.DahoamSupabase ? window.DahoamSupabase.getClient() : null;
+      var loginEl = document.getElementById('kw-login');
+      var appEl = document.getElementById('kw-app');
+      var btnLogout = document.getElementById('kw-btn-logout');
+      var siteRow = null;
+      var lastPersisted = null;
+
+      function defaultBlocks() {
+        return {
+          version: 1,
+          hero: { title: 'Ihr Betrieb', subtitle: 'Kurzer Untertitel', imageUrl: '' },
+          einleitung: { text: 'Hier steht eine freundliche Einleitung für Ihre Gäste.' },
+          kontakt: { telefon: '', email: '' },
+          galerie: ['', '', ''],
+        };
+      }
+
+      function collectBlocks() {
+        return {
+          version: 1,
+          hero: {
+            title: document.getElementById('kw-hero-title').value.trim(),
+            subtitle: document.getElementById('kw-hero-sub').value.trim(),
+            imageUrl: document.getElementById('kw-hero-img').value.trim(),
+          },
+          einleitung: { text: document.getElementById('kw-intro').value.trim() },
+          kontakt: {
+            telefon: document.getElementById('kw-tel').value.trim(),
+            email: document.getElementById('kw-mail').value.trim(),
+          },
+          galerie: [
+            document.getElementById('kw-g1').value.trim(),
+            document.getElementById('kw-g2').value.trim(),
+            document.getElementById('kw-g3').value.trim(),
+          ],
+        };
+      }
+
+      function applyBlocksToForm(b) {
+        b = b || defaultBlocks();
+        document.getElementById('kw-hero-title').value = (b.hero && b.hero.title) || '';
+        document.getElementById('kw-hero-sub').value = (b.hero && b.hero.subtitle) || '';
+        document.getElementById('kw-hero-img').value = (b.hero && b.hero.imageUrl) || '';
+        document.getElementById('kw-intro').value = (b.einleitung && b.einleitung.text) || '';
+        document.getElementById('kw-tel').value = (b.kontakt && b.kontakt.telefon) || '';
+        document.getElementById('kw-mail').value = (b.kontakt && b.kontakt.email) || '';
+        var g = b.galerie || ['', '', ''];
+        document.getElementById('kw-g1').value = g[0] || '';
+        document.getElementById('kw-g2').value = g[1] || '';
+        document.getElementById('kw-g3').value = g[2] || '';
+      }
+
+      function renderPreview(b) {
+        var el = document.getElementById('kw-preview');
+        var hero = (b.hero && b.hero.imageUrl) ? '<img src="' + String(b.hero.imageUrl).replace(/"/g, '') + '" alt="" class="mb-3 max-h-40 w-full rounded-lg object-cover" />' : '';
+        el.innerHTML =
+          '<div class="font-display text-lg font-semibold text-stone-900">' +
+          escapeHtml((b.hero && b.hero.title) || 'Titel') +
+          '</div><p class="text-stone-600">' +
+          escapeHtml((b.hero && b.hero.subtitle) || '') +
+          '</p>' + hero +
+          '<p class="mt-3 text-stone-700">' + escapeHtml((b.einleitung && b.einleitung.text) || '') + '</p>' +
+          '<p class="mt-3 text-xs text-stone-500">Tel. ' + escapeHtml((b.kontakt && b.kontakt.telefon) || '–') +
+          ' · ' + escapeHtml((b.kontakt && b.kontakt.email) || '–') + '</p>';
+      }
+
+      function escapeHtml(s) {
+        var d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+      }
+
+      function diffCounts(prev, next) {
+        prev = prev || defaultBlocks();
+        next = next || defaultBlocks();
+        var bild = 0;
+        var text = 0;
+        function ne(a, b) {
+          return String(a || '') !== String(b || '');
+        }
+        if (ne(prev.hero && prev.hero.imageUrl, next.hero && next.hero.imageUrl)) bild += 1;
+        for (var i = 0; i < 3; i++) {
+          var pg = (prev.galerie && prev.galerie[i]) || '';
+          var ng = (next.galerie && next.galerie[i]) || '';
+          if (ne(pg, ng)) bild += 1;
+        }
+        if (ne(prev.hero && prev.hero.title, next.hero && next.hero.title)) text += 1;
+        if (ne(prev.hero && prev.hero.subtitle, next.hero && next.hero.subtitle)) text += 1;
+        if (ne(prev.einleitung && prev.einleitung.text, next.einleitung && next.einleitung.text)) text += 1;
+        if (ne(prev.kontakt && prev.kontakt.telefon, next.kontakt && next.kontakt.telefon)) text += 1;
+        if (ne(prev.kontakt && prev.kontakt.email, next.kontakt && next.kontakt.email)) text += 1;
+        return { bild: bild, text: text };
+      }
+
+      function showGlobalErr(msg) {
+        var e = document.getElementById('kw-global-err');
+        e.textContent = msg || '';
+        e.classList.toggle('hidden', !msg);
+      }
+
+      async function refreshKontingente() {
+        var body = document.getElementById('kw-kontingent-body');
+        if (!client) {
+          body.textContent = 'Supabase nicht konfiguriert.';
+          return;
+        }
+        var r = await client.rpc('kunde_portal_kontingente');
+        if (r.error) {
+          body.textContent = r.error.message || 'Kontingente konnten nicht geladen werden.';
+          if (/function|schema|does not exist/i.test(r.error.message || '')) {
+            body.textContent +=
+              ' – Bitte SQL aus supabase/kunden-sites-portal-migration.sql in Supabase ausführen.';
+          }
+          return;
+        }
+        var d = r.data;
+        if (!d || d.error === 'kein_abo') {
+          body.innerHTML =
+            'Kein aktives Paket gefunden. <a class="font-semibold text-steirer underline" href="mein-abo.html">Zurück zu Mein Abo</a>.';
+          return;
+        }
+        body.innerHTML =
+          'Paket <strong>' +
+          escapeHtml(String(d.paket_code)) +
+          '</strong>: noch <strong>' +
+          d.rest_bild_gratis +
+          '</strong> Bildwechsel und <strong>' +
+          d.rest_text_gratis +
+          '</strong> Textblock-Änderungen in diesem Monat im Kontingent (verbucht wird beim Speichern).';
+      }
+
+      async function loadSite() {
+        showGlobalErr('');
+        document.getElementById('kw-no-site').classList.add('hidden');
+        document.getElementById('kw-editor').classList.add('hidden');
+        if (!client) {
+          showGlobalErr('Bitte js/config.js anlegen (siehe js/config.example.js).');
+          return;
+        }
+        var res = await client.from('kunden_sites').select('*').maybeSingle();
+        if (res.error) {
+          var m = res.error.message || '';
+          if (/relation|does not exist|schema cache/i.test(m)) {
+            showGlobalErr('Tabelle „kunden_sites“ fehlt. Bitte supabase/kunden-sites-portal-migration.sql ausführen.');
+          } else showGlobalErr(m);
+          return;
+        }
+        if (!res.data) {
+          document.getElementById('kw-no-site').classList.remove('hidden');
+          return;
+        }
+        siteRow = res.data;
+        var blocks = res.data.blocks_json;
+        if (!blocks || typeof blocks !== 'object' || Object.keys(blocks).length === 0) {
+          blocks = defaultBlocks();
+        }
+        lastPersisted = JSON.parse(JSON.stringify(blocks));
+        applyBlocksToForm(blocks);
+        renderPreview(blocks);
+        document.getElementById('kw-editor').classList.remove('hidden');
+        var meta = [];
+        if (res.data.github_repo_name) meta.push('Repo: ' + res.data.github_repo_owner + '/' + res.data.github_repo_name);
+        if (res.data.cloudflare_pages_project) meta.push('Cloudflare: ' + res.data.cloudflare_pages_project);
+        if (res.data.live_url) meta.push('Live: ' + res.data.live_url);
+        document.getElementById('kw-site-meta').textContent = meta.length ? meta.join(' · ') : 'Noch keine Repo-/Cloudflare-Daten hinterlegt (folgt bei Automatisierung).';
+        var ed = document.getElementById('kw-editor');
+        if (ed && !ed.dataset.previewDelegation) {
+          ed.dataset.previewDelegation = '1';
+          ed.addEventListener('input', function () {
+            renderPreview(collectBlocks());
+          });
+        }
+        await refreshKontingente();
+      }
+
+      function setView(session) {
+        var ok = !!(session && session.user);
+        loginEl.classList.toggle('hidden', ok);
+        appEl.classList.toggle('hidden', !ok);
+        btnLogout.classList.toggle('hidden', !ok);
+      }
+
+      document.getElementById('kw-login-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var err = document.getElementById('kw-login-err');
+        err.classList.add('hidden');
+        if (!client) return;
+        var email = document.getElementById('kw-email').value.trim();
+        var pass = document.getElementById('kw-pass').value;
+        var r = await client.auth.signInWithPassword({ email: email, password: pass });
+        if (r.error) {
+          err.textContent = r.error.message || 'Anmeldung fehlgeschlagen.';
+          err.classList.remove('hidden');
+        }
+      });
+
+      btnLogout.addEventListener('click', async function () {
+        if (client) await client.auth.signOut();
+      });
+
+      document.getElementById('kw-create-site').addEventListener('click', async function () {
+        var errEl = document.getElementById('kw-create-err');
+        errEl.classList.add('hidden');
+        if (!client) return;
+        var u = (await client.auth.getUser()).data.user;
+        if (!u) return;
+        var ins = await client.from('kunden_sites').insert({
+          user_id: u.id,
+          anzeige_name: 'Meine Website',
+          slug: 'entwurf',
+          status: 'entwurf',
+          blocks_json: defaultBlocks(),
+        }).select('id').maybeSingle();
+        if (ins.error) {
+          errEl.textContent = ins.error.message || 'Anlegen fehlgeschlagen.';
+          errEl.classList.remove('hidden');
+          return;
+        }
+        await loadSite();
+      });
+
+      document.getElementById('kw-save').addEventListener('click', async function () {
+        var msg = document.getElementById('kw-save-msg');
+        msg.classList.add('hidden');
+        if (!client || !siteRow) return;
+        var next = collectBlocks();
+        var d = diffCounts(lastPersisted, next);
+        if (d.bild === 0 && d.text === 0) {
+          var up = await client
+            .from('kunden_sites')
+            .update({ blocks_json: next, updated_at: new Date().toISOString() })
+            .eq('id', siteRow.id);
+          if (up.error) {
+            msg.textContent = up.error.message;
+            msg.className = 'text-sm text-red-600';
+            msg.classList.remove('hidden');
+            return;
+          }
+          lastPersisted = JSON.parse(JSON.stringify(next));
+          msg.textContent = 'Gespeichert (keine zählbaren Inhaltsänderungen).';
+          msg.className = 'text-sm text-steirer-dark';
+          msg.classList.remove('hidden');
+          await refreshKontingente();
+          return;
+        }
+        var rpc = await client.rpc('kunde_site_aenderungen_buchen', {
+          p_bild: d.bild,
+          p_text: d.text,
+          p_site_id: siteRow.id,
+        });
+        if (rpc.error) {
+          msg.textContent = rpc.error.message || 'Verbuchen fehlgeschlagen.';
+          msg.className = 'text-sm text-red-600';
+          msg.classList.remove('hidden');
+          return;
+        }
+        var up2 = await client
+          .from('kunden_sites')
+          .update({ blocks_json: next, updated_at: new Date().toISOString() })
+          .eq('id', siteRow.id);
+        if (up2.error) {
+          msg.textContent = 'Verbucht, aber Speichern fehlgeschlagen: ' + up2.error.message;
+          msg.className = 'text-sm text-red-600';
+          msg.classList.remove('hidden');
+          return;
+        }
+        lastPersisted = JSON.parse(JSON.stringify(next));
+        var summ = rpc.data || {};
+        msg.textContent =
+          'Gespeichert. Verbucht: ' +
+          (summ.bild_gratis_gebucht || 0) +
+          ' Bild(er) im Kontingent, ' +
+          (summ.bild_zusaetzlich_bezahlt || 0) +
+          ' Bild(er) außerhalb; Text: ' +
+          (summ.text_gratis_gebucht || 0) +
+          ' gratis, ' +
+          (summ.text_zusaetzlich_bezahlt || 0) +
+          ' kostenpflichtig (Details folgen auf Rechnung).';
+        msg.className = 'text-sm text-stone-800';
+        msg.classList.remove('hidden');
+        await refreshKontingente();
+      });
+
+      document.querySelectorAll('.kw-demo-pay').forEach(function (btn) {
+        btn.addEventListener('click', async function () {
+          var out = document.getElementById('kw-demo-msg');
+          out.classList.add('hidden');
+          if (!client) return;
+          var cent = parseInt(btn.getAttribute('data-cent'), 10) || 100;
+          var r = await client.rpc('demo_zahlung_anlegen', { p_cent: cent, p_zweck: 'Demo Kundenportal' });
+          if (r.error) {
+            out.textContent = r.error.message || 'Demo-Zahlung fehlgeschlagen.';
+            if (/function|does not exist/i.test(r.error.message || '')) {
+              out.textContent += ' – SQL-Migration ausführen (kunden-sites-portal-migration.sql).';
+            }
+            out.className = 'mt-3 text-sm text-red-600';
+            out.classList.remove('hidden');
+            return;
+          }
+          out.textContent = 'Demo-Zahlung verbucht (ID: ' + r.data + '). Kein echtes Zahlungsmittel belastet.';
+          out.className = 'mt-3 text-sm text-steirer-dark';
+          out.classList.remove('hidden');
+        });
+      });
+
+      if (!client) {
+        document.getElementById('kw-login-err').textContent = 'Supabase nicht konfiguriert.';
+        document.getElementById('kw-login-err').classList.remove('hidden');
+      }
+
+      client.auth.onAuthStateChange(function (_evt, session) {
+        setView(session);
+        if (session && session.user) loadSite();
+      });
+      client.auth.getSession().then(function (r) {
+        setView(r.data && r.data.session ? r.data.session : null);
+        if (r.data && r.data.session) loadSite();
+      });
+    })();
+  </script>
+</body>
+</html>
