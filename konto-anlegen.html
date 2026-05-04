@@ -99,6 +99,16 @@
         return;
       }
 
+      (function prefillEmailFromQuery() {
+        try {
+          var q = new URLSearchParams(window.location.search).get('email');
+          if (!q) return;
+          var el = document.getElementById('reg-email');
+          if (!el || el.value) return;
+          el.value = decodeURIComponent(q).trim();
+        } catch (e) {}
+      })();
+
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
         errEl.classList.add('hidden');

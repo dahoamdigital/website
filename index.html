@@ -49,7 +49,7 @@
       transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
     }
     .textarea-field { resize: vertical; min-height: 5.5rem; }
-    .input-field::placeholder, .textarea-field::placeholder { color: #a8a29e; }
+    .input-field::placeholder, .textarea-field::placeholder { color: #a8a29e; opacity: 1; }
     .input-field:focus, .textarea-field:focus, .select-field:focus {
       border-color: #2D5A27; background-color: #fff; outline: none;
       box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.2);
@@ -82,21 +82,21 @@
 </head>
 <body class="font-sans text-stone-800 antialiased bg-stone-50">
   <header class="sticky top-0 z-40 border-b border-stone-200/90 bg-white/90 shadow-sm backdrop-blur-md">
-    <div class="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3 sm:gap-4 sm:px-6 lg:px-8">
+    <div class="mx-auto flex max-w-6xl min-h-[3.25rem] items-center justify-between gap-2 px-4 py-2.5 sm:gap-3 sm:px-6 lg:px-8">
       <a href="index.html" class="group font-display relative shrink-0 text-lg font-semibold tracking-tight text-steirer sm:text-xl">
         <span class="relative z-10">Dahoam-Digital</span>
         <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-steirer transition-all duration-300 group-hover:w-full" aria-hidden="true"></span>
       </a>
-      <nav class="hidden flex-1 justify-center gap-6 text-sm font-medium text-stone-600 lg:gap-8 sm:flex" aria-label="Hauptnavigation">
-        <a href="#vorteile" class="rounded-lg px-1 py-0.5 transition hover:bg-steirer-soft hover:text-steirer">Vorteile</a>
-        <a href="#leistungen" class="rounded-lg px-1 py-0.5 transition hover:bg-steirer-soft hover:text-steirer">Leistungen</a>
-        <a href="beispiele.html" class="rounded-lg px-1 py-0.5 transition hover:bg-steirer-soft hover:text-steirer">Beispielwebsiten</a>
-        <a href="preise.html" class="rounded-lg px-1 py-0.5 transition hover:bg-steirer-soft hover:text-steirer">Preise</a>
-        <a href="mein-abo.html" class="rounded-lg px-1 py-0.5 transition hover:bg-steirer-soft hover:text-steirer">Mein Abo</a>
-        <a href="konto-anlegen.html" class="rounded-lg px-1 py-0.5 transition hover:bg-steirer-soft hover:text-steirer">Konto anlegen</a>
-        <a href="#kontakt" class="rounded-lg px-1 py-0.5 transition hover:bg-steirer-soft hover:text-steirer">Kontakt</a>
+      <nav class="hidden min-w-0 flex-1 justify-center gap-x-3 gap-y-0 text-[0.8125rem] font-medium leading-none text-stone-600 lg:gap-x-5 lg:text-sm xl:gap-x-6 min-[1100px]:flex" aria-label="Hauptnavigation">
+        <a href="#vorteile" class="whitespace-nowrap rounded-md px-1.5 py-2 transition hover:bg-steirer-soft hover:text-steirer">Vorteile</a>
+        <a href="#leistungen" class="whitespace-nowrap rounded-md px-1.5 py-2 transition hover:bg-steirer-soft hover:text-steirer">Leistungen</a>
+        <a href="beispiele.html" class="whitespace-nowrap rounded-md px-1.5 py-2 transition hover:bg-steirer-soft hover:text-steirer" title="Beispielwebsiten">Beispiele</a>
+        <a href="preise.html" class="whitespace-nowrap rounded-md px-1.5 py-2 transition hover:bg-steirer-soft hover:text-steirer">Preise</a>
+        <a href="mein-abo.html" class="whitespace-nowrap rounded-md px-1.5 py-2 transition hover:bg-steirer-soft hover:text-steirer">Mein Abo</a>
+        <a href="konto-anlegen.html" class="whitespace-nowrap rounded-md px-1.5 py-2 transition hover:bg-steirer-soft hover:text-steirer" title="Konto anlegen (Mein Abo)">Registrieren</a>
+        <a href="#kontakt" class="whitespace-nowrap rounded-md px-1.5 py-2 transition hover:bg-steirer-soft hover:text-steirer">Kontakt</a>
       </nav>
-      <div class="flex shrink-0 items-center gap-1.5 sm:gap-3">
+      <div class="flex shrink-0 items-center gap-1.5 sm:gap-2 lg:gap-3">
         <button type="button" id="index-open-login" class="rounded-full border border-stone-200 bg-white px-3 py-2 text-sm font-medium text-stone-700 shadow-sm transition hover:border-steirer/40 hover:bg-steirer-soft/50 hover:text-steirer sm:px-4">Anmelden</button>
         <div id="index-auth-session" class="hidden items-center gap-2">
           <a href="mein-abo.html" class="inline-flex items-center rounded-full border border-stone-200 bg-white px-3 py-2 text-sm font-medium text-stone-700 shadow-sm transition hover:border-steirer/40 hover:text-steirer" title="Kundenportal">Mein Abo</a>
@@ -105,19 +105,19 @@
         </div>
         <a href="#kontakt" class="rounded-full bg-steirer px-4 py-2 text-sm font-semibold text-white shadow-md shadow-steirer/25 transition hover:bg-steirer-dark sm:hidden">Anfrage</a>
         <a href="#kontakt" class="hidden rounded-full bg-steirer px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-steirer/25 transition hover:bg-steirer-dark sm:inline-flex">Unverbindlich anfragen</a>
-        <button type="button" id="index-menu-toggle" class="rounded-lg border border-stone-200 p-2 text-stone-700 transition hover:border-steirer/30 hover:bg-steirer-soft/40 sm:hidden" aria-expanded="false" aria-controls="index-mobile-nav" aria-label="Menü">
+        <button type="button" id="index-menu-toggle" class="rounded-lg border border-stone-200 p-2 text-stone-700 transition hover:border-steirer/30 hover:bg-steirer-soft/40 min-[1100px]:hidden" aria-expanded="false" aria-controls="index-mobile-nav" aria-label="Menü">
           <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
       </div>
     </div>
-    <div id="index-mobile-nav" class="hidden border-t border-stone-100 bg-white px-4 py-3 sm:hidden">
+    <div id="index-mobile-nav" class="hidden border-t border-stone-100 bg-white px-4 py-3 min-[1100px]:hidden">
       <nav class="flex flex-col gap-1 text-sm font-medium text-stone-700" aria-label="Mobile Navigation">
         <a href="#vorteile" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Vorteile</a>
         <a href="#leistungen" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Leistungen</a>
         <a href="beispiele.html" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Beispielwebsiten</a>
         <a href="preise.html" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Preise</a>
         <a href="mein-abo.html" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Mein Abo</a>
-        <a href="konto-anlegen.html" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Konto anlegen</a>
+        <a href="konto-anlegen.html" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Registrieren</a>
         <button type="button" id="index-mobile-open-login" class="rounded-lg px-3 py-2 text-left font-medium hover:bg-steirer-soft hover:text-steirer">Team anmelden</button>
         <a href="#kontakt" class="rounded-lg px-3 py-2 hover:bg-steirer-soft hover:text-steirer">Kontakt</a>
       </nav>
@@ -132,7 +132,7 @@
       <form id="index-login-form" class="mt-5 space-y-4">
         <div>
           <label for="index-login-email" class="block text-sm font-medium text-stone-700">E-Mail</label>
-          <input id="index-login-email" type="email" required autocomplete="username" class="input-field mt-1" />
+          <input id="index-login-email" type="email" required autocomplete="username" placeholder="team@ihre-domain.at" class="input-field mt-1 placeholder:text-stone-400" />
         </div>
         <div>
           <label for="index-login-pass" class="block text-sm font-medium text-stone-700">Passwort</label>
@@ -492,6 +492,11 @@
       document.getElementById('index-login-close').addEventListener('click', closeModal);
       modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
       document.getElementById('index-btn-logout').addEventListener('click', async function () { if (client) await client.auth.signOut(); });
+      async function authEmailRegistered(email) {
+        var r = await client.rpc('auth_email_registered', { p_email: email });
+        if (r.error) return null;
+        return !!r.data;
+      }
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
         showError('');
@@ -503,7 +508,17 @@
         var pass = document.getElementById('index-login-pass').value;
         var res = await client.auth.signInWithPassword({ email: email, password: pass });
         if (res.error) {
-          var em = res.error.message || 'Login fehlgeschlagen.';
+          var raw = res.error.message || 'Login fehlgeschlagen.';
+          var invalidCred =
+            /invalid login|invalid credential|invalid_credentials|falsche zugangsdaten|ungültige anmeldedaten/i.test(raw);
+          if (invalidCred && email.indexOf('@') !== -1) {
+            var exists = await authEmailRegistered(email);
+            if (exists === false) {
+              window.location.href = 'konto-anlegen.html?email=' + encodeURIComponent(email);
+              return;
+            }
+          }
+          var em = raw;
           if (/fetch|network|failed to fetch|load failed|nicht erreichbar/i.test(em)) {
             em +=
               ' (Hinweis: Das betrifft oft die Verbindung aus dem Browser ins Netz oder blockierte Skripte – weniger oft Supabase selbst. Konfiguration prüfen: …/js/config.js)';
@@ -517,8 +532,6 @@
         }
       });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) closeModal(); });
-      var em = document.getElementById('index-login-email');
-      if (em && !em.value && (window.DAHOAM_BAUFPLAN_EMAIL_TO || '').trim()) em.value = (window.DAHOAM_BAUFPLAN_EMAIL_TO || '').trim();
       document.querySelectorAll('[data-password-toggle]').forEach(function (btn) {
         var id = btn.getAttribute('data-password-toggle');
         var input = document.getElementById(id);

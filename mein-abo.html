@@ -40,7 +40,7 @@
       <form id="abo-login-form" class="mt-6 space-y-4">
         <div>
           <label for="abo-email" class="block text-sm font-medium text-stone-700">E-Mail</label>
-          <input id="abo-email" type="email" autocomplete="email" required class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-steirer focus:outline-none focus:ring-1 focus:ring-steirer" />
+          <input id="abo-email" type="email" autocomplete="email" required placeholder="ihre@email.at" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-stone-900 shadow-sm placeholder:text-stone-400 focus:border-steirer focus:outline-none focus:ring-1 focus:ring-steirer" />
         </div>
         <div>
           <label for="abo-pass" class="block text-sm font-medium text-stone-700">Passwort</label>
@@ -218,6 +218,11 @@
         showLoginErr('Bitte legen Sie js/config.js an (siehe js/config.example.js) oder setzen Sie die Deploy-Umgebungsvariablen.');
       }
 
+      async function authEmailRegistered(email) {
+        var r = await client.rpc('auth_email_registered', { p_email: email });
+        if (r.error) return null;
+        return !!r.data;
+      }
       document.getElementById('abo-login-form').addEventListener('submit', async function (e) {
         e.preventDefault();
         showLoginErr('');
@@ -226,7 +231,17 @@
         var pass = document.getElementById('abo-pass').value;
         var r = await client.auth.signInWithPassword({ email: email, password: pass });
         if (r.error) {
-          showLoginErr(r.error.message || 'Anmeldung fehlgeschlagen.');
+          var raw = r.error.message || 'Anmeldung fehlgeschlagen.';
+          var invalidCred =
+            /invalid login|invalid credential|invalid_credentials|falsche zugangsdaten|ungültige anmeldedaten/i.test(raw);
+          if (invalidCred && email.indexOf('@') !== -1) {
+            var exists = await authEmailRegistered(email);
+            if (exists === false) {
+              window.location.href = 'konto-anlegen.html?email=' + encodeURIComponent(email);
+              return;
+            }
+          }
+          showLoginErr(raw);
           return;
         }
       });

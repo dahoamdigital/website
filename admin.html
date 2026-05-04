@@ -46,7 +46,7 @@
       <form id="login-form" class="mt-6 space-y-4">
         <div>
           <label for="admin-email" class="block text-sm font-medium text-stone-700">E-Mail</label>
-          <input id="admin-email" type="email" required autocomplete="username" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" />
+          <input id="admin-email" type="email" required autocomplete="username" placeholder="team@ihre-domain.at" class="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm placeholder:text-stone-400" />
         </div>
         <div>
           <label for="admin-pass" class="block text-sm font-medium text-stone-700">Passwort</label>
@@ -235,9 +235,6 @@
           if (label) label.textContent = show ? 'Verbergen' : 'Anzeigen';
         });
       });
-
-      var ae = document.getElementById('admin-email');
-      if (ae && !ae.value && (window.DAHOAM_BAUFPLAN_EMAIL_TO || '').trim()) ae.value = (window.DAHOAM_BAUFPLAN_EMAIL_TO || '').trim();
 
       initSession();
     })();

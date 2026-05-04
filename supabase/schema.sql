@@ -79,3 +79,22 @@ create policy "kunde_updated_eigenes_paket"
   to authenticated
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
+
+-- Login-UX: existiert die E-Mail als Auth-User? (ermöglicht Weiterleitung zur Registrierung; geringes Enumeration-Risiko)
+create or replace function public.auth_email_registered(p_email text)
+returns boolean
+language sql
+stable
+security definer
+set search_path = auth
+as $$
+  select exists (
+    select 1
+    from auth.users
+    where lower(trim(coalesce(p_email, ''))) = lower(email)
+  );
+$$;
+
+revoke all on function public.auth_email_registered(text) from public;
+grant execute on function public.auth_email_registered(text) to anon;
+grant execute on function public.auth_email_registered(text) to authenticated;
